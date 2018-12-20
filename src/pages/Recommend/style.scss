@@ -1,0 +1,75 @@
+@import '../../common/scss/variable.scss';
+
+.recommend-container {
+  width: 100%;
+  // overflow: hidden;
+  list-style-type: none;
+
+  @media screen and (min-width: 1000px) {
+    .music-list {
+      box-sizing: border-box;
+      padding: 0 calc((100% - 1000px) / 2);
+      margin: 0;
+    }
+  }
+
+  @media screen and (max-width: 1000px) {
+    .music-list {
+      padding: 0 30px;
+      margin: 0 auto;
+    }
+  }
+
+  .music-list {
+    height: calc(100vh - 90px);
+    overflow-y: scroll;
+
+
+    li {
+      display: inline-block;
+      width: 20%;
+      color: $color-text;
+      margin-bottom: 10px;
+
+      .list-img-container {
+        position: relative;
+        width: 86%;
+        margin: 0 7%;
+        border-radius: 8px;
+        margin-bottom: 5px;
+
+        i {
+          display: none;
+        }
+
+        &:hover {
+          // 播放 icon
+          i {
+            display: inline-block;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate3d(-50%, -50%, 0);
+            font-size: 40px;
+            color: rgb(233, 233, 233);
+          }
+        }
+
+      }
+
+      .list-img {
+        width: 100%;
+        border-radius: 8px;
+        cursor:pointer;
+      }
+
+      .list-name {
+        float: left;
+        line-height: 18px;
+        font-size: $font-size-x;
+        width: 86%;
+        margin: 0 7%;
+      }
+    }
+  }
+}
