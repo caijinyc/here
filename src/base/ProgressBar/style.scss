@@ -1,0 +1,35 @@
+@import '../../common/scss/variable.scss';
+
+.progress-bar {
+  padding: 3px 0;
+  cursor: pointer;
+
+  .add-click-scope {
+    height: 5px;
+    border-radius: 3px;
+    background: black;
+  }
+
+  .control-bar {
+    height: 100%;
+
+    .elapsed-bar {
+      position: relative;
+      // width: 30%;
+      height: 100%;
+      background: #fff;
+      border-radius: 5px;
+    }
+
+    .btn {
+      position: absolute;
+      top: -4px;
+      right: -10px;
+      width: 13px;
+      height: 13px;
+      background: red;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+  }
+}

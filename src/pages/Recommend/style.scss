@@ -2,18 +2,17 @@
 
 .recommend-container {
   width: 100%;
-  // overflow: hidden;
   list-style-type: none;
 
-  @media screen and (min-width: 1000px) {
+  @media screen and (min-width: 900px) {
     .music-list {
       box-sizing: border-box;
-      padding: 0 calc((100% - 1000px) / 2);
+      padding: 0 calc((100% - 900px) / 2);
       margin: 0;
     }
   }
 
-  @media screen and (max-width: 1000px) {
+  @media screen and (max-width: 900px) {
     .music-list {
       padding: 0 30px;
       margin: 0 auto;
@@ -21,7 +20,7 @@
   }
 
   .music-list {
-    height: calc(100vh - 90px);
+    height: calc(100vh - 170px);
     overflow-y: scroll;
 
 
@@ -35,7 +34,6 @@
         position: relative;
         width: 86%;
         margin: 0 7%;
-        border-radius: 8px;
         margin-bottom: 5px;
 
         i {
@@ -52,6 +50,7 @@
             transform: translate3d(-50%, -50%, 0);
             font-size: 40px;
             color: rgb(233, 233, 233);
+            cursor:pointer;
           }
         }
 

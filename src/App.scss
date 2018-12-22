@@ -5,13 +5,13 @@ html {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  min-width: 800px;
+  min-width: 900px;
   font-family: -apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,"PingFang SC","Hiragino Sans GB",STHeiti,"Microsoft YaHei","Microsoft JhengHei","Source Han Sans SC","Noto Sans CJK SC","Source Han Sans CN","Noto Sans SC","Source Han Sans TC","Noto Sans CJK TC","WenQuanYi Micro Hei",SimSun,sans-serif;
 }
 
 body {
   background: $color-background;
-  min-width: 800px;
+  min-width: 900px;
 
   // 定义滚动条背景色
   ::-webkit-scrollbar-track-piece {
@@ -21,7 +21,7 @@ body {
   /* 定义滚动条高宽及背景
       高宽分别对应横竖滚动条的尺寸 */
   ::-webkit-scrollbar {
-    width: 12px;
+    width: 8px;
   }
 
   /* 定义滑块
@@ -29,6 +29,6 @@ body {
   ::-webkit-scrollbar-thumb {
     border-radius: 10px;
     box-shadow: inset 0 0 3px rgba(0, 0, 0, .5);
-    background-color: rgb(71, 71, 71);
+    background-color: rgb(48, 48, 48);
   }
 }

@@ -1,0 +1,52 @@
+@import '../../common/scss/variable.scss';
+
+.show-list-container {
+  color: $color-text;
+  background: $color-background;
+  
+  ul {
+    list-style-type: none;
+    padding-right: 20px;
+    height: calc(100vh - 175px);
+    overflow-y: scroll;
+
+    li {
+      padding: 10px 0;
+      display: flex;
+      align-items: center;
+      font-size: $font-size-x;
+    }
+
+    .highlight {
+      background: $color-background-dark;
+    }
+
+    .music-name,
+    .singer-name,
+    .album-name {
+      display: inline-block;
+      padding: 0 20px;
+      line-height: 18px;
+      
+      span {
+        cursor: pointer;
+      }
+    }
+
+    .music-name {
+      width: 30%;
+    }
+
+    .singer-name {
+      width: 25%;
+      color: $color-text-gray;
+    }
+
+    .album-name {
+      width: 45%;
+      box-sizing: border-box;
+      padding-right: 50px;
+    }
+
+  }
+}

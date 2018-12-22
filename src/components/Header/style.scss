@@ -3,7 +3,7 @@
 header {
   position: relative;
   width: 100%;
-  height: 80px;
+  height: 90px;
 
   .icon {
     position: absolute;
@@ -13,6 +13,7 @@ header {
     font-size: $font-size-xxxl;
     font-weight: bold;
     color: $color-text;
+    cursor: pointer;
   }
 
   nav {
@@ -33,8 +34,6 @@ header {
 
     .active {
       color: $color-text-highlight;
-      // font-weight: bold;
-      // border-bottom: 1px solid red;
     }
   }
 }

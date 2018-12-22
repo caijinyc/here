@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-// import {  Route, Link } from 'react-router-dom';
-import { getRecommendList } from '../../api/recommend';
+import { withRouter } from 'react-router-dom';
+import { getRecommendList, getMusicListDetail } from '../../api';
+import { connect } from 'react-redux';
+import { getChangeCurrentMusicListAction } from '../../store/actionCreator';
 
 import './style.scss';
 
@@ -12,38 +14,69 @@ class Recommend extends Component {
     };
   }
 
-  componentWillMount () {
+  componentWillMount() {
+    // 获取推荐歌单
     getRecommendList().then(({ data }) => {
-      console.log('res', data);
+      // console.log('res', data);
       this.setState(() => ({
         recommendList: data.playlists
       }));
     });
   }
 
+  // 获取歌单详情
+  handleGetMusicListDetail = id => {
+    getMusicListDetail(id).then(({ data }) => {
+      console.log('res', data.playlist);
+      // 将歌单传入 vuex 中的 musicList
+      this.props.handleChangeCurrentMusicList(data.playlist);
+    });
+  };
+
+  // 歌单列表展示
   renderRecommendList = () => {
     return this.state.recommendList.map(item => {
       return (
-        <li>
-          <div className="list-img-container">
-            <i className="iconfont icon-play"></i>
-            <img className="list-img" src={item.coverImgUrl} alt=""/>
+        <li key={item.id}>
+          <div
+            className="list-img-container"
+            onClick={() => this.handleGetMusicListDetail(item.id)}
+          >
+            <i className="iconfont icon-play" />
+            <img className="list-img" src={item.coverImgUrl} alt="" />
           </div>
           <p className="list-name">{item.name}</p>
         </li>
       );
     });
-  }
+  };
 
   render() {
     return (
       <div className="recommend-container">
-        <ul className="music-list">
-          {this.renderRecommendList()}
-        </ul>
+        <ul className="music-list">{this.renderRecommendList()}</ul>
       </div>
     );
   }
 }
 
-export default Recommend;
+const mapStateToProps = state => {
+  return {};
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    handleChangeCurrentMusicList(list) {
+      console.log('didid');
+      const action = getChangeCurrentMusicListAction(list);
+      dispatch(action);
+    }
+  };
+};
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Recommend)
+);

@@ -9,3 +9,13 @@ export function getRecommendList (before = null) {
   const url = HOST + '/top/playlist/highquality?limit=30';
   return axios.get(url);
 }
+
+export function getMusicListDetail (id) {
+  const url = HOST + `/playlist/detail?id=${id}`;
+  return axios.get(url);
+}
+
+export function getMuiscDetail (id) {
+  const url = HOST + `/song/url?id=${id}`;
+  return axios.get(url);
+}
