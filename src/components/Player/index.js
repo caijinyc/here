@@ -6,7 +6,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { If, Then, Else } from 'react-if';
-import { getChangePlayingStatusAction } from '../../store/actionCreator';
+import {
+  getChangePlayingStatusAction,
+  playPrevMusicAction,
+  playNextMusicAction
+} from '../../store/actionCreator';
 
 import ProgressBar from '../../base/ProgressBar';
 import PlayTime from '../../base/PlayTime';
@@ -104,12 +108,20 @@ class Player extends Component {
     }
   }
 
+  playPrevMusic = () => {
+    this.props.playPrevMusic();
+  };
+
+  playNextMusic = () => {
+    this.props.playNextMusic();
+  };
+
   renderPlayerControl = () => {
     return (
       <div className="player-control-container">
         <div className="play-control-btn">
           <div className="prev-music">
-            <i className="iconfont icon-prev" />
+            <i className="iconfont icon-prev" onClick={this.playPrevMusic} />
           </div>
           <div className="play">
             <If condition={this.props.playing}>
@@ -134,12 +146,12 @@ class Player extends Component {
             </If>
           </div>
           <div className="next-music">
-            <i className="iconfont icon-test" />
+            <i className="iconfont icon-test" onClick={this.playNextMusic}/>
           </div>
         </div>
       </div>
     );
-  }
+  };
 
   render() {
     const { currentMusic } = this.props;
@@ -154,8 +166,12 @@ class Player extends Component {
         </div>
         <div className="player-middle-container">
           <div className="music-info">
-            <p className="music-name">{currentMusic ? currentMusic.musicName : ''}</p>
-            <p className="singer-name">{currentMusic ? currentMusic.singer[0].name : ''}</p>
+            <p className="music-name">
+              {currentMusic ? currentMusic.musicName : ''}
+            </p>
+            <p className="singer-name">
+              {currentMusic ? currentMusic.singer[0].name : ''}
+            </p>
           </div>
           <div className="progress-bar-container">
             <ProgressBar
@@ -203,6 +219,14 @@ const mapDispatchToProps = dispatch => {
   return {
     changePlayingStatus(status) {
       const action = getChangePlayingStatusAction(status);
+      dispatch(action);
+    },
+    playPrevMusic() {
+      const action = playPrevMusicAction();
+      dispatch(action);
+    },
+    playNextMusic () {
+      const action = playNextMusicAction();
       dispatch(action);
     }
   };

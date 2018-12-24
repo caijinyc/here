@@ -12,7 +12,13 @@ const defaultState = {
   currentMusic: null,
 
   // 播放状态
-  playing: false
+  playing: false,
+
+  // 播放列表
+  playList: [],
+
+  // 当前播放索引
+  currentIndex: 0
 };
 
 // state 里面存放了所有的数据
@@ -38,6 +44,16 @@ export default (state = defaultState, action) => {
   if (action.type === types.CHANGE_PLAYING_STATUS) {
     const newState = deepCopy(state);
     newState.playing = action.status;
+    return newState;
+  }
+  if (action.type === types.CHANGE_PLAY_LIST) {
+    const newState = deepCopy(state);
+    newState.playList = action.value;
+    return newState;
+  }
+  if (action.type === types.CHANGE_CURRENT_INDEX) {
+    const newState = deepCopy(state);
+    newState.currentIndex = action.index;
     return newState;
   }
   return state;
