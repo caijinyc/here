@@ -4,6 +4,7 @@
  */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { getChangePlayListAction, getChangeCurrentIndex, playNextMusicAction } from '../../store/actionCreator';
 
 import ShowList from '../../base/ShowList';
 
@@ -28,19 +29,20 @@ class MusicList extends Component {
           <img src={musicList.coverImgUrl} alt="" />
         </div>
         <p className="name">{musicList.name}</p>
-        <p className="description">
-          {description}
-        </p>
+        <p className="description">{description}</p>
         <div className="control">
-          {/* <div className="play-icon"></div> */}
-          <i className="iconfont icon-play1"></i>
-          <i className="iconfont icon-addbox"></i>
-          <i className="iconfont icon-folder"></i>
+          <i
+            className="iconfont icon-play1"
+            onClick={() =>
+              this.props.changeMusicList(this.props.musicList.tracks)
+            }
+          />
+          <i className="iconfont icon-folder" />
         </div>
       </div>
     );
   }
-  
+
   render() {
     const musicList = this.props.musicList;
     return (
@@ -68,7 +70,17 @@ const mapStateToProps = state => {
   };
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    changeMusicList(value) {
+      dispatch(getChangePlayListAction(value));
+      dispatch(getChangeCurrentIndex(-1));
+      dispatch(playNextMusicAction());
+    }
+  };
+};
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(MusicList);
