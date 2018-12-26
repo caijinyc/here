@@ -9,11 +9,17 @@ import { If, Then, Else } from 'react-if';
 import {
   getChangePlayingStatusAction,
   playPrevMusicAction,
-  playNextMusicAction
+  playNextMusicAction,
+  getChangePlayModeAction,
+  showMusicDetailAction
 } from '../../store/actionCreator';
+import { PLAY_MODE_TYPES } from '../../common/js/config';
 
 import ProgressBar from '../../base/ProgressBar';
 import PlayTime from '../../base/PlayTime';
+import PlayList from '../../base/PlayList';
+import MusicDetail from '../../base/MusicDetail';
+
 import './style.scss';
 
 const DEFAULT_TIME = 0;
@@ -26,17 +32,25 @@ const DEFAULT_VOLUME = 0.35;
 class Player extends Component {
   constructor(props) {
     super(props);
+    this.playListRef = React.createRef();
     this.state = {
       duration: DEFAULT_TIME,
       currentTime: DEFAULT_TIME,
       move: false,
       percent: 0,
-      volume: DEFAULT_VOLUME
+      volume: DEFAULT_VOLUME,
+      showPlayList: false
     };
   }
 
   componentDidMount() {
     this.refs.audio.volume = this.state.volume;
+  }
+
+  componentWillReceiveProps({ playing }) {
+    if (!playing) {
+      this.refs.audio.pause();
+    }
   }
 
   // 音乐播放触发 audio 标签的 updatetime 事件
@@ -59,7 +73,12 @@ class Player extends Component {
     });
   };
 
+  // 歌曲进度控制
   percentChange = percent => {
+    if (this.props.showMusicDetail) {
+      const currentTime = this.state.duration * percent;
+      this.refs.musicDetail.seek(currentTime);
+    }
     this.setState(() => {
       return {
         percent,
@@ -68,9 +87,13 @@ class Player extends Component {
     });
   };
 
+  // 歌曲进度控制
   percentChangeEnd = percent => {
     const currentTime = this.state.duration * percent;
     this.refs.audio.currentTime = currentTime;
+    if (this.props.showMusicDetail) {
+      this.refs.musicDetail.seek(currentTime);
+    }
     this.setState(() => {
       return {
         currentTime,
@@ -80,6 +103,7 @@ class Player extends Component {
     });
   };
 
+  // 音量控制
   volumeChange = percent => {
     this.refs.audio.volume = percent;
     this.setState(() => {
@@ -89,16 +113,10 @@ class Player extends Component {
     });
   };
 
-  volumeChangeEnd = percent => {
-    this.refs.audio.volume = percent;
-    this.setState(() => {
-      return {
-        volume: percent
-      };
-    });
-  };
-
   handleChangePlayingStatus(status) {
+    if (this.props.playList.length === 0) {
+      return;
+    }
     this.props.changePlayingStatus(status);
     const audio = this.refs.audio;
     if (status === PLAYING_STATUS.playing) {
@@ -106,14 +124,35 @@ class Player extends Component {
     } else {
       audio.pause();
     }
+    this.refs.musicDetail.togglePlay();
   }
 
-  playPrevMusic = () => {
-    this.props.playPrevMusic();
+  handleShowPlayList = () => {
+    if (!this.state.showPlayList) {
+      document.addEventListener('click', this.handleShowPlayList);
+    } else {
+      document.removeEventListener('click', this.handleShowPlayList);
+    }
+    this.setState(pervState => ({
+      showPlayList: !pervState.showPlayList
+    }), () => {
+      this.refs.playList.scrollToCurrentMusic();
+    });
   };
 
-  playNextMusic = () => {
-    this.props.playNextMusic();
+  handlePlayNextMusic = () => {
+    if (this.props.playMode === PLAY_MODE_TYPES.LOOP_PLAY) {
+      const currentTime = 0;
+      this.refs.audio.currentTime = currentTime;
+      this.refs.audio.play();
+      this.setState(() => {
+        return {
+          currentTime
+        };
+      });
+    } else {
+      this.props.playNextMusic();
+    }
   };
 
   renderPlayerControl = () => {
@@ -121,7 +160,10 @@ class Player extends Component {
       <div className="player-control-container">
         <div className="play-control-btn">
           <div className="prev-music">
-            <i className="iconfont icon-prev" onClick={this.playPrevMusic} />
+            <i
+              className="iconfont icon-prev"
+              onClick={this.props.playPrevMusic}
+            />
           </div>
           <div className="play">
             <If condition={this.props.playing}>
@@ -146,7 +188,10 @@ class Player extends Component {
             </If>
           </div>
           <div className="next-music">
-            <i className="iconfont icon-test" onClick={this.playNextMusic}/>
+            <i
+              className="iconfont icon-test"
+              onClick={this.props.playNextMusic}
+            />
           </div>
         </div>
       </div>
@@ -160,7 +205,7 @@ class Player extends Component {
       <div className="player-container">
         <div className="player-left-container">
           {this.renderPlayerControl()}
-          <div className="music-img">
+          <div className="music-img" onClick={this.props.changeShowMusicDetail}>
             <img src={currentMusic ? currentMusic.albumImgUrl : ''} alt="" />
           </div>
         </div>
@@ -188,20 +233,78 @@ class Player extends Component {
               duration={this.state.duration}
             />
           </div>
+          <div className="right-control-btn">
+            <i
+              className="iconfont icon-list"
+              onClick={this.handleShowPlayList}
+            />
+            <div className="change-play-mode">
+              <i
+                className={[
+                  'iconfont icon-next',
+                  this.props.playMode === PLAY_MODE_TYPES.SEQUENCE_PLAY
+                    ? ''
+                    : 'hide'
+                ].join(' ')}
+                onClick={() =>
+                  this.props.changePlayMode(PLAY_MODE_TYPES.RANDOM_PLAY)
+                }
+              />
+              <i
+                className={[
+                  'iconfont icon-loop',
+                  this.props.playMode === PLAY_MODE_TYPES.LOOP_PLAY
+                    ? ''
+                    : 'hide'
+                ].join(' ')}
+                onClick={() =>
+                  this.props.changePlayMode(PLAY_MODE_TYPES.SEQUENCE_PLAY)
+                }
+              />
+              <i
+                className={[
+                  'iconfont icon-random',
+                  this.props.playMode === PLAY_MODE_TYPES.RANDOM_PLAY
+                    ? ''
+                    : 'hide'
+                ].join(' ')}
+                onClick={() =>
+                  this.props.changePlayMode(PLAY_MODE_TYPES.LOOP_PLAY)
+                }
+              />
+            </div>
+          </div>
+          <div
+            className={`${
+              this.state.showPlayList ? '' : 'hide-play-list'
+            } play-list-container`}
+          >
+            <PlayList ref="playList" showPlayList={this.state.showPlayList}/>
+          </div>
           <div className="audio-volume">
             <i className="iconfont icon-volume-up" />
             <ProgressBar
               percent={this.state.volume}
               percentChange={this.volumeChange}
-              percentChangeEnd={this.volumeChangeEnd}
+              percentChangeEnd={this.volumeChange}
             />
           </div>
         </div>
+        <If condition={this.props.showMusicDetail}>
+          <div>
+          <div className="music-detail-background">
+            <img src={currentMusic ? currentMusic.albumImgUrl : ''} alt="" />
+          </div>
+          <div className="player-background"></div>
+          </div>
+        </If>
+        <MusicDetail ref="musicDetail" />
         <audio
           autoPlay
           src={currentMusic ? currentMusic.musicUrl : ''}
           ref="audio"
           onTimeUpdate={this.handleUpdateTime}
+          onEnded={this.handlePlayNextMusic}
         />
       </div>
     );
@@ -210,24 +313,30 @@ class Player extends Component {
 
 const mapStateToProps = state => {
   return {
+    playList: state.playList,
     currentMusic: state.currentMusic,
-    playing: state.playing
+    playing: state.playing,
+    playMode: state.playMode,
+    showMusicDetail: state.showMusicDetail
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     changePlayingStatus(status) {
-      const action = getChangePlayingStatusAction(status);
-      dispatch(action);
+      dispatch(getChangePlayingStatusAction(status));
+    },
+    changePlayMode(value) {
+      dispatch(getChangePlayModeAction(value));
     },
     playPrevMusic() {
-      const action = playPrevMusicAction();
-      dispatch(action);
+      dispatch(playPrevMusicAction());
     },
-    playNextMusic () {
-      const action = playNextMusicAction();
-      dispatch(action);
+    playNextMusic() {
+      dispatch(playNextMusicAction());
+    },
+    changeShowMusicDetail() {
+      dispatch(showMusicDetailAction());
     }
   };
 };

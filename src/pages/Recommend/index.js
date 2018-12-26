@@ -17,7 +17,6 @@ class Recommend extends Component {
   componentWillMount() {
     // 获取推荐歌单
     getRecommendList().then(({ data }) => {
-      // console.log('res', data);
       this.setState(() => ({
         recommendList: data.playlists
       }));
@@ -27,7 +26,6 @@ class Recommend extends Component {
   // 获取歌单详情
   handleGetMusicListDetail = id => {
     getMusicListDetail(id).then(({ data }) => {
-      console.log('res', data.playlist);
       // 将歌单传入 vuex 中的 musicList
       this.props.handleChangeCurrentMusicList(data.playlist);
     });
@@ -67,7 +65,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     handleChangeCurrentMusicList(list) {
-      console.log('didid');
       const action = getChangeCurrentMusicListAction(list);
       dispatch(action);
     }

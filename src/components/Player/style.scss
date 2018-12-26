@@ -22,7 +22,6 @@
   .player-right-container {
     flex-basis: 250px;
   }
-
 }
 
 .player-left-container {
@@ -74,13 +73,13 @@
 .player-middle-container {
 
   .progress-bar-container {
-    margin-top: 50px;
+    margin-top: 47px;
     width: 100%;
   }
 
   .music-info {
     position: absolute;
-    top: 5px;
+    top: 15px;
 
     .music-name {
       display: inline-block;
@@ -102,6 +101,33 @@
 .player-right-container {
   position: relative;
 
+  .right-control-btn {
+    position: absolute;
+    top: 7px;
+    right: 35px;
+    padding: 3px;
+    color: $color-text-gray;
+
+    i {
+      cursor: pointer;
+
+      &:hover {
+        color: $color-text;
+      }
+    }
+    
+
+    .change-play-mode {
+      position: absolute;
+      top: 3px;
+      right: 25px;
+
+      .hide {
+        display: none;
+      }
+    }
+  }
+
   .play-time-container {
     position: absolute;
     left: 20px;
@@ -110,15 +136,49 @@
 
   .audio-volume {
     position: absolute;
-    top: 50px;
+    top: 47px;
     left: 150px;
     width: 60px;
 
     i {
       position: absolute;
-      top: -6px;
+      top: -3px;
       left: -23px;
       color: $color-text-gray;
     }
+  }
+
+  .play-list-container {
+    position: fixed;
+    bottom: 80px;
+    right: 0px;
+    width: 530px;
+  }
+
+  .hide-play-list {
+    display: none;
+  }
+}
+
+.player-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  background: rgba(0, 0, 0, 0.815);
+  z-index: -1;
+}
+
+.music-detail-background {
+  position: fixed;
+  left: -20vw;
+  top: -20vw;
+  z-index: -10;
+  background: $color-background;
+
+  img {
+    filter: blur(30px);
+    width: 150vw;
   }
 }

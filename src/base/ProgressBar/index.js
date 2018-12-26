@@ -69,7 +69,6 @@ class ProgressBar extends Component {
   };
 
   clickToChangePercent = e => {
-    console.log('target', e.clientX);
     let percent =
       (e.clientX - this.state.controlBarOffestLeft) /
       this.refs.controlBar.clientWidth;

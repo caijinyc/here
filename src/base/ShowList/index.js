@@ -8,34 +8,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  getChangeCurrentMusic,
-  getChangePlayListAction,
-  getChangeCurrentIndex
+  getChangeCurrentMusic
 } from '../../store/actionCreator';
 
 import './style.scss';
 
 class ShowList extends Component {
 
-  handleClickMusic = (item) => {
-    this.props.handleChangeCurrentMusic(item);
-    let list = this.props.playList;
-    const index = findIndex(list, item);
-    if (index >= 0) {
-      this.props.handleChangeCurrentIndex(index);
-    } else {
-      list.push(item);
-      this.props.handleChangeMusicList(list);
-      this.props.handleChangeCurrentIndex(list.length - 1);
-    }
-  };
-
   renderMusicList = () => {
     return this.props.list.map((item, index) => {
       return (
         <li key={item.id} className={index % 2 ? '' : 'highlight'}>
           <div className="music-name">
-            <span onClick={() => this.handleClickMusic(item)}>
+            <span onClick={() => this.props.handleChangeCurrentMusic(item)}>
               {item.name}
             </span>
           </div>
@@ -70,14 +55,6 @@ const mapDispatchToProps = dispatch => {
     handleChangeCurrentMusic(item) {
       const action = getChangeCurrentMusic(item);
       dispatch(action);
-    },
-    handleChangeMusicList(value) {
-      const action = getChangePlayListAction(value);
-      dispatch(action);
-    },
-    handleChangeCurrentIndex(index) {
-      const action = getChangeCurrentIndex(index);
-      dispatch(action);
     }
   };
 };
@@ -86,13 +63,6 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(ShowList);
-
-
-function findIndex (list, music) {
-  return list.findIndex((item) => {
-    return item.id === music.id;
-  });
-}
 
 /**
  * 点击歌曲：

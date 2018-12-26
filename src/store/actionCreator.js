@@ -1,5 +1,7 @@
 import * as types from './actionTypes';
-import { getMuiscDetail } from '../api';
+import { getMuiscDetail, getMusicLyric } from '../api';
+
+import { PLAY_MODE_TYPES } from '../common/js/config';
 
 export const getChangeCurrentMusicListAction = value => ({
   type: types.CHANGE_CURRENT_MUSIC_LIST,
@@ -31,6 +33,18 @@ export const getChangePlayListAction = value => ({
 });
 
 /**
+ * 清空播放列表
+ */
+export const emptyPlayList = () => {
+  return dispatch => {
+    const EMPTY_PLAY_LIST = [];
+    const STOP = false;
+    dispatch(getChangePlayListAction(EMPTY_PLAY_LIST));
+    dispatch(getChangePlayingStatusAction(STOP));
+  };
+};
+
+/**
  * 改变当前播放索引 currentIndex
  */
 export const getChangeCurrentIndex = index => ({
@@ -48,6 +62,47 @@ export const getChangePlayingStatusAction = status => ({
 });
 
 /**
+ * 改变音乐播放模式
+ */
+export const getChangePlayModeAction = value => ({
+  type: types.CHANGE_PLAY_MODE,
+  value
+});
+
+export const changeShowMusicDetail = () => ({
+  type: types.CHANGE_SHOW_MUSIC_DETAIL
+});
+
+export const changeCurrentMusicLyric = value => ({
+  type: types.CHANGE_CURRENT_MUSIC_LYRIC,
+  value
+});
+
+/**
+ * 显示音乐详情界面
+ */
+export const showMusicDetailAction = () => {
+  return (dispatch, getState) => {
+    dispatch(changeShowMusicDetail());
+  };
+};
+
+function getCurrentMusicLyric() {
+  return (dispatch, getState) => {
+    const state = JSON.parse(JSON.stringify(getState()));
+    const currentMusic = state.currentMusic;
+    const id = currentMusic.id;
+    // 清空之前的歌词
+    dispatch(changeCurrentMusicLyric(null));
+
+    // 获取新的歌词
+    getMusicLyric(id).then(({ data }) => {
+      dispatch(changeCurrentMusicLyric(data));
+    });
+  };
+}
+
+/**
  * **点击歌曲播放逻辑：**
  * 1. 点击歌曲的时候使用 getChangeCurrentMusic
  * 2. 使用 redux-thunk 中间件，在 actoin 中发出获取歌曲 url 的请求
@@ -55,18 +110,42 @@ export const getChangePlayingStatusAction = status => ({
  *    来对 redux 中的 currentMusic 进行修改
  */
 export const getChangeCurrentMusic = value => {
-  return dispatch => {
+  return (dispatch, getState) => {
+    const state = getState();
+    let list = state.playList;
+    // 从歌曲列表中寻找当前歌曲的 index
+    const index = findIndex(list, value);
+    // 当点击的歌曲是正在播放的歌曲，直接返回
+    if (index === state.currentIndex) {
+      return;
+    }
+    if (index >= 0) {
+      // 如果 index >= 0 就直接修改 currentIndex
+      dispatch(getChangeCurrentIndex(index));
+    } else {
+      // 如果没有这首歌
+      // 1. push 这首歌到 playList 中
+      // 2. 改变 index
+      list.push(value);
+      dispatch(getChangePlayListAction(list));
+      dispatch(getChangeCurrentIndex(list.length - 1));
+    }
     let musicDetail = null;
+    musicDetail = {
+      id: value.id,
+      singer: value.ar,
+      musicName: value.name,
+      albumName: value.al.name,
+      albumImgUrl: value.al.picUrl,
+      albumId: value.al.id,
+      duration: value.time
+    };
+    dispatch(changeCurrentMusicAction(musicDetail));
+    // if (state.showMusicDetail) {
+    // }
+    dispatch(getCurrentMusicLyric());
     getMuiscDetail(value.id).then(({ data: { data } }) => {
-      musicDetail = {
-        id: value.id,
-        singer: value.ar,
-        musicName: value.name,
-        albumName: value.al.name,
-        albumImgUrl: value.al.picUrl,
-        musicUrl: data[0].url,
-        duration: value.time
-      };
+      musicDetail.musicUrl = data[0].url;
       dispatch(changeCurrentMusicAction(musicDetail));
     });
   };
@@ -76,13 +155,17 @@ export const playPrevMusicAction = () => {
   return (dispatch, getState) => {
     const state = getState();
     let { playList, currentIndex } = state;
-    if (playList.length === 0) {
+    let length = playList.length;
+    if (length === 0 || length === 1) {
       return;
     }
-    if (currentIndex > 0) {
+    if (state.playMode === PLAY_MODE_TYPES.RANDOM_PLAY) {
+      // 返回值不能等于原来的 index
+      currentIndex = random(currentIndex, length);
+    } else if (currentIndex > 0) {
       currentIndex--;
     } else {
-      currentIndex = playList.length - 1;
+      currentIndex = length - 1;
     }
     dispatch(getChangeCurrentMusic(playList[currentIndex]));
     dispatch(getChangeCurrentIndex(currentIndex));
@@ -93,10 +176,13 @@ export const playNextMusicAction = () => {
   return (dispatch, getState) => {
     const state = getState();
     let { playList, currentIndex } = state;
-    if (playList.length === 0) {
+    let length = playList.length;
+    if (length === 0 || length === 1) {
       return;
     }
-    if (currentIndex < playList.length - 1) {
+    if (state.playMode === PLAY_MODE_TYPES.RANDOM_PLAY) {
+      currentIndex = random(currentIndex, length);
+    } else if (currentIndex < length - 1) {
       currentIndex++;
     } else {
       currentIndex = 0;
@@ -106,4 +192,42 @@ export const playNextMusicAction = () => {
   };
 };
 
+export const getDeleteMusicAction = item => {
+  return (dispatch, getState) => {
+    const state = getState();
+    let { playList, currentIndex } = JSON.parse(JSON.stringify(state));
+    const index = findIndex(playList, item);
+    playList.splice(index, 1);
+    if (index < currentIndex) {
+      currentIndex--;
+      dispatch(getChangeCurrentIndex(currentIndex));
+    } else if (index === currentIndex) {
+      // 先播放下一首
+      dispatch(playNextMusicAction());
+      // 然后将 currentIndex 修改回来
+      dispatch(getChangeCurrentIndex(currentIndex));
+    }
+    // 当 playList 已经没有的时候，删除掉当前音乐的 url
+    // 音乐就会暂停播放
+    if (playList.length === 0) {
+      let { currentMusic } = JSON.parse(JSON.stringify(state));
+      currentMusic.musicUrl = '';
+      dispatch(changeCurrentMusicAction(currentMusic));
+    }
+    dispatch(getChangePlayListAction(playList));
+  };
+};
 
+function findIndex(list, music) {
+  return list.findIndex(item => {
+    return item.id === music.id;
+  });
+}
+
+function random(index, length) {
+  let res = Math.floor(Math.random() * length);
+  if (res === index) {
+    return random(index, length);
+  }
+  return res;
+}
