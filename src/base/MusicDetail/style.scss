@@ -7,10 +7,10 @@
 .music-detail {
   position: fixed;
   top: 0;
-  bottom: 80px;
+  bottom: $player-height;
   left: 0;
   width: 100%;
-  background: rgba(0, 0, 0, 0.815);
+  background: rgba(0, 0, 0, 0.856);
   z-index: 1;
 
   .hide-music-detail-btn {
@@ -33,8 +33,9 @@
     top: 30%;
     left: 50%;
     display: flex;
-    width: 660px;
-    transform: translateX(-50%);
+    width: 70%;
+    max-width: 750px;
+    transform: translateX(-47%);
   }
 
   .left-contanier {
@@ -49,6 +50,7 @@
       img {
         width: 250px;
         min-height: 250px;
+        background: $color-text;
       }
     }
   }
@@ -82,7 +84,7 @@
         overflow: hidden; //超出的隐藏
 
         &:hover {
-          color: $color-text;
+          color: $color-theme;
         }
       }
   
@@ -113,6 +115,7 @@
   font-size: $font-size-x;
 
   li {
+    transition: all 1s;
     line-height: 18px;
     margin-bottom: 10px;
   }

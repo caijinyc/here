@@ -4,7 +4,11 @@
  */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getChangePlayListAction, getChangeCurrentIndex, playNextMusicAction } from '../../store/actionCreator';
+import {
+  getChangePlayListAction,
+  getChangeCurrentIndex,
+  playNextMusicAction
+} from '../../store/actionCreator';
 
 import ShowList from '../../base/ShowList';
 
@@ -48,7 +52,7 @@ class MusicList extends Component {
     return (
       <div
         className={
-          this.props.showMusicList
+          this.props.showMusicList && !this.props.showSingerInfo
             ? 'music-list-container'
             : 'hide-music-list-container'
         }
@@ -66,7 +70,8 @@ class MusicList extends Component {
 const mapStateToProps = state => {
   return {
     musicList: state.musicList,
-    showMusicList: state.showMusicList
+    showMusicList: state.showMusicList,
+    showSingerInfo: state.showSingerInfo
   };
 };
 

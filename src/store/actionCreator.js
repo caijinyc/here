@@ -1,5 +1,5 @@
 import * as types from './actionTypes';
-import { getMuiscDetail, getMusicLyric } from '../api';
+import { getMuiscDetail, getMusicLyric, getSingerInfo } from '../api';
 
 import { PLAY_MODE_TYPES } from '../common/js/config';
 
@@ -9,10 +9,24 @@ export const getChangeCurrentMusicListAction = value => ({
 });
 
 /**
- * 隐藏/显示歌曲列表
+ * 隐藏 *歌曲列表*
  */
 export const getHideMusicListAction = () => ({
   type: types.HIDE_MUSIC_LIST
+});
+
+/**
+ * 隐藏 *歌手详情*
+ */
+export const getHideSingerInfoAction = () => ({
+  type: types.HIDE_SINGER_INFO
+});
+
+/**
+ * 开关：显示 / 隐藏 *歌曲详情*
+ */
+export const toggleShowMusicDetail = () => ({
+  type: types.TOGGLE_SHOW_MUSIC_DETAIL
 });
 
 /**
@@ -23,6 +37,27 @@ export const changeCurrentMusicAction = value => ({
   type: types.CHANGE_CURRENT_MUSIC,
   value
 });
+
+/**
+ * 改变歌手信息
+ * @param {Object} value 
+ */
+export const changeSingerInfoAction = value => ({
+  type: types.CHANGE_SINGER_INFO,
+  value
+});
+
+/**
+ * 获取歌手信息
+ */
+export const getSingerInfoAction = singerId => {
+  return (dispatch) => {
+    dispatch(changeSingerInfoAction(null));
+    getSingerInfo(singerId).then(res => {
+      dispatch(changeSingerInfoAction(res.data));
+    });
+  };
+};
 
 /**
  * 改变当前播放列表
@@ -69,23 +104,10 @@ export const getChangePlayModeAction = value => ({
   value
 });
 
-export const changeShowMusicDetail = () => ({
-  type: types.CHANGE_SHOW_MUSIC_DETAIL
-});
-
 export const changeCurrentMusicLyric = value => ({
   type: types.CHANGE_CURRENT_MUSIC_LYRIC,
   value
 });
-
-/**
- * 显示音乐详情界面
- */
-export const showMusicDetailAction = () => {
-  return (dispatch, getState) => {
-    dispatch(changeShowMusicDetail());
-  };
-};
 
 function getCurrentMusicLyric() {
   return (dispatch, getState) => {

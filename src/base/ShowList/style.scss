@@ -2,7 +2,7 @@
 
 .show-list-container {
   color: $color-text;
-  background: $color-background;
+  // background: $color-background;
   
   ul {
     list-style-type: none;
@@ -10,27 +10,48 @@
     height: calc(100vh - 175px);
     overflow-y: scroll;
 
+    .title {
+      background: rgba(255, 255, 255, 0.068);
+      border: none;
+
+      span {
+        color: $color-text;
+      }
+    }
+
     li {
-      padding: 10px 0;
+      padding: 13px 0;
       display: flex;
       align-items: center;
       font-size: $font-size-x;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.062);
     }
 
-    .highlight {
-      background: $color-background-dark;
+    .list-li {
+      span {
+        cursor: pointer;
+        transition: all 0.3s;
+        
+        &:hover {
+          color: $color-theme;
+        }
+      }
+    }
+
+    .count {
+      display: inline-block;
+      box-sizing: border-box;
+      width: 5%;
+      padding-left: 5px;
     }
 
     .music-name,
     .singer-name,
     .album-name {
       display: inline-block;
-      padding: 0 20px;
+      padding-left: 20px;
       line-height: 18px;
-      
-      span {
-        cursor: pointer;
-      }
+      box-sizing: border-box;
     }
 
     .music-name {
@@ -38,14 +59,14 @@
     }
 
     .singer-name {
-      width: 25%;
+      width: 30%;
       color: $color-text-gray;
     }
 
     .album-name {
-      width: 45%;
-      box-sizing: border-box;
+      width: 35%;
       padding-right: 50px;
+      color: $color-text-gray;
     }
 
   }

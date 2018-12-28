@@ -42,6 +42,11 @@ class Recommend extends Component {
           >
             <i className="iconfont icon-play" />
             <img className="list-img" src={item.coverImgUrl} alt="" />
+            <div className="played-counts">
+              <i className="iconfont icon-erji"></i>
+              <span>{ formatPlayCount(item.playCount) }</span>
+            </div>
+            <div className="shadow"></div>
           </div>
           <p className="list-name">{item.name}</p>
         </li>
@@ -51,7 +56,7 @@ class Recommend extends Component {
 
   render() {
     return (
-      <div className="recommend-container">
+      <div className={['recommend-container', (this.props.showMusicList || this.props.showSingerInfo) ? 'hide-recommend-container' : ''].join(' ')}>
         <ul className="music-list">{this.renderRecommendList()}</ul>
       </div>
     );
@@ -59,7 +64,10 @@ class Recommend extends Component {
 }
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    showMusicList: state.showMusicList,
+    showSingerInfo: state.showSingerInfo
+  };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -77,3 +85,15 @@ export default withRouter(
     mapDispatchToProps
   )(Recommend)
 );
+
+
+function formatPlayCount (count) {
+  if (!count) {
+    return 0;
+  }
+  if (count < 1e5) {
+    return Math.floor(count);
+  } else {
+    return Math.floor(count / 10000) + '万';
+  }
+}

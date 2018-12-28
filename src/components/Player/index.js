@@ -11,7 +11,8 @@ import {
   playPrevMusicAction,
   playNextMusicAction,
   getChangePlayModeAction,
-  showMusicDetailAction
+  getSingerInfoAction,
+  toggleShowMusicDetail
 } from '../../store/actionCreator';
 import { PLAY_MODE_TYPES } from '../../common/js/config';
 
@@ -124,7 +125,10 @@ class Player extends Component {
     } else {
       audio.pause();
     }
-    this.refs.musicDetail.togglePlay();
+    // 如果歌曲详情已经显示了，就对歌词进行暂停
+    if (this.props.showMusicDetail) {
+      this.refs.musicDetail.togglePlay();
+    }
   }
 
   handleShowPlayList = () => {
@@ -139,6 +143,11 @@ class Player extends Component {
       this.refs.playList.scrollToCurrentMusic();
     });
   };
+
+  handleShowMusicDetial = () => {
+    this.props.toggleShowMusicDetail();
+    this.refs.musicDetail.displayMusicDetailGetMusicTime(this.state.currentTime);
+  }
 
   handlePlayNextMusic = () => {
     if (this.props.playMode === PLAY_MODE_TYPES.LOOP_PLAY) {
@@ -205,7 +214,7 @@ class Player extends Component {
       <div className="player-container">
         <div className="player-left-container">
           {this.renderPlayerControl()}
-          <div className="music-img" onClick={this.props.changeShowMusicDetail}>
+          <div className="music-img" onClick={this.handleShowMusicDetial}>
             <img src={currentMusic ? currentMusic.albumImgUrl : ''} alt="" />
           </div>
         </div>
@@ -214,7 +223,7 @@ class Player extends Component {
             <p className="music-name">
               {currentMusic ? currentMusic.musicName : ''}
             </p>
-            <p className="singer-name">
+            <p className="singer-name" onClick={() => this.props.handleGetSingerInfoAction(currentMusic.singer[0].id) }>
               {currentMusic ? currentMusic.singer[0].name : ''}
             </p>
           </div>
@@ -274,13 +283,6 @@ class Player extends Component {
               />
             </div>
           </div>
-          <div
-            className={`${
-              this.state.showPlayList ? '' : 'hide-play-list'
-            } play-list-container`}
-          >
-            <PlayList ref="playList" showPlayList={this.state.showPlayList}/>
-          </div>
           <div className="audio-volume">
             <i className="iconfont icon-volume-up" />
             <ProgressBar
@@ -299,6 +301,13 @@ class Player extends Component {
           </div>
         </If>
         <MusicDetail ref="musicDetail" />
+        <div
+          className={`${
+            this.state.showPlayList ? '' : 'hide-play-list'
+          } play-list-container`}
+        >
+          <PlayList ref="playList" showPlayList={this.state.showPlayList}/>
+        </div>
         <audio
           autoPlay
           src={currentMusic ? currentMusic.musicUrl : ''}
@@ -335,8 +344,11 @@ const mapDispatchToProps = dispatch => {
     playNextMusic() {
       dispatch(playNextMusicAction());
     },
-    changeShowMusicDetail() {
-      dispatch(showMusicDetailAction());
+    toggleShowMusicDetail() {
+      dispatch(toggleShowMusicDetail());
+    },
+    handleGetSingerInfoAction(singerId) {
+      dispatch(getSingerInfoAction(singerId));
     }
   };
 };

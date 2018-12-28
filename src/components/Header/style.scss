@@ -3,7 +3,7 @@
 header {
   position: relative;
   width: 100%;
-  height: 90px;
+  height: $header-height;
 
   .icon {
     position: absolute;
@@ -14,6 +14,11 @@ header {
     font-weight: bold;
     color: $color-text;
     cursor: pointer;
+    transition: all 0.5s;
+
+    &:hover {
+      color: $color-theme;
+    }
   }
 
   nav {
@@ -22,18 +27,22 @@ header {
     right: 30px;
     top: 50%;
     transform: translateY(-50%);
-    
+
     a {
       display: inline-block;
       margin: 0 5px;
-      font-size: $font-size-xl;
+      font-size: $font-size-x;
       color: $color-text-gray;
       text-decoration: none;
+      transition: all 0.3s;
 
+      &:hover {
+        color: $color-theme;
+      }
     }
 
     .active {
-      color: $color-text-highlight;
+      color: $color-theme;
     }
   }
 }

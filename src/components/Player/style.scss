@@ -6,8 +6,8 @@
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 80px;
-  background: $color-background-dark;
+  height: $player-height;
+  // background-image: linear-gradient(-20deg, #2b5876 0%, #4e4376 100%);
   z-index: 2;
 
   // flex 布局 三等分
@@ -38,6 +38,7 @@
 
     img {
       width: 64px;
+      min-height: 64px;
       border-radius: 5%;
     }
   }
@@ -48,7 +49,7 @@
       display: flex;
       align-items: center;
       // width: 110px;
-      height: 80px;
+      height: $player-height;
       color: $color-text;
     }
 
@@ -147,17 +148,6 @@
       color: $color-text-gray;
     }
   }
-
-  .play-list-container {
-    position: fixed;
-    bottom: 80px;
-    right: 0px;
-    width: 530px;
-  }
-
-  .hide-play-list {
-    display: none;
-  }
 }
 
 .player-background {
@@ -165,8 +155,8 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 80px;
-  background: rgba(0, 0, 0, 0.815);
+  height: $player-height;
+  background: rgba(0, 0, 0, 0.856);
   z-index: -1;
 }
 
@@ -174,11 +164,13 @@
   position: fixed;
   left: -20vw;
   top: -20vw;
-  z-index: -10;
+  width: 150vw;
+  height: 150vh;
   background: $color-background;
+  z-index: -10;
 
   img {
-    filter: blur(30px);
+    filter: blur(50px);
     width: 150vw;
   }
 }

@@ -8,23 +8,31 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  getChangeCurrentMusic
+  getChangeCurrentMusic,
+  getSingerInfoAction
 } from '../../store/actionCreator';
 
 import './style.scss';
 
 class ShowList extends Component {
-
   renderMusicList = () => {
     return this.props.list.map((item, index) => {
+      let count = index + 1;
+      if (count < 10) {
+        count = '0' + count;
+      }
       return (
-        <li key={item.id} className={index % 2 ? '' : 'highlight'}>
+        <li key={item.id} className="list-li">
+          <div className="count">{count}</div>
           <div className="music-name">
             <span onClick={() => this.props.handleChangeCurrentMusic(item)}>
               {item.name}
             </span>
           </div>
-          <div className="singer-name">
+          <div
+            className="singer-name"
+            onClick={() => this.props.handleGetSingerInfo(item.ar[0].id)}
+          >
             <span>{item.ar[0].name}</span>
           </div>
           <div className="album-name">
@@ -38,7 +46,25 @@ class ShowList extends Component {
   render() {
     return (
       <div className="show-list-container">
-        <ul>{this.renderMusicList()}</ul>
+        <ul>
+        <li className="title">
+          <div className="count"></div>
+          <div className="music-name">
+            <span>
+              歌曲名
+            </span>
+          </div>
+          <div
+            className="singer-name"
+          >
+            <span>歌手</span>
+          </div>
+          <div className="album-name">
+            <span>专辑</span>
+          </div>
+        </li>
+          {this.renderMusicList()}
+        </ul>
       </div>
     );
   }
@@ -53,8 +79,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     handleChangeCurrentMusic(item) {
-      const action = getChangeCurrentMusic(item);
-      dispatch(action);
+      dispatch(getChangeCurrentMusic(item));
+    },
+    handleGetSingerInfo(id) {
+      dispatch(getSingerInfoAction(id));
     }
   };
 };

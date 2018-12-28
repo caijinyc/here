@@ -11,7 +11,8 @@ import { If, Then, Else } from 'react-if';
 import {
   getChangeCurrentMusic,
   getDeleteMusicAction,
-  emptyPlayList
+  emptyPlayList,
+  getSingerInfoAction
 } from '../../store/actionCreator';
 
 import './style.scss';
@@ -26,7 +27,7 @@ class PlayList extends Component {
     if (this.props.playList.length === 0 || !this.refs.playListUl) {
       return;
     }
-    const distance = this.props.currentIndex * 32;
+    const distance = this.props.currentIndex * 51;
     this.refs.playListUl.scrollTo(0, distance);
   };
 
@@ -41,20 +42,17 @@ class PlayList extends Component {
       return (
         <li
           key={item.id}
-          className={[
-            index % 2 ? '' : 'highlight',
-            this.props.currentIndex === index ? 'action' : ''
-          ].join(' ')}
+          className={this.props.currentIndex === index ? 'action' : ''}
+          onDoubleClick={() => this.props.handleChangeCurrentMusic(item)}
         >
-          <span
-            className="music-name"
-            onClick={() => this.props.handleChangeCurrentMusic(item)}
-          >
-            {item.name}
-          </span>
-          <span className="singer-name">
-            {item.ar.length > 0 ? item.ar[0].name : '无'}
-          </span>
+          <div className="music-name">
+            <span onClick={() => this.props.handleChangeCurrentMusic(item)}>
+              {item.name}
+            </span>
+          </div>
+          <div className="singer-name">
+            <span onClick={() => this.props.handleGetSingerInfo(item.ar[0].id)}>{item.ar.length > 0 ? item.ar[0].name : '无'}</span>
+          </div>
           <i
             className="iconfont icon-del"
             onClick={() => this.props.handleDeleteMusic(item)}
@@ -113,6 +111,9 @@ const mapDispatchToProps = dispatch => {
     },
     emptyPlayList() {
       dispatch(emptyPlayList());
+    },
+    handleGetSingerInfo(id) {
+      dispatch(getSingerInfoAction(id));
     }
   };
 };

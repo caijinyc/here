@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Lyric from 'lyric-parser';
 import { If, Then, Else } from 'react-if';
-import { changeShowMusicDetail } from '../../store/actionCreator';
+import { toggleShowMusicDetail, getSingerInfoAction } from '../../store/actionCreator';
 
 import './style.scss';
 
@@ -12,7 +12,8 @@ class MusicDetail extends Component {
     this.state = {
       lyric: null,
       noLyric: false,
-      currentLineNum: 0
+      currentLineNum: 0,
+      musicTime: 0
     };
   }
 
@@ -23,7 +24,10 @@ class MusicDetail extends Component {
     }
 
     // 歌词为 暂无歌词时 设置为暂无歌词 --> 返回
-    if ('nolyric' in nextProps.currentMusicLyric || !('lrc' in nextProps.currentMusicLyric)) {
+    if (
+      'nolyric' in nextProps.currentMusicLyric ||
+      !('lrc' in nextProps.currentMusicLyric)
+    ) {
       this.setState(() => ({
         noLyric: true
       }));
@@ -61,6 +65,16 @@ class MusicDetail extends Component {
     );
   }
 
+  displayMusicDetailGetMusicTime = (time) => {
+    this.setState(() => ({
+      musicTime: time
+    }), () => {
+      if (this.state.lyric) {
+        this.seek(this.state.musicTime);
+      };
+    });
+  }
+
   togglePlay = () => {
     this.state.lyric.togglePlay();
   };
@@ -89,6 +103,9 @@ class MusicDetail extends Component {
   };
 
   handleLyric = ({ lineNum }) => {
+    if (this.state.noLyric) {
+      return;
+    }
     this.setState(() => ({
       currentLineNum: lineNum
     }));
@@ -100,6 +117,8 @@ class MusicDetail extends Component {
         72 -
         (parentDom.childNodes[5].offsetTop - 72);
       this.refs.lyricList.scrollTo(0, distance);
+    } else {
+      this.refs.lyricList.scrollTo(0, 0);
     }
   };
 
@@ -107,8 +126,11 @@ class MusicDetail extends Component {
     const { currentMusic, showMusicDetail } = this.props;
     return (
       <div className={showMusicDetail ? 'music-detail' : 'hide-music-detail'}>
-        <button className="hide-music-detail-btn">
-          <i className="iconfont icon-cha" onClick={this.props.handleChangeShowMusicDetail}></i>
+        <button
+          className="hide-music-detail-btn"
+          onClick={this.props.handletoggleShowMusicDetail}
+        >
+          <i className="iconfont icon-cha" />
         </button>
         <div className="detail-container">
           <div className="left-contanier">
@@ -119,7 +141,7 @@ class MusicDetail extends Component {
           <div className="music-right-container">
             <div className="music-info">
               <p className="music-name">{currentMusic.musicName}</p>
-              <p className="singer-name">
+              <p className="singer-name" onClick={() => this.props.handleGetSingerInfo(currentMusic.singer[0].id)}>
                 歌手：
                 {currentMusic.singer[0].name}
               </p>
@@ -154,8 +176,12 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    handleChangeShowMusicDetail () {
-      dispatch(changeShowMusicDetail());
+    handletoggleShowMusicDetail() {
+      dispatch(toggleShowMusicDetail());
+    },
+    handleGetSingerInfo(id) {
+      this.handletoggleShowMusicDetail();
+      dispatch(getSingerInfoAction(id));
     }
   };
 };

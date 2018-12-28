@@ -7,7 +7,7 @@
   .add-click-scope {
     height: 5px;
     border-radius: 3px;
-    background: black;
+    background: rgb(0, 0, 0);
   }
 
   .control-bar {
@@ -17,7 +17,7 @@
       position: relative;
       // width: 30%;
       height: 100%;
-      background: #fff;
+      background: rgba(255, 255, 255, 0.534);
       border-radius: 5px;
     }
 
@@ -27,7 +27,7 @@
       right: -10px;
       width: 13px;
       height: 13px;
-      background: red;
+      background: $color-text;
       border-radius: 50%;
       cursor: pointer;
     }

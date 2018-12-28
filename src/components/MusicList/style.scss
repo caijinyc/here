@@ -6,15 +6,14 @@
 
 .music-list-container {
   position: fixed;
-  top: 90px;
-  bottom: 80px;
+  top: $header-height;
+  bottom: $player-height;
   left: 0;
   display: flex;
   width: 100%;
   box-sizing: border-box;
   padding-left: 25px;
   color: $color-text;
-  background: $color-background;
   z-index: 1;
 
   .list-info {
@@ -83,6 +82,8 @@
     .name {
       font-size: $font-size-xl;
       line-height: 24px;
+      margin-top: 10px;
+      margin-bottom: 12px;
     }
 
     .description {

@@ -2,8 +2,9 @@
 
 .play-list {
   position: relative;
+  height: 100%;
+  width: 300px;
   padding-top: 10px;
-  height: 400px;
   background: $color-dark;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
@@ -39,38 +40,51 @@
 
   ul {
     margin-top: 23px;
-    height: 377px;
+    // height: 377px;
+    height: calc(100vh - 90px - 33px);
     overflow-y: scroll;
-  }
-
-  .highlight {
-    background: $color-dark-gray;
+    overflow-x: hidden;
   }
 
   li {
     display: flex;
+    flex-direction: column;
     position: relative;
     padding: 9px 10px 9px 20px;
     list-style-type: none;
     font-size: $font-size-l;
     color: $color-text;
+    border-bottom: 1px solid rgb(8, 8, 8);
+    transition: all 0.3s;
+
+    &:hover {
+      background: $color-dark-gray;
+    }
 
     .music-name {
-      flex: 0 0 270px; 
-      padding-right: 20px;
+      margin-bottom: 5px;
       box-sizing: border-box;
     }
 
     .singer-name {
-      flex: 1;
-      padding-right: 50px
+      font-size: $font-size-m;
+      color: $color-text-gray;
     }
 
     .singer-name, .music-name {
+      display: inline-block;
+      max-width: 220px;
       text-overflow: ellipsis; //让超出的用...实现
       white-space: nowrap; //禁止换行
       overflow: hidden; //超出的隐藏
-      cursor: pointer;
+
+      span {
+        cursor: pointer;
+        
+        &:hover {
+          color: $color-theme;
+        }
+      }
     }
     
     i {
@@ -88,7 +102,7 @@
     content: '';
     display: inline-block;
     width: 5px;
-    height: 31px;
-    background: red;
+    height: 51px;
+    background: $color-theme;
   }
 }
