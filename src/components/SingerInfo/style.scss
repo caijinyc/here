@@ -108,6 +108,7 @@
 
     li {
       display: flex;
+      align-items: center;
       padding: 10px 0;
       line-height: 18px;
       font-size: $font-size-x;
@@ -150,6 +151,12 @@
       margin-bottom: 35px;
       font-weight: normal;
       font-size: $font-size-xxl;
+
+      span {
+        display: inline-block;
+        padding-left: 20px;
+        color: $color-text-gray;
+      }
     }
 
     ul {
@@ -167,6 +174,7 @@
       .album-img-container {
         width: 100px;
         height: 100px;
+        cursor: pointer;
 
         img {
           width: 100%;

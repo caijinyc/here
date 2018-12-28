@@ -18,15 +18,17 @@
 
   .list-info {
     flex: 0 0 200px;
-    width: 150px;
     height: 200px;
     background: #fff;
 
     .list-img {
-      width: 100%;
+      width: 200px;
+      height: 200px;
+      overflow: hidden;
       
       img {
-        width: 100%;
+        width: 200px;
+        min-height: 200px;
       }
     }
 
@@ -80,10 +82,30 @@
     }
 
     .name {
-      font-size: $font-size-xl;
-      line-height: 24px;
       margin-top: 10px;
       margin-bottom: 12px;
+      line-height: 24px;
+      font-size: $font-size-xxl;
+      font-weight: bold;
+    }
+
+    .album-info {
+      margin-bottom: 12px;
+      color: $color-text-gray;
+
+      .artist {
+        margin-bottom: 5px;
+        font-size: $font-size-xl;
+      }
+      
+      .company {
+        font-size: $font-size-l;
+      }
+  
+      .publish-time {
+        margin-bottom: 5px;
+        font-size: $font-size-l;
+      }
     }
 
     .description {

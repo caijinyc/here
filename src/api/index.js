@@ -42,3 +42,10 @@ export function getSingerAlbums (id) {
   const url = HOST + `/artist/album?id=${id}`;
   return axios.get(url);
 }
+
+// 获取专辑详情
+// https://binaryify.github.io/NeteaseCloudMusicApi/#/?id=%E8%8E%B7%E5%8F%96%E4%B8%93%E8%BE%91%E5%86%85%E5%AE%B9
+export function getAlbumInfo (id) {
+  const url = HOST + `/album?id=${id}`;
+  return axios.get(url);
+}

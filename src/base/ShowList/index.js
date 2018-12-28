@@ -9,7 +9,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
   getChangeCurrentMusic,
-  getSingerInfoAction
+  getSingerInfoAction,
+  getAlbumInfoAction
 } from '../../store/actionCreator';
 
 import './style.scss';
@@ -29,14 +30,15 @@ class ShowList extends Component {
               {item.name}
             </span>
           </div>
-          <div
-            className="singer-name"
-            onClick={() => this.props.handleGetSingerInfo(item.ar[0].id)}
-          >
-            <span>{item.ar[0].name}</span>
+          <div className="singer-name">
+            <span onClick={() => this.props.handleGetSingerInfo(item.ar[0].id)}>
+              {item.ar[0].name}
+            </span>
           </div>
           <div className="album-name">
-            <span>{item.al.name}</span>
+            <span onClick={() => this.props.handleGetAlbumInfo(item.al.id)}>
+              {item.al.name}
+            </span>
           </div>
         </li>
       );
@@ -47,22 +49,18 @@ class ShowList extends Component {
     return (
       <div className="show-list-container">
         <ul>
-        <li className="title">
-          <div className="count"></div>
-          <div className="music-name">
-            <span>
-              歌曲名
-            </span>
-          </div>
-          <div
-            className="singer-name"
-          >
-            <span>歌手</span>
-          </div>
-          <div className="album-name">
-            <span>专辑</span>
-          </div>
-        </li>
+          <li className="title">
+            <div className="count" />
+            <div className="music-name">
+              <span>歌曲名</span>
+            </div>
+            <div className="singer-name">
+              <span>歌手</span>
+            </div>
+            <div className="album-name">
+              <span>专辑</span>
+            </div>
+          </li>
           {this.renderMusicList()}
         </ul>
       </div>
@@ -70,19 +68,22 @@ class ShowList extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     playList: state.playList
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     handleChangeCurrentMusic(item) {
       dispatch(getChangeCurrentMusic(item));
     },
     handleGetSingerInfo(id) {
       dispatch(getSingerInfoAction(id));
+    },
+    handleGetAlbumInfo(albumId) {
+      dispatch(getAlbumInfoAction(albumId));
     }
   };
 };

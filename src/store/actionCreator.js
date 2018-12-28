@@ -1,9 +1,9 @@
 import * as types from './actionTypes';
-import { getMuiscDetail, getMusicLyric, getSingerInfo } from '../api';
+import { getMuiscDetail, getMusicLyric, getSingerInfo, getAlbumInfo } from '../api';
 
 import { PLAY_MODE_TYPES } from '../common/js/config';
 
-export const getChangeCurrentMusicListAction = value => ({
+export const getChangeCurrentMusicListAction = (value) => ({
   type: types.CHANGE_CURRENT_MUSIC_LIST,
   value
 });
@@ -33,16 +33,16 @@ export const toggleShowMusicDetail = () => ({
  * 改变当前播放歌曲信息
  * @param {Object} value
  */
-export const changeCurrentMusicAction = value => ({
+export const changeCurrentMusicAction = (value) => ({
   type: types.CHANGE_CURRENT_MUSIC,
   value
 });
 
 /**
  * 改变歌手信息
- * @param {Object} value 
+ * @param {Object} value
  */
-export const changeSingerInfoAction = value => ({
+export const changeSingerInfoAction = (value) => ({
   type: types.CHANGE_SINGER_INFO,
   value
 });
@@ -50,11 +50,38 @@ export const changeSingerInfoAction = value => ({
 /**
  * 获取歌手信息
  */
-export const getSingerInfoAction = singerId => {
+export const getSingerInfoAction = (singerId) => {
   return (dispatch) => {
     dispatch(changeSingerInfoAction(null));
-    getSingerInfo(singerId).then(res => {
+    getSingerInfo(singerId).then((res) => {
       dispatch(changeSingerInfoAction(res.data));
+    });
+  };
+};
+
+/**
+ * 获取专辑内容
+ */
+export const getAlbumInfoAction = (albumId) => {
+  return (dispatch) => {
+    getAlbumInfo(albumId).then(({ data: {album, songs} }) => {
+      console.log('res', album);
+      const list = {
+        name: album.name,
+        id: album.id,
+        description: album.description ? album.description : '',
+        coverImgUrl: album.picUrl,
+        tracks: songs,
+        company: album.company,
+        publishTime: album.publishTime,
+        artist: album.artist,
+        type: album.type
+      };
+      console.log('res', list);
+      dispatch(getChangeCurrentMusicListAction(list));
+
+      // 隐藏歌手详情，歌手详情遮挡住专辑内容
+      dispatch(getHideSingerInfoAction());
     });
   };
 };
@@ -62,7 +89,7 @@ export const getSingerInfoAction = singerId => {
 /**
  * 改变当前播放列表
  */
-export const getChangePlayListAction = value => ({
+export const getChangePlayListAction = (value) => ({
   type: types.CHANGE_PLAY_LIST,
   value
 });
@@ -71,7 +98,7 @@ export const getChangePlayListAction = value => ({
  * 清空播放列表
  */
 export const emptyPlayList = () => {
-  return dispatch => {
+  return (dispatch) => {
     const EMPTY_PLAY_LIST = [];
     const STOP = false;
     dispatch(getChangePlayListAction(EMPTY_PLAY_LIST));
@@ -82,7 +109,7 @@ export const emptyPlayList = () => {
 /**
  * 改变当前播放索引 currentIndex
  */
-export const getChangeCurrentIndex = index => ({
+export const getChangeCurrentIndex = (index) => ({
   type: types.CHANGE_CURRENT_INDEX,
   index
 });
@@ -91,7 +118,7 @@ export const getChangeCurrentIndex = index => ({
  * 改变音乐播放状态
  * @param {Boolean} status
  */
-export const getChangePlayingStatusAction = status => ({
+export const getChangePlayingStatusAction = (status) => ({
   type: types.CHANGE_PLAYING_STATUS,
   status
 });
@@ -99,12 +126,12 @@ export const getChangePlayingStatusAction = status => ({
 /**
  * 改变音乐播放模式
  */
-export const getChangePlayModeAction = value => ({
+export const getChangePlayModeAction = (value) => ({
   type: types.CHANGE_PLAY_MODE,
   value
 });
 
-export const changeCurrentMusicLyric = value => ({
+export const changeCurrentMusicLyric = (value) => ({
   type: types.CHANGE_CURRENT_MUSIC_LYRIC,
   value
 });
@@ -131,7 +158,7 @@ function getCurrentMusicLyric() {
  * 3. 获取 url 之后在 action 中直接调用 actionCreator 中的 changeCurrentMusicAction
  *    来对 redux 中的 currentMusic 进行修改
  */
-export const getChangeCurrentMusic = value => {
+export const getChangeCurrentMusic = (value) => {
   return (dispatch, getState) => {
     const state = getState();
     let list = state.playList;
@@ -214,7 +241,7 @@ export const playNextMusicAction = () => {
   };
 };
 
-export const getDeleteMusicAction = item => {
+export const getDeleteMusicAction = (item) => {
   return (dispatch, getState) => {
     const state = getState();
     let { playList, currentIndex } = JSON.parse(JSON.stringify(state));
@@ -241,7 +268,7 @@ export const getDeleteMusicAction = item => {
 };
 
 function findIndex(list, music) {
-  return list.findIndex(item => {
+  return list.findIndex((item) => {
     return item.id === music.id;
   });
 }

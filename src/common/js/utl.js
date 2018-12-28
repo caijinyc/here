@@ -1,4 +1,4 @@
-export const formatDate = obj => {
+export const formatDate = (obj) => {
   const t = new Date(obj);
   const y = t.getFullYear();
   const m = '0' + (t.getMonth() + 1);

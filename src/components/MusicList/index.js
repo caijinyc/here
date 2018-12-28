@@ -9,6 +9,8 @@ import {
   getChangeCurrentIndex,
   playNextMusicAction
 } from '../../store/actionCreator';
+import { If } from 'react-if';
+import { formatDate } from '../../common/js/utl';
 
 import ShowList from '../../base/ShowList';
 
@@ -33,6 +35,19 @@ class MusicList extends Component {
           <img src={musicList.coverImgUrl} alt="" />
         </div>
         <p className="name">{musicList.name}</p>
+        <If condition={musicList.type === '专辑'}>
+          <div className="album-info">
+            <p className="artist">{musicList.artist ? (musicList.artist.name ? musicList.artist.name : '') : ''}</p>
+            <If condition={typeof musicList.publishTime === 'number'}>
+              <p className="publish-time">
+                {formatDate(musicList.publishTime)}
+              </p>
+            </If>
+            <If condition={typeof musicList.company === 'string' && musicList.company.length > 0}>
+              <p className="company">发行：{musicList.company}</p>
+            </If>
+          </div>
+        </If>
         <p className="description">{description}</p>
         <div className="control">
           <i
@@ -67,7 +82,7 @@ class MusicList extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     musicList: state.musicList,
     showMusicList: state.showMusicList,
@@ -75,7 +90,7 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     changeMusicList(value) {
       dispatch(getChangePlayListAction(value));

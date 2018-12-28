@@ -24,16 +24,17 @@ class Recommend extends Component {
   }
 
   // 获取歌单详情
-  handleGetMusicListDetail = id => {
+  handleGetMusicListDetail = (id) => {
     getMusicListDetail(id).then(({ data }) => {
       // 将歌单传入 vuex 中的 musicList
+      console.log('data.playlist', data.playlist);
       this.props.handleChangeCurrentMusicList(data.playlist);
     });
   };
 
   // 歌单列表展示
   renderRecommendList = () => {
-    return this.state.recommendList.map(item => {
+    return this.state.recommendList.map((item) => {
       return (
         <li key={item.id}>
           <div
@@ -63,14 +64,14 @@ class Recommend extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     showMusicList: state.showMusicList,
     showSingerInfo: state.showSingerInfo
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     handleChangeCurrentMusicList(list) {
       const action = getChangeCurrentMusicListAction(list);

@@ -56,7 +56,7 @@ class Player extends Component {
 
   // 音乐播放触发 audio 标签的 updatetime 事件
   // 这个时候获取 currentTime 得到音乐的时间
-  handleUpdateTime = e => {
+  handleUpdateTime = (e) => {
     if (this.state.move) {
       return;
     }
@@ -75,7 +75,7 @@ class Player extends Component {
   };
 
   // 歌曲进度控制
-  percentChange = percent => {
+  percentChange = (percent) => {
     if (this.props.showMusicDetail) {
       const currentTime = this.state.duration * percent;
       this.refs.musicDetail.seek(currentTime);
@@ -89,7 +89,7 @@ class Player extends Component {
   };
 
   // 歌曲进度控制
-  percentChangeEnd = percent => {
+  percentChangeEnd = (percent) => {
     const currentTime = this.state.duration * percent;
     this.refs.audio.currentTime = currentTime;
     if (this.props.showMusicDetail) {
@@ -105,7 +105,7 @@ class Player extends Component {
   };
 
   // 音量控制
-  volumeChange = percent => {
+  volumeChange = (percent) => {
     this.refs.audio.volume = percent;
     this.setState(() => {
       return {
@@ -137,7 +137,7 @@ class Player extends Component {
     } else {
       document.removeEventListener('click', this.handleShowPlayList);
     }
-    this.setState(pervState => ({
+    this.setState((pervState) => ({
       showPlayList: !pervState.showPlayList
     }), () => {
       this.refs.playList.scrollToCurrentMusic();
@@ -320,7 +320,7 @@ class Player extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     playList: state.playList,
     currentMusic: state.currentMusic,
@@ -330,7 +330,7 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     changePlayingStatus(status) {
       dispatch(getChangePlayingStatusAction(status));

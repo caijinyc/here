@@ -25,6 +25,10 @@
       align-items: center;
       font-size: $font-size-x;
       border-bottom: 1px solid rgba(255, 255, 255, 0.062);
+
+      &:last-child {
+        border: none;
+      }
     }
 
     .list-li {

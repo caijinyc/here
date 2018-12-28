@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { If } from 'react-if';
 import {
   getChangeCurrentMusic,
   getChangePlayListAction,
   getChangeCurrentIndex,
   playNextMusicAction,
-  getHideSingerInfoAction
+  getHideSingerInfoAction,
+  getAlbumInfoAction
 } from '../../store/actionCreator';
 import { getSingerAlbums } from '../../api';
 import { formatDate } from '../../common/js/utl';
@@ -21,6 +23,32 @@ class SingerInfo extends Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.singerInfo) {
+      this.setState(() => ({
+        gotSingerAlbums: false,
+        albums: null
+      }));
+    }
+  }
+
+  handleUserScroll = () => {
+    const singerInfo = this.refs.singerInfo;
+    // console.log(e, '-', this.refs.singerInfo.scrollTop, '-', this.refs.singerInfo.clientHeight, '-', this.refs.singerInfo.scrollHeight);
+    const scrollAtBottom = singerInfo.scrollHeight - (singerInfo.scrollTop + singerInfo.clientHeight) < 100;
+    if (scrollAtBottom && !this.state.gotSingerAlbums) {
+      this.setState(() => ({
+        gotSingerAlbums: true
+      }), () => {
+        getSingerAlbums(this.props.singerInfo.artist.id).then((res) => {
+          this.setState(() => ({
+            albums: res.data
+          }));
+        });
+      });
+    }
+  }
+
   renderAlbums = () => {
     const albums = this.state.albums;
     if (!albums) {
@@ -30,7 +58,7 @@ class SingerInfo extends Component {
     return albums.hotAlbums.map((item) => {
       return (
       <li key={item.id}>
-        <div className="album-img-container">
+        <div className="album-img-container" onClick={() => this.props.handleGetAlbumInfo(item.id)}>
           <img src={item.picUrl} alt="专辑图像"/>
         </div>
         <p className="time">{formatDate(item.publishTime)}</p>
@@ -38,14 +66,6 @@ class SingerInfo extends Component {
       </li>
       );
     });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (!nextProps.singerInfo) {
-      this.setState(() => ({
-        gotSingerAlbums: false
-      }));
-    }
   }
 
   renderSongsList = () => {
@@ -67,30 +87,12 @@ class SingerInfo extends Component {
             </span>
           </p>
           <p className="album-name">
-            <span>{item.al.name}</span>
+            <span onClick={() => this.props.handleGetAlbumInfo(item.al.id)}>{item.al.name}</span>
           </p>
         </li>
       );
     });
   };
-
-  handleUserScroll = (e) => {
-    const singerInfo = this.refs.singerInfo;
-    // console.log(e, '-', this.refs.singerInfo.scrollTop, '-', this.refs.singerInfo.clientHeight, '-', this.refs.singerInfo.scrollHeight);
-    const scrollAtBottom = singerInfo.scrollHeight - (singerInfo.scrollTop + singerInfo.clientHeight) < 100;
-    if (scrollAtBottom && !this.state.gotSingerAlbums) {
-      this.setState(() => ({
-        gotSingerAlbums: true
-      }), () => {
-        getSingerAlbums(this.props.singerInfo.artist.id).then(res => {
-          console.log('res', res);
-          this.setState(() => ({
-            albums: res.data
-          }));
-        });
-      });
-    }
-  }
 
   render() {
     if (this.props.singerInfo === null) {
@@ -150,26 +152,30 @@ class SingerInfo extends Component {
                 {this.renderSongsList()}
               </ul>
             </section>
+            <If condition={this.state.albums !== null}>
             <section className="albums-list">
-              <h1 className="albums-list-title">专辑</h1>
+              <h1 className="albums-list-title">专辑
+                <span>{this.state.albums ? this.state.albums.hotAlbums.length + 1 + ' ALBUMS': ''} </span>
+              </h1>
               <ul>
                 {this.renderAlbums()}
               </ul>
             </section>
+            </If>
           </article>
         </div>
       </div>
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     singerInfo: state.singerInfo,
     showSingerInfo: state.showSingerInfo
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     handleChangeCurrentMusic(item) {
       dispatch(getChangeCurrentMusic(item));
@@ -181,6 +187,9 @@ const mapDispatchToProps = dispatch => {
     },
     hideSingerInfo() {
       dispatch(getHideSingerInfoAction(false));
+    },
+    handleGetAlbumInfo(albumId) {
+      dispatch(getAlbumInfoAction(albumId));
     }
   };
 };
