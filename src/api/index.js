@@ -18,8 +18,14 @@ export function getMusicListDetail (id) {
 }
 
 // 获取音乐播放地址
-export function getMuiscDetail (id) {
+export function getMusicUrl (id) {
   const url = HOST + `/song/url?id=${id}`;
+  return axios.get(url);
+}
+
+// 获取音乐详情（歌曲没有图片的时候要用）
+export function getMusicDetail (id) {
+  const url = HOST + `/song/detail?ids=${id}`;
   return axios.get(url);
 }
 

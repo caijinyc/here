@@ -18,7 +18,10 @@ class Header extends Component {
           to="/"
           onClick={this.props.handleHideMusicListAndSingerInfo}
         >
-          <div className="icon" onClick={this.props.handleHideMusicListAndSingerInfo}>
+          <div
+            className="icon"
+            onClick={this.props.handleHideMusicListAndSingerInfo}
+          >
             <i className="iconfont icon-here-music" />
           </div>
         </NavLink>
@@ -29,15 +32,34 @@ class Header extends Component {
             to="/"
             onClick={this.props.handleHideMusicListAndSingerInfo}
           >
-            推荐歌单
+            推荐
           </NavLink>
-          <NavLink activeClassName="active" to="/about">
+          <NavLink
+            activeClassName="active"
+            to="/top"
+            onClick={this.props.handleHideMusicListAndSingerInfo}
+          >
             排行榜
           </NavLink>
-          <NavLink activeClassName="active" to="/topics">
+          <NavLink
+            activeClassName="active"
+            to="/search"
+            onClick={this.props.handleHideMusicListAndSingerInfo}
+          >
             搜索
           </NavLink>
-          <NavLink activeClassName="active" to="/topics">
+          <NavLink
+            activeClassName="active"
+            to="/collect"
+            onClick={this.props.handleHideMusicListAndSingerInfo}
+          >
+            收藏
+          </NavLink>
+          <NavLink
+            activeClassName="active"
+            to="/topics"
+            onClick={this.props.handleHideMusicListAndSingerInfo}
+          >
             关于
           </NavLink>
         </nav>

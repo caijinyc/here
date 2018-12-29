@@ -136,7 +136,7 @@ class SingerInfo extends Component {
                 <span
                   className="btn"
                   onClick={() =>
-                    this.props.changeMusicList(this.props.singerInfo.hotSongs)
+                    this.props.changeMusicList(formatMusic(this.props.singerInfo.hotSongs))
                   }
                 >
                   播放歌曲
@@ -198,3 +198,21 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(SingerInfo);
+
+function formatMusic (list) {
+  return list.map((item) => {
+    return {
+      id: item.id,
+      musicName: item.name,
+      imgUrl: item.al.picUrl,
+      singer: {
+        id: item.ar[0].id,
+        name: item.ar[0].name
+      },
+      album: {
+        id: item.al.id,
+        name: item.al.name
+      }
+    };
+  });
+};

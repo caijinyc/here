@@ -47,11 +47,11 @@ class PlayList extends Component {
         >
           <div className="music-name">
             <span onClick={() => this.props.handleChangeCurrentMusic(item)}>
-              {item.name}
+              {item.musicName}
             </span>
           </div>
           <div className="singer-name">
-            <span onClick={() => this.props.handleGetSingerInfo(item.ar[0].id)}>{item.ar.length > 0 ? item.ar[0].name : '无'}</span>
+            <span onClick={() => this.props.handleGetSingerInfo(item.singer.id)}>{item.singer.name}</span>
           </div>
           <i
             className="iconfont icon-del"
@@ -67,7 +67,7 @@ class PlayList extends Component {
     return (
       <div
         className="play-list"
-        onClick={e => {
+        onClick={(e) => {
           e.nativeEvent.stopImmediatePropagation();
         }}
       >
@@ -92,14 +92,14 @@ class PlayList extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     playList: state.playList,
     currentIndex: state.currentIndex
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     handleChangeCurrentMusic(item) {
       const action = getChangeCurrentMusic(item);

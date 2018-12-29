@@ -6,12 +6,9 @@
   
   ul {
     list-style-type: none;
-    padding-right: 20px;
-    height: calc(100vh - 175px);
-    overflow-y: scroll;
 
     .title {
-      background: rgba(255, 255, 255, 0.068);
+      background: $color-background-opacity;
       border: none;
 
       span {

@@ -1,0 +1,34 @@
+@import '../../common/scss/variable.scss';
+
+.page-collect {
+  position: fixed;
+  top: 95px;
+  left: 0;
+  bottom: 80px;
+  width: 100%;
+  z-index: 0;
+  overflow-y: scroll;
+  color: $color-text;
+
+  .left-nav {
+    position: fixed;
+    top: 95px;
+    left: 30px;
+    bottom: 80px;
+    width: 200px;
+    background: $color-background-opacity;
+
+    .title {
+      color: $color-text-gray;
+      font-size: $font-size-x;
+    }
+  }
+}
+
+.collect-container {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100vw - 60px);
+  
+}

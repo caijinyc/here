@@ -1,7 +1,16 @@
 import * as types from './actionTypes';
-import { getMuiscDetail, getMusicLyric, getSingerInfo, getAlbumInfo } from '../api';
+import { getMusicUrl, getMusicLyric, getSingerInfo, getAlbumInfo, getMusicDetail } from '../api';
 
 import { PLAY_MODE_TYPES } from '../common/js/config';
+
+export const getChangeCollectorAction = (value) => ({
+  type: types.CHANGE_COLLECTOR,
+  value
+});
+
+export const getRefreshCollectorAction = (value) => ({
+  type: types.REFRESH_COLLECTOR,
+});
 
 export const getChangeCurrentMusicListAction = (value) => ({
   type: types.CHANGE_CURRENT_MUSIC_LIST,
@@ -65,7 +74,6 @@ export const getSingerInfoAction = (singerId) => {
 export const getAlbumInfoAction = (albumId) => {
   return (dispatch) => {
     getAlbumInfo(albumId).then(({ data: {album, songs} }) => {
-      console.log('res', album);
       const list = {
         name: album.name,
         id: album.id,
@@ -77,7 +85,6 @@ export const getAlbumInfoAction = (albumId) => {
         artist: album.artist,
         type: album.type
       };
-      console.log('res', list);
       dispatch(getChangeCurrentMusicListAction(list));
 
       // 隐藏歌手详情，歌手详情遮挡住专辑内容
@@ -179,23 +186,19 @@ export const getChangeCurrentMusic = (value) => {
       dispatch(getChangePlayListAction(list));
       dispatch(getChangeCurrentIndex(list.length - 1));
     }
-    let musicDetail = null;
-    musicDetail = {
-      id: value.id,
-      singer: value.ar,
-      musicName: value.name,
-      albumName: value.al.name,
-      albumImgUrl: value.al.picUrl,
-      albumId: value.al.id,
-      duration: value.time
-    };
-    dispatch(changeCurrentMusicAction(musicDetail));
-    // if (state.showMusicDetail) {
-    // }
+    dispatch(changeCurrentMusicAction(value));
     dispatch(getCurrentMusicLyric());
-    getMuiscDetail(value.id).then(({ data: { data } }) => {
-      musicDetail.musicUrl = data[0].url;
-      dispatch(changeCurrentMusicAction(musicDetail));
+    getMusicUrl(value.id).then(({ data: { data } }) => {
+      value.musicUrl = data[0].url;
+      dispatch(changeCurrentMusicAction(value));
+
+      // 搜索的歌曲会没有图片，所以去歌曲详情弄一张图片回来
+      if (!value.imgUrl) {
+        getMusicDetail(value.id).then(({data}) => {
+          value.imgUrl = data.songs[0].al.picUrl;
+          dispatch(changeCurrentMusicAction(value));
+        });
+      }
     });
   };
 };
@@ -267,9 +270,9 @@ export const getDeleteMusicAction = (item) => {
   };
 };
 
-function findIndex(list, music) {
-  return list.findIndex((item) => {
-    return item.id === music.id;
+function findIndex(allList, list) {
+  return allList.findIndex((item) => {
+    return item.id === list.id;
   });
 }
 

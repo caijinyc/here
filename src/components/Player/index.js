@@ -215,7 +215,7 @@ class Player extends Component {
         <div className="player-left-container">
           {this.renderPlayerControl()}
           <div className="music-img" onClick={this.handleShowMusicDetial}>
-            <img src={currentMusic ? currentMusic.albumImgUrl : ''} alt="" />
+            <img src={currentMusic ? currentMusic.imgUrl : ''} alt="" />
           </div>
         </div>
         <div className="player-middle-container">
@@ -223,8 +223,8 @@ class Player extends Component {
             <p className="music-name">
               {currentMusic ? currentMusic.musicName : ''}
             </p>
-            <p className="singer-name" onClick={() => this.props.handleGetSingerInfoAction(currentMusic.singer[0].id) }>
-              {currentMusic ? currentMusic.singer[0].name : ''}
+            <p className="singer-name" onClick={() => this.props.handleGetSingerInfoAction(currentMusic.singer.id) }>
+              {currentMusic ? currentMusic.singer.name : ''}
             </p>
           </div>
           <div className="progress-bar-container">
@@ -295,7 +295,7 @@ class Player extends Component {
         <If condition={this.props.showMusicDetail}>
           <div>
           <div className="music-detail-background">
-            <img src={currentMusic ? currentMusic.albumImgUrl : ''} alt="" />
+            <img src={currentMusic ? currentMusic.imgUrl : ''} alt="" />
           </div>
           <div className="player-background"></div>
           </div>

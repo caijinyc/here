@@ -1,0 +1,171 @@
+@import '../../common/scss/variable.scss';
+
+.hide-page-search {
+  display: none;
+}
+
+.page-search {
+  position: fixed;
+  top: 95px;
+  left: 0;
+  bottom: 80px;
+  width: 100%;
+  z-index: 0;
+  overflow-y: scroll;
+}
+
+.search-container{
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+
+  .search-input-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 15px;
+
+    i {
+      position: absolute;
+      top: 11px;
+      left: 5px;
+      color: $color-text;
+    }
+
+    input {
+      padding-left: 30px;
+      padding-right: 40px;
+      box-sizing: border-box;
+      width: 800px;
+      height: 40px;
+      color: $color-text;
+      font-size: $font-size-xxl;
+      background: none;
+      border: none;
+      border-bottom: 1px solid $color-text-gray;
+      outline: none; 
+    }
+  }
+
+  .hot-search-container {
+    color: $color-text;
+    margin-bottom: 10px;
+    
+    span {
+      display: inline-block;
+      padding: 8px 10px;
+      margin-right: 10px;
+      margin-bottom: 5px;
+      background: $color-background-opacity;
+      font-size: $font-size-m;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s;
+
+      &:hover {
+        color: $color-theme;
+
+        i {
+          background: $color-theme;
+          color: $color-text;
+        }
+      }
+    }
+
+    .first-hot-search {
+      position: relative;
+      padding-right: 45px;
+
+      i {
+        position: absolute;
+        top: 8px;
+        right: 9px;
+        padding: 0 2px 1px 2px;
+        font-size: $font-size-m;
+        background: red;
+      }
+    }
+  }
+
+  .search-result {
+    width: 100%;
+
+    nav {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      width: 100%;
+      height: 50px;
+      color: $color-text;
+      background: $color-background-opacity;
+
+      span {
+        display: inline-block;
+        margin: 0 10px;
+        padding: 0 10px;
+        line-height: 50px;
+        font-size: $font-size-xl;
+        cursor: pointer;
+        transition: all 0.3s;
+
+        &:hover {
+          color: $color-theme;
+        }
+      }
+
+      .active {
+        color: $color-theme;
+      }
+    }
+
+    .result-albums {
+      width: 100%;
+      
+      li {
+        position: relative;
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+        color: $color-text;
+        font-size: $font-size-x;
+      }
+
+      .album-img {
+        flex: 0 0 90px;
+        width: 60px;
+        height: 60px;
+        overflow: hidden;
+        cursor: pointer;
+
+        img {
+          width: 60px;
+          height: 60px;
+          min-height: 60px;
+        }
+      }
+
+      .album-name, .singer-name {
+        transition: all 0.3s;
+        
+        &:hover {
+          color: $color-theme;
+        }
+      }
+
+      .album-name {
+        flex: 0 0 300px;
+        cursor: pointer;
+      }
+
+      .singer-name {
+        flex: 0 0 200px;
+        cursor: pointer;
+      }
+
+      .publish-time {
+        position: absolute;
+        right: 0;
+      }
+    }
+  }
+}

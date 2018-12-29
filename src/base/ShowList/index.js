@@ -7,6 +7,7 @@
  */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { If } from 'react-if';
 import {
   getChangeCurrentMusic,
   getSingerInfoAction,
@@ -27,17 +28,19 @@ class ShowList extends Component {
           <div className="count">{count}</div>
           <div className="music-name">
             <span onClick={() => this.props.handleChangeCurrentMusic(item)}>
-              {item.name}
+              {item.musicName}
             </span>
           </div>
           <div className="singer-name">
-            <span onClick={() => this.props.handleGetSingerInfo(item.ar[0].id)}>
-              {item.ar[0].name}
+            <span
+              onClick={() => this.props.handleGetSingerInfo(item.singer.id)}
+            >
+              {item.singer.name}
             </span>
           </div>
           <div className="album-name">
-            <span onClick={() => this.props.handleGetAlbumInfo(item.al.id)}>
-              {item.al.name}
+            <span onClick={() => this.props.handleGetAlbumInfo(item.album.id)}>
+              {item.album.name}
             </span>
           </div>
         </li>
@@ -49,24 +52,30 @@ class ShowList extends Component {
     return (
       <div className="show-list-container">
         <ul>
-          <li className="title">
-            <div className="count" />
-            <div className="music-name">
-              <span>歌曲名</span>
-            </div>
-            <div className="singer-name">
-              <span>歌手</span>
-            </div>
-            <div className="album-name">
-              <span>专辑</span>
-            </div>
-          </li>
+          <If condition={this.props.showTitle}>
+            <li className="title">
+              <div className="count" />
+              <div className="music-name">
+                <span>歌曲名</span>
+              </div>
+              <div className="singer-name">
+                <span>歌手</span>
+              </div>
+              <div className="album-name">
+                <span>专辑</span>
+              </div>
+            </li>
+          </If>
           {this.renderMusicList()}
         </ul>
       </div>
     );
   }
 }
+
+ShowList.defaultProps = {
+  showTitle: true
+};
 
 const mapStateToProps = (state) => {
   return {

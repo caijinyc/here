@@ -79,7 +79,7 @@ class MusicDetail extends Component {
     this.state.lyric.togglePlay();
   };
 
-  seek = startTime => {
+  seek = (startTime) => {
     this.state.lyric.seek(startTime * 1000);
   };
 
@@ -135,17 +135,17 @@ class MusicDetail extends Component {
         <div className="detail-container">
           <div className="left-contanier">
             <div className="img">
-              <img src={currentMusic.albumImgUrl} alt="" />
+              <img src={currentMusic.imgUrl} alt="" />
             </div>
           </div>
           <div className="music-right-container">
             <div className="music-info">
               <p className="music-name">{currentMusic.musicName}</p>
-              <p className="singer-name" onClick={() => this.props.handleGetSingerInfo(currentMusic.singer[0].id)}>
+              <p className="singer-name" onClick={() => this.props.handleGetSingerInfo(currentMusic.singer.id)}>
                 歌手：
-                {currentMusic.singer[0].name}
+                {currentMusic.singer.name}
               </p>
-              <p className="album-name">专辑：{currentMusic.albumName}</p>
+              <p className="album-name">专辑：{currentMusic.album.name}</p>
             </div>
             <div className="lyric">
               <If condition={!this.state.noLyric}>
@@ -166,7 +166,7 @@ class MusicDetail extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     showMusicDetail: state.showMusicDetail,
     currentMusic: state.currentMusic,
@@ -174,7 +174,7 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     handletoggleShowMusicDetail() {
       dispatch(toggleShowMusicDetail());

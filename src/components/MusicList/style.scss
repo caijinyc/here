@@ -14,10 +14,13 @@
   box-sizing: border-box;
   padding-left: 25px;
   color: $color-text;
+  overflow-y: scroll;
   z-index: 1;
 
   .list-info {
-    flex: 0 0 200px;
+    position: fixed;
+    top: $header-height;
+    width: 200px;
     height: 200px;
     background: #fff;
 
@@ -118,7 +121,8 @@
   }
 
   .show-list-container {
-    flex: 1;
-    margin-left: 20px;
+    position: absolute;
+    left: 240px;
+    right: 20px;
   }
 }

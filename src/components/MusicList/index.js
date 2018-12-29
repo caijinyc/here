@@ -7,16 +7,34 @@ import { connect } from 'react-redux';
 import {
   getChangePlayListAction,
   getChangeCurrentIndex,
-  playNextMusicAction
+  playNextMusicAction,
+  getChangeCollectorAction
 } from '../../store/actionCreator';
 import { If } from 'react-if';
-import { formatDate } from '../../common/js/utl';
+import { formatDate, findIndex } from '../../common/js/utl';
+import $db from '../../data';
 
 import ShowList from '../../base/ShowList';
 
 import './style.scss';
 
 class MusicList extends Component {
+  handleCollectList = () => {
+    const musicList = this.props.musicList;
+    $db.find({ name: 'collector' }, (err, res) => {
+      const collector = res[0];
+      const index = findIndex(collector.collectList, musicList);
+      if (index < 0) {
+        collector.collectList.push(musicList);
+        $db.update({ name: 'collector' }, collector, () => {
+          this.props.handlehangeCollector(collector);
+        });
+      } else {
+        return null;
+      }
+    });
+  };
+
   renderListInfo() {
     const musicList = this.props.musicList;
     if (!musicList) {
@@ -37,13 +55,24 @@ class MusicList extends Component {
         <p className="name">{musicList.name}</p>
         <If condition={musicList.type === '专辑'}>
           <div className="album-info">
-            <p className="artist">{musicList.artist ? (musicList.artist.name ? musicList.artist.name : '') : ''}</p>
+            <p className="artist">
+              {musicList.artist
+                ? musicList.artist.name
+                  ? musicList.artist.name
+                  : ''
+                : ''}
+            </p>
             <If condition={typeof musicList.publishTime === 'number'}>
               <p className="publish-time">
                 {formatDate(musicList.publishTime)}
               </p>
             </If>
-            <If condition={typeof musicList.company === 'string' && musicList.company.length > 0}>
+            <If
+              condition={
+                typeof musicList.company === 'string' &&
+                musicList.company.length > 0
+              }
+            >
               <p className="company">发行：{musicList.company}</p>
             </If>
           </div>
@@ -53,10 +82,15 @@ class MusicList extends Component {
           <i
             className="iconfont icon-play1"
             onClick={() =>
-              this.props.changeMusicList(this.props.musicList.tracks)
+              this.props.changeMusicList(
+                formatTracks(this.props.musicList.tracks)
+              )
             }
           />
-          <i className="iconfont icon-folder" />
+          <i
+            className="iconfont icon-folder"
+            onClick={this.handleCollectList}
+          />
         </div>
       </div>
     );
@@ -75,7 +109,7 @@ class MusicList extends Component {
         {this.renderListInfo()}
         <ShowList
           className="show-list-container"
-          list={musicList ? musicList.tracks : []}
+          list={musicList ? formatTracks(musicList.tracks) : []}
         />
       </div>
     );
@@ -96,6 +130,9 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(getChangePlayListAction(value));
       dispatch(getChangeCurrentIndex(-1));
       dispatch(playNextMusicAction());
+    },
+    handlehangeCollector(value) {
+      dispatch(getChangeCollectorAction(value));
     }
   };
 };
@@ -104,3 +141,21 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(MusicList);
+
+function formatTracks(list) {
+  return list.map((item) => {
+    return {
+      id: item.id,
+      musicName: item.name,
+      imgUrl: item.al.picUrl,
+      singer: {
+        id: item.ar[0].id,
+        name: item.ar[0].name
+      },
+      album: {
+        id: item.al.id,
+        name: item.al.name
+      }
+    };
+  });
+}
