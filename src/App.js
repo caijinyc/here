@@ -24,7 +24,12 @@ class App extends Component {
         $db.insert(
           {
             name: 'collector',
-            foundList: [],
+            foundList: [
+              {
+                name: '我喜欢的音乐',
+                tracks: []
+              }
+            ],
             collectList: []
           },
           (err, res) => {
@@ -36,7 +41,7 @@ class App extends Component {
       }
     });
   }
-  
+
   render() {
     return (
       <Router>

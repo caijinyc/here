@@ -7,13 +7,14 @@
  */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { If } from 'react-if';
+import { If, Then, Else } from 'react-if';
 import {
   getChangeCurrentMusic,
   getSingerInfoAction,
-  getAlbumInfoAction
+  getAlbumInfoAction,
+  getAddToLikeListAction
 } from '../../store/actionCreator';
-
+import { findIndex } from '../../common/js/utl';
 import './style.scss';
 
 class ShowList extends Component {
@@ -25,7 +26,9 @@ class ShowList extends Component {
       }
       return (
         <li key={item.id} className="list-li">
-          <div className="count">{count}</div>
+          <div className="count">
+            {count}
+          </div>
           <div className="music-name">
             <span onClick={() => this.props.handleChangeCurrentMusic(item)}>
               {item.musicName}
@@ -42,6 +45,20 @@ class ShowList extends Component {
             <span onClick={() => this.props.handleGetAlbumInfo(item.album.id)}>
               {item.album.name}
             </span>
+          </div>
+          <div className="control-btn">
+            <If condition={findIndex(this.props.likesList, item) < 0}>
+              <Then>
+                <span className="like-music" onClick={() => this.props.handleAddToLikeList(item)}>
+                  <i className="iconfont icon-will-love" title="添加到我喜欢的音乐"></i>
+                </span>
+              </Then>
+              <Else>
+                <span className="dislike-music" onClick={() => this.props.handleAddToLikeList(item)}>
+                  <i className="iconfont icon-love" title="不喜欢这首歌啦~"></i>
+                </span>
+              </Else>
+            </If>
           </div>
         </li>
       );
@@ -74,12 +91,15 @@ class ShowList extends Component {
 }
 
 ShowList.defaultProps = {
-  showTitle: true
+  showTitle: true,
+  showLikeBtn: true,
+  showDislikeBtn: false
 };
 
 const mapStateToProps = (state) => {
   return {
-    playList: state.playList
+    playList: state.playList,
+    likesList: state.collector ? state.collector.foundList[0].tracks : null
   };
 };
 
@@ -93,6 +113,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     handleGetAlbumInfo(albumId) {
       dispatch(getAlbumInfoAction(albumId));
+    },
+    handleAddToLikeList(value) {
+      dispatch(getAddToLikeListAction(value));
     }
   };
 };
@@ -105,7 +128,7 @@ export default connect(
 /**
  * 点击歌曲：
  * 1. 获得当前的播放列表
- * 2. 通过 findindex 查看列表中是否已经有点击的歌曲存在
+ * 2. 通过 findIndex 查看列表中是否已经有点击的歌曲存在
  * 3. 如果已经有点击的歌曲存在，那就改变 currentIndex 以及 currentMusic 为已经存在的那首歌曲
  * 4. 如果没有，那就将被点击的歌曲插入到播放列表的最后一个，并播放
  */

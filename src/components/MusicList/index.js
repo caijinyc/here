@@ -21,16 +21,29 @@ import './style.scss';
 class MusicList extends Component {
   handleCollectList = () => {
     const musicList = this.props.musicList;
+
+    // 处理一下需要存储的数据
+    const list = {
+      tracks: musicList.tracks,
+      name: musicList.name,
+      id: musicList.id,
+      coverImgUrl: musicList.coverImgUrl,
+      tags: musicList.tags,
+      updateTime: musicList.updateTime,
+      playCount: musicList.playCount,
+      description: musicList.description,
+      artist: musicList.artist ? musicList.artist : null,
+      publishTime: musicList.publishTime ? musicList.publishTime : null
+    };
+
     $db.find({ name: 'collector' }, (err, res) => {
       const collector = res[0];
-      const index = findIndex(collector.collectList, musicList);
+      const index = findIndex(collector.collectList, list);
       if (index < 0) {
-        collector.collectList.push(musicList);
-        $db.update({ name: 'collector' }, collector, () => {
+        collector.collectList.push(list);
+        $db.update({ name: 'collector' }, collector, (err, res) => {
           this.props.handlehangeCollector(collector);
         });
-      } else {
-        return null;
       }
     });
   };
@@ -82,9 +95,7 @@ class MusicList extends Component {
           <i
             className="iconfont icon-play1"
             onClick={() =>
-              this.props.changeMusicList(
-                formatTracks(this.props.musicList.tracks)
-              )
+              this.props.changeMusicList(this.props.musicList.tracks)
             }
           />
           <i
@@ -109,7 +120,7 @@ class MusicList extends Component {
         {this.renderListInfo()}
         <ShowList
           className="show-list-container"
-          list={musicList ? formatTracks(musicList.tracks) : []}
+          list={musicList ? musicList.tracks : []}
         />
       </div>
     );
@@ -141,21 +152,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(MusicList);
-
-function formatTracks(list) {
-  return list.map((item) => {
-    return {
-      id: item.id,
-      musicName: item.name,
-      imgUrl: item.al.picUrl,
-      singer: {
-        id: item.ar[0].id,
-        name: item.ar[0].name
-      },
-      album: {
-        id: item.al.id,
-        name: item.al.name
-      }
-    };
-  });
-}

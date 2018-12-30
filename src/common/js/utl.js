@@ -28,3 +28,15 @@ export function findIndex(allList, list) {
   });
 }
 
+export function formatPlayCount (count) {
+  if (!count) {
+    return 0;
+  }
+  if (count < 1e5) {
+    return Math.floor(count);
+  } else {
+    return Math.floor(count / 10000) + '万';
+  }
+}
+
+
