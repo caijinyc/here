@@ -11,6 +11,7 @@ import {
 } from '../../store/actionCreator';
 import { getSingerAlbums } from '../../api';
 import { formatDate } from '../../common/js/utl';
+import ShowList from '../../base/ShowList';
 
 import './style.scss';
 
@@ -68,37 +69,12 @@ class SingerInfo extends Component {
     });
   }
 
-  renderSongsList = () => {
-    const { singerInfo } = this.props;
-    return singerInfo.hotSongs.map((item, index) => {
-      if (index < 9) {
-        index = '0' + (index + 1);
-      } else {
-        index++;
-      }
-      return (
-        <li key={item.id}>
-          <p className="index">
-            <span>{index}</span>
-          </p>
-          <p className="song-name">
-            <span onClick={() => this.props.handleChangeCurrentMusic(item)}>
-              {item.name}
-            </span>
-          </p>
-          <p className="album-name">
-            <span onClick={() => this.props.handleGetAlbumInfo(item.al.id)}>{item.al.name}</span>
-          </p>
-        </li>
-      );
-    });
-  };
-
   render() {
     if (this.props.singerInfo === null) {
       return null;
     }
     const { singerInfo, showSingerInfo } = this.props;
+    const tracks = formatMusic(this.props.singerInfo.hotSongs);
     const { artist } = singerInfo;
     return (
       <div
@@ -136,21 +112,14 @@ class SingerInfo extends Component {
                 <span
                   className="btn"
                   onClick={() =>
-                    this.props.changeMusicList(formatMusic(this.props.singerInfo.hotSongs))
+                    this.props.changeMusicList(tracks)
                   }
                 >
                   播放歌曲
                   <i className="iconfont icon-play1" />
                 </span>
               </h1>
-              <ul>
-                <li className="song-list-title">
-                  <p className="index" />
-                  <p className="song-name">歌曲</p>
-                  <p className="album-name">专辑</p>
-                </li>
-                {this.renderSongsList()}
-              </ul>
+              <ShowList list={tracks}/>
             </section>
             <If condition={this.state.albums !== null}>
             <section className="albums-list">

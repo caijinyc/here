@@ -242,7 +242,10 @@ class Search extends Component {
             <input
               value={this.state.searchVal}
               placeholder="搜点什么想听的吧.."
-              onChange={(e) => this.setState(() => ({ searchVal: e.target.value }))}
+              onChange={(e) => {
+                const val = e.target.value;
+                this.setState(() => ({ searchVal: val }));
+              }}
               onKeyDown={(e) => {
                 this.handleKeydown(e);
               }}

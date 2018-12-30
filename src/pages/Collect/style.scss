@@ -1,5 +1,9 @@
 @import '../../common/scss/variable.scss';
 
+.hide-page-collect {
+  display: none;
+}
+
 .page-collect {
   position: fixed;
   top: 95px;
@@ -15,20 +19,168 @@
     top: 95px;
     left: 30px;
     bottom: 80px;
-    width: 200px;
-    background: $color-background-opacity;
+    box-sizing: border-box;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 230px;
+    background: rgba(255, 255, 255, 0.027);
+    border-radius: 5px;
 
     .title {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      padding-left: 5px;
       color: $color-text-gray;
-      font-size: $font-size-x;
+      font-size: $font-size-l;
+    }
+  }
+}
+
+.left-nav {
+  ul {
+    list-style-type: none;
+    font-size: $font-size-x;
+    line-height: 20px;
+
+    li {
+      position: relative;
+      box-sizing: border-box;
+      padding: 0 20px 8px 30px;
+      width: 225px;
+      transition: all 0.2s;
+
+      text-overflow:ellipsis;//让超出的用...实现
+      white-space:nowrap;//禁止换行
+      overflow:hidden;//超出的隐藏
+
+      cursor: pointer;
+
+      &:hover {
+        color: $color-theme;
+      }
+      
+
+      i {
+        position: absolute;
+        left: 7px;
+        font-size: 20px;
+      }
+      
+      .icon-will-love {
+        font-size: 15px;
+      }
     }
   }
 }
 
 .collect-container {
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(100vw - 60px);
+  left: 280px;
+  // transform: translateX(-50%);
+  width: calc(100vw - 30px - 280px);
   
+  .list-info {
+    position: relative;
+    display: flex;
+    margin-bottom: 20px;
+
+    .list-img {
+      position: relative;
+      flex-basis: 190px;
+      height: 150px;
+      overflow: hidden;
+
+      .found-list {
+
+        .filter {
+          position: absolute;
+          width: 150px;
+          height: 150px;
+          background: rgba(0, 0, 0, 0.493);
+        }
+      }
+
+      i {
+        position: absolute;
+        font-size: 80px;
+        left: 36px;
+        top: 30px;
+        color: rgba(255, 255, 255, 0.705);
+      }
+
+      img {
+        width: 150px;
+        min-height: 150px;
+      }
+    }
+
+    .list-info-right {
+      flex: 1;
+    }
+
+    .name {
+      font-size: $font-size-title;
+      box-sizing: border-box;
+      padding-right: 100px;
+      margin-bottom: 10px;
+    }
+
+    .desc {
+      font-size: $font-size-l;
+      line-height: 24px;
+      max-height: 72px;
+      overflow-y: scroll;
+    }
+
+    .count {
+      position: absolute;
+      left: 190px;
+      bottom: 0;
+      font-size: $font-size-l;
+      color: $color-text-gray;
+      
+      p {
+        display: inline-block;
+        margin-right: 20px;
+
+        span {
+          font-size: $font-size-xl;
+        }
+      }
+    }
+
+    .play-btn {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      padding: 8px 10px;
+      box-sizing: border-box;
+      // width: 100px;
+      // height: 25px;
+      border: none;
+      background: $color-background-opacity;
+      color: $color-text;
+      font-size: $font-size-l;
+      border-radius: 4px;
+      outline: none;
+      cursor: pointer;
+      transition: all 0.3s;
+
+      &:hover {
+        color: $color-theme;
+      }
+      
+      i {
+        position: absolute;
+        left: 8px;
+        top: 8px;
+        font-size: 14px;
+      }
+
+      p {
+        padding-left: 15px;
+      }
+    }
+  }
 }

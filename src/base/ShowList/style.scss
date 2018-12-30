@@ -42,7 +42,7 @@
     .count {
       display: inline-block;
       box-sizing: border-box;
-      width: 5%;
+      width: 8%;
       padding-left: 5px;
     }
 
@@ -56,19 +56,44 @@
     }
 
     .music-name {
-      width: 30%;
+      width: 35%;
     }
 
     .singer-name {
-      width: 30%;
+      width: 25%;
       color: $color-text-gray;
     }
 
     .album-name {
-      width: 35%;
-      padding-right: 50px;
+      width: 32%;
+      padding-right: 10px;
       color: $color-text-gray;
     }
 
+    .control-btn {
+      position: absolute;
+      left: 38px;
+      
+      i {
+        position: relative;
+        font-size: 20px;
+      }
+
+      .dislike-music {
+        color: $color-theme;
+
+        &:hover {
+          i {
+            color: $color-text-gray;
+          }
+        }
+      }
+    }
+
+    .list-li:hover {
+      i {
+        font-size: 20px;
+      }
+    }
   }
 }

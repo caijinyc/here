@@ -1,5 +1,8 @@
 import * as types from './actionTypes';
 import { getMusicUrl, getMusicLyric, getSingerInfo, getAlbumInfo, getMusicDetail } from '../api';
+import $db from '../data';
+import { findIndex } from '../common/js/utl';
+import message from '../base/Message';
 
 import { PLAY_MODE_TYPES } from '../common/js/config';
 
@@ -79,12 +82,13 @@ export const getAlbumInfoAction = (albumId) => {
         id: album.id,
         description: album.description ? album.description : '',
         coverImgUrl: album.picUrl,
-        tracks: songs,
+        tracks: formatAlbumTracks(songs),
         company: album.company,
         publishTime: album.publishTime,
         artist: album.artist,
         type: album.type
       };
+      console.log('getAlbumInfoAction', album);
       dispatch(getChangeCurrentMusicListAction(list));
 
       // 隐藏歌手详情，歌手详情遮挡住专辑内容
@@ -270,11 +274,28 @@ export const getDeleteMusicAction = (item) => {
   };
 };
 
-function findIndex(allList, list) {
-  return allList.findIndex((item) => {
-    return item.id === list.id;
-  });
-}
+/**
+ * 实现喜欢歌曲的功能
+ */
+export const getAddToLikeListAction = (value) => {
+  return (dispatch, getState) => {
+    let collector = null;
+    $db.find({name: 'collector'}, (err, res) => {
+      collector = res[0];
+      let index = findIndex(collector.foundList[0].tracks, value);
+      if (index < 0) {
+        collector.foundList[0].tracks.push(value);
+        message.info('已经加入到喜欢的歌曲中');
+      } else {
+        collector.foundList[0].tracks.splice(index, 1);
+      }
+      $db.update({ name: 'collector' }, collector, () => {
+        dispatch(getChangeCollectorAction(collector));
+        console.log('喜欢成功', index, collector);
+      });
+    });
+  };
+};
 
 function random(index, length) {
   let res = Math.floor(Math.random() * length);
@@ -282,4 +303,22 @@ function random(index, length) {
     return random(index, length);
   }
   return res;
+}
+
+function formatAlbumTracks(list) {
+  return list.map((item) => {
+    return {
+      id: item.id,
+      musicName: item.name,
+      imgUrl: item.al.picUrl,
+      singer: {
+        id: item.ar[0].id,
+        name: item.ar[0].name
+      },
+      album: {
+        id: item.al.id,
+        name: item.al.name
+      }
+    };
+  });
 }

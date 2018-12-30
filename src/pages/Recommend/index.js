@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { getRecommendList, getMusicListDetail } from '../../api';
 import { connect } from 'react-redux';
+import { getRecommendList, getMusicListDetail } from '../../api';
+import { formatPlayCount } from '../../common/js/utl';
 import { getChangeCurrentMusicListAction } from '../../store/actionCreator';
 
 import './style.scss';
@@ -27,7 +28,8 @@ class Recommend extends Component {
   handleGetMusicListDetail = (id) => {
     getMusicListDetail(id).then(({ data }) => {
       // 将歌单传入 vuex 中的 musicList
-      console.log('data.playlist', data.playlist);
+      data.playlist.tracks = formatTracks(data.playlist.tracks);
+      console.log('data', data.playlist);
       this.props.handleChangeCurrentMusicList(data.playlist);
     });
   };
@@ -87,14 +89,20 @@ export default withRouter(
   )(Recommend)
 );
 
-
-function formatPlayCount (count) {
-  if (!count) {
-    return 0;
-  }
-  if (count < 1e5) {
-    return Math.floor(count);
-  } else {
-    return Math.floor(count / 10000) + '万';
-  }
+function formatTracks(list) {
+  return list.map((item) => {
+    return {
+      id: item.id,
+      musicName: item.name,
+      imgUrl: item.al.picUrl,
+      singer: {
+        id: item.ar[0].id,
+        name: item.ar[0].name
+      },
+      album: {
+        id: item.al.id,
+        name: item.al.name
+      }
+    };
+  });
 }
