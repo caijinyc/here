@@ -1,5 +1,5 @@
 import * as types from './actionTypes';
-import { getMusicUrl, getMusicLyric, getSingerInfo, getAlbumInfo, getMusicDetail } from '../api';
+import { getMusicUrl, getMusicLyric, getSingerInfo, getAlbumInfo, getMusicDetail, getMusicListDetail } from '../api';
 import $db from '../data';
 import { findIndex } from '../common/js/utl';
 import message from '../base/Message';
@@ -17,6 +17,34 @@ export const getRefreshCollectorAction = (value) => ({
 
 export const getChangeCurrentMusicListAction = (value) => ({
   type: types.CHANGE_CURRENT_MUSIC_LIST,
+  value
+});
+
+/**
+ * 获取歌单详情，并显示歌单
+ * @param {number} id 
+ */
+export const getMusicListDetailAction = (id) => {
+  return (dispatch) => {
+    dispatch(getChangeShowLoadingAction(true));
+    getMusicListDetail(id).then(({ data }) => {
+      // 将歌单传入 redux 中的 musicList
+      data.playlist.tracks = formatMusicListTracks(data.playlist.tracks);
+      dispatch(getChangeCurrentMusicListAction(data.playlist));
+      dispatch(getChangeShowLoadingAction(false));
+    }).catch(() => {
+      this.props.handleChangeShowLoadingAction(false);
+    });
+  };
+};
+
+
+/**
+ * 控制 Loading 的显示
+ * @param {Boolean} value 
+ */
+export const getChangeShowLoadingAction = (value) => ({
+  type: types.CHANGE_SHOW_LOADING,
   value
 });
 
@@ -64,9 +92,13 @@ export const changeSingerInfoAction = (value) => ({
  */
 export const getSingerInfoAction = (singerId) => {
   return (dispatch) => {
+    dispatch(getChangeShowLoadingAction(true));
     dispatch(changeSingerInfoAction(null));
     getSingerInfo(singerId).then((res) => {
       dispatch(changeSingerInfoAction(res.data));
+      dispatch(getChangeShowLoadingAction(false));
+    }).catch(() => {
+      dispatch(getChangeShowLoadingAction(false));
     });
   };
 };
@@ -76,6 +108,7 @@ export const getSingerInfoAction = (singerId) => {
  */
 export const getAlbumInfoAction = (albumId) => {
   return (dispatch) => {
+    dispatch(getChangeShowLoadingAction(true));
     getAlbumInfo(albumId).then(({ data: {album, songs} }) => {
       const list = {
         name: album.name,
@@ -88,11 +121,13 @@ export const getAlbumInfoAction = (albumId) => {
         artist: album.artist,
         type: album.type
       };
-      console.log('getAlbumInfoAction', album);
+      dispatch(getChangeShowLoadingAction(false));
       dispatch(getChangeCurrentMusicListAction(list));
 
       // 隐藏歌手详情，歌手详情遮挡住专辑内容
       dispatch(getHideSingerInfoAction());
+    }).catch(() => {
+      dispatch(getChangeShowLoadingAction(false));
     });
   };
 };
@@ -284,14 +319,13 @@ export const getAddToLikeListAction = (value) => {
       collector = res[0];
       let index = findIndex(collector.foundList[0].tracks, value);
       if (index < 0) {
-        collector.foundList[0].tracks.push(value);
+        collector.foundList[0].tracks.unshift(value);
         message.info('已经加入到喜欢的歌曲中');
       } else {
         collector.foundList[0].tracks.splice(index, 1);
       }
       $db.update({ name: 'collector' }, collector, () => {
         dispatch(getChangeCollectorAction(collector));
-        console.log('喜欢成功', index, collector);
       });
     });
   };
@@ -306,6 +340,24 @@ function random(index, length) {
 }
 
 function formatAlbumTracks(list) {
+  return list.map((item) => {
+    return {
+      id: item.id,
+      musicName: item.name,
+      imgUrl: item.al.picUrl,
+      singer: {
+        id: item.ar[0].id,
+        name: item.ar[0].name
+      },
+      album: {
+        id: item.al.id,
+        name: item.al.name
+      }
+    };
+  });
+}
+
+function formatMusicListTracks(list) {
   return list.map((item) => {
     return {
       id: item.id,

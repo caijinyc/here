@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import { formatDate } from '../../common/js/utl';
+import { connect } from 'react-redux';
+import { If } from 'react-if';
 import {
   getAlbumInfoAction,
-  getSingerInfoAction
+  getSingerInfoAction,
+  getMusicListDetailAction
 } from '../../store/actionCreator';
 import { getHotSearch, getSearchResult } from '../../api/search';
-import { connect } from 'react-redux';
+import { getMusicListDetail } from '../../api/index';
 
 import ShowList from '../../base/ShowList';
+import Loading from '../../base/Loading';
 
 import './style.scss';
 
@@ -31,7 +35,8 @@ class Search extends Component {
         singers: null,
         playlist: null
       },
-      searchType: 'songs'
+      searchType: 'songs',
+      showLoading: false
     };
   }
 
@@ -47,6 +52,11 @@ class Search extends Component {
   changeCurrentSearchType = (searchType) => {
     if (searchType === this.state.searchType) {
       return;
+    } else if (this.state.searchVal === '') {
+      this.setState(() => ({
+        searchType
+      }));
+      return;
     }
     this.setState(
       () => ({
@@ -58,7 +68,14 @@ class Search extends Component {
     );
   };
 
+  toggleShowLoading = () => {
+    this.setState((prevProps) => ({
+      showLoading: !prevProps.showLoading
+    }));
+  }
+
   handleGetSongs = () => {
+    this.toggleShowLoading();
     getSearchResult(this.state.searchVal, SEARCH_TYPES.SONGS).then(
       ({
         data: {
@@ -70,11 +87,15 @@ class Search extends Component {
         this.setState(() => ({
           result: r
         }));
+        this.toggleShowLoading();
       }
-    );
+    ).catch(() => {
+      this.toggleShowLoading();
+    });
   };
 
   handleGetAlbums = () => {
+    this.toggleShowLoading();
     getSearchResult(this.state.searchVal, SEARCH_TYPES.ALBUMS).then(
       ({ data }) => {
         const r = JSON.parse(JSON.stringify(this.state.result));
@@ -82,10 +103,42 @@ class Search extends Component {
         this.setState(() => ({
           result: r
         }));
+        this.toggleShowLoading();
         console.log('r', data);
       }
-    );
+    ).catch(() => {
+      this.toggleShowLoading();
+    });
   };
+
+  handleGetSingers = () => {
+    this.toggleShowLoading();
+    getSearchResult(this.state.searchVal, SEARCH_TYPES.SINGERS).then(({ data }) => {
+        const r = JSON.parse(JSON.stringify(this.state.result));
+        r.singers = data.result.artists;
+        this.setState(() => ({
+          result: r
+        }));
+        this.toggleShowLoading();
+    }).catch(() => {
+      this.toggleShowLoading();
+    });
+  }
+
+  handleGetPlaylist = () => {
+    this.toggleShowLoading();
+    getSearchResult(this.state.searchVal, SEARCH_TYPES.PLAYLIST).then(({ data }) => {
+      console.log('data', data);
+        const r = JSON.parse(JSON.stringify(this.state.result));
+        r.playlist = data.result.playlists;
+        this.setState(() => ({
+          result: r
+        }));
+        this.toggleShowLoading();
+    }).catch(() => {
+      this.toggleShowLoading();
+    });
+  }
 
   handleKeydown = (e) => {
     if (e.keyCode === KEYBOARY_ENTER_CODE) {
@@ -225,6 +278,49 @@ class Search extends Component {
     }
   };
 
+  renderResultSingers = () => {
+    if (!this.state.result.singers) {
+      return null;
+    } else {
+      return (
+        <ul className="result-singers">
+          {this.state.result.singers.map((item) => {
+            return (
+              <li key={item.id} onClick={() => this.props.handleGetSingerInfo(item.id)}>
+                <div className="img-container">
+                  <img src={item.img1v1Url} alt=""/>
+                </div>
+                <p className="name">{item.name}</p>
+              </li>
+            );
+          })}
+        </ul>
+      );
+    }
+  }
+
+  renderResultPlayList = () => {
+    if (!this.state.result.playlist) {
+      return null;
+    } else {
+      return (
+        <ul className="result-playlist">
+          {this.state.result.playlist.map((item) => {
+            return (
+              <li key={item.id} onClick={() => this.props.handleGetMusicListDetail(item.id)}>
+                <div className="img-container">
+                  <img src={item.coverImgUrl} alt=""/>
+                </div>
+                <p className="count">TRACKS: {item.trackCount}</p>
+                <p className="name">{item.name}</p>
+              </li>
+            );
+          })}
+        </ul>
+      );
+    }
+  }
+
   render() {
     const { searchType } = this.state;
     return (
@@ -288,11 +384,16 @@ class Search extends Component {
                 ].join(' ')}
                 onClick={() => this.changeCurrentSearchType('playlist')}
               >
-                歌曲列表
+                歌单
               </span>
             </nav>
             <div className="result">{this.renderResult()}</div>
           </div>
+          <If condition={this.state.showLoading}>
+            <div className="loading-container">
+              <Loading />
+            </div>
+          </If>
         </div>
       </div>
     );
@@ -313,6 +414,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     handleGetAlbumInfo(albumId) {
       dispatch(getAlbumInfoAction(albumId));
+    },
+    handleGetMusicListDetail(id) {
+      dispatch(getMusicListDetailAction(id));
     }
   };
 };

@@ -12,9 +12,11 @@ import {
   playNextMusicAction,
   getChangePlayModeAction,
   getSingerInfoAction,
-  toggleShowMusicDetail
+  toggleShowMusicDetail,
+  getAddToLikeListAction
 } from '../../store/actionCreator';
 import { PLAY_MODE_TYPES } from '../../common/js/config';
+import { findIndex } from '../../common/js/utl';
 
 import ProgressBar from '../../base/ProgressBar';
 import PlayTime from '../../base/PlayTime';
@@ -220,7 +222,7 @@ class Player extends Component {
         </div>
         <div className="player-middle-container">
           <div className="music-info">
-            <p className="music-name">
+            <p className="music-name" onClick={this.handleShowMusicDetial}>
               {currentMusic ? currentMusic.musicName : ''}
             </p>
             <p className="singer-name" onClick={() => this.props.handleGetSingerInfoAction(currentMusic.singer.id) }>
@@ -282,6 +284,18 @@ class Player extends Component {
                 }
               />
             </div>
+            <If condition={this.props.likesList && findIndex(this.props.likesList, currentMusic) < 0}>
+              <Then>
+                <div className="like-music" onClick={() => this.props.handleAddToLikeList(currentMusic)}>
+                  <i className="iconfont icon-will-love" title="添加到我喜欢的音乐"></i>
+                </div>
+              </Then>
+              <Else>
+                <div className="dislike-music" onClick={() => this.props.handleAddToLikeList(currentMusic)}>
+                  <i className="iconfont icon-love" title="不喜欢这首歌啦~"></i>
+                </div>
+              </Else>
+            </If>
           </div>
           <div className="audio-volume">
             <i className="iconfont icon-volume-up" />
@@ -326,7 +340,8 @@ const mapStateToProps = (state) => {
     currentMusic: state.currentMusic,
     playing: state.playing,
     playMode: state.playMode,
-    showMusicDetail: state.showMusicDetail
+    showMusicDetail: state.showMusicDetail,
+    likesList: state.collector ? state.collector.foundList[0].tracks : null
   };
 };
 
@@ -349,6 +364,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     handleGetSingerInfoAction(singerId) {
       dispatch(getSingerInfoAction(singerId));
+    },
+    handleAddToLikeList(value) {
+      dispatch(getAddToLikeListAction(value));
     }
   };
 };

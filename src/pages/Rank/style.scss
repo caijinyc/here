@@ -1,0 +1,61 @@
+@import '../../common/scss/variable.scss';
+
+.hide-page-rank {
+  display: none;
+}
+
+.page-rank {
+  position: fixed;
+  top: 95px;
+  left: 0;
+  bottom: 80px;
+  width: 100%;
+  z-index: 0;
+  overflow-y: scroll;
+}
+
+.rank-container {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+
+  li {
+    display: inline-block;
+    margin: 0 calc((100% / 5 - 150px) / 2);
+    width: 150px;
+    margin-bottom: 20px;
+    font-size: $font-size-l;
+    cursor: pointer;
+    &:hover {
+      .name {
+        color: $color-theme;
+      }
+    }
+
+    p {
+      float: left;
+      margin-bottom: 5px;
+      width: 150px;
+      color: $color-text-gray;
+    }
+
+    .name {
+      font-size: $font-size-xl;
+      color: $color-text;
+      transition: all 0.3s;
+    }
+
+    .img-container {
+      width: 150px;
+      height: 150px;
+      overflow: hidden;
+      margin-bottom: 10px;
+
+      img {
+        width: 150px;
+        min-height: 150px;
+      }
+    }
+  }
+}

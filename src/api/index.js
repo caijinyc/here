@@ -55,3 +55,12 @@ export function getAlbumInfo (id) {
   const url = HOST + `/album?id=${id}`;
   return axios.get(url);
 }
+
+/**
+ * 获取排行榜所有榜单
+ * https://binaryify.github.io/NeteaseCloudMusicApi/#/?id=%E6%89%80%E6%9C%89%E6%A6%9C%E5%8D%95
+ */
+export function getAllRank () {
+  const url = HOST + '/toplist';
+  return axios.get(url);
+}

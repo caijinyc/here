@@ -11,6 +11,7 @@ html {
 
 body {
   min-width: 900px;
+  color: $color-text;
 
   .app-background {
     position: fixed;
@@ -19,14 +20,14 @@ body {
     width: 130%;
     height: 130%;
     background-image: linear-gradient(to right, #080e13 0%, #021524 100%);
-    filter: blur(20px);
+    // filter: blur(20px);
     z-index: -1;
   }
 
   // 定义滚动条背景色
-  ::-webkit-scrollbar-track-piece {
-    // background-color: $color-background;
-  }
+  // ::-webkit-scrollbar-track-piece {
+  //   // background-color: $color-background;
+  // }
 
   /* 定义滚动条高宽及背景
       高宽分别对应横竖滚动条的尺寸 */
@@ -38,7 +39,7 @@ body {
       内阴影+圆角 */
   ::-webkit-scrollbar-thumb {
     border-radius: 4px;
-    background-color: rgb(48, 48, 48);
+    background-color: rgba(37, 37, 37, 0.753);
   }
 }
 
@@ -54,4 +55,15 @@ body {
 
 .hide-play-list {
   right: -300px;
+}
+
+.app-loading-container {
+  position: fixed;
+  top: 45%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 100px;
+  background: #ffffff46;
+  border-radius: 10px;
 }

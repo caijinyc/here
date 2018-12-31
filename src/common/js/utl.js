@@ -1,18 +1,31 @@
-export const formatDate = (obj) => {
+export const formatDate = (
+  obj,
+  opt = {
+    y: true,
+    m: true,
+    d: true
+  }
+) => {
   const t = new Date(obj);
   const y = t.getFullYear();
-  const m = '0' + (t.getMonth() + 1);
-  const d = '0' + t.getDate();
-  return `
-  ${y}-${m.substring(m.length - 2, m.length)}-${d.substring(d.length - 2, d.length)}`;
+  let m = '0' + (t.getMonth() + 1);
+  m = m.substring(m.length - 2, m.length);
+  let d = '0' + t.getDate();
+  d = d.substring(d.length - 2, d.length);
+
+  let res = [];
+  if (opt.y) res.push(y);
+  if (opt.m) res.push(m);
+  if (opt.d) res.push(d);
+  
+  return res.join('-');
 };
 
-
 // 截流函数
-export function debounce (func, delay) {
+export function debounce(func, delay) {
   let timer;
 
-  return function (...args) {
+  return function(...args) {
     if (timer) {
       clearTimeout(timer);
     }
@@ -28,7 +41,7 @@ export function findIndex(allList, list) {
   });
 }
 
-export function formatPlayCount (count) {
+export function formatPlayCount(count) {
   if (!count) {
     return 0;
   }
@@ -38,5 +51,3 @@ export function formatPlayCount (count) {
     return Math.floor(count / 10000) + '万';
   }
 }
-
-

@@ -52,7 +52,10 @@ const defaultState = {
   playMode: PLAY_MODE_TYPES.SEQUENCE_PLAY,
 
   // 收藏
-  collector: null
+  collector: null,
+
+  // 显示全局的 Loding
+  showLoading: false
 };
 
 // state 里面存放了所有的数据
@@ -62,6 +65,7 @@ export default (state = defaultState, action) => {
     const newState = deepCopy(state);
     newState.musicList = action.value;
     newState.showMusicList = true;
+    console.log('didid');
     return newState;
   }
   if (action.type === types.HIDE_MUSIC_LIST) {
@@ -124,6 +128,11 @@ export default (state = defaultState, action) => {
   if (action.type === types.REFRESH_COLLECTOR) {
     const newState = deepCopy(state);
     newState.collector = getNewCollector();
+    return newState;
+  }
+  if (action.type === types.CHANGE_SHOW_LOADING) {
+    const newState = deepCopy(state);
+    newState.showLoading = action.value;
     return newState;
   }
   return state;

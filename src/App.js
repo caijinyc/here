@@ -7,11 +7,15 @@ import $db from './data';
 import Recommend from './pages/Recommend';
 import Search from './pages/Search';
 import Collect from './pages/Collect';
+import Rank from './pages/Rank';
+import About from './pages/About';
 
 import Header from './components/Header';
 import Player from './components/Player';
 import MusicList from './components/MusicList';
 import SingerInfo from './components/SingerInfo';
+
+import Loading from './base/Loading';
 
 import MyTitle from './renderer/components/MyTitle';
 
@@ -55,8 +59,15 @@ class App extends Component {
           <Route exact path="/" component={Recommend} />
           <Route exact path="/search" component={Search} />
           <Route path="/collect" component={Collect} />
+          <Route path="/rank" component={Rank} />
+          <Route path="/about" component={About} />
           {/* <Route path="/about" component={About} /> */}
           <MyTitle />
+          {this.props.showLoading ? (
+            <div className="app-loading-container">
+              <Loading />
+            </div>
+          ) : null}
         </div>
       </Router>
     );
@@ -65,7 +76,7 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    // collector: state.collector
+    showLoading: state.showLoading
   };
 };
 

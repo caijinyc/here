@@ -36,7 +36,7 @@ class Header extends Component {
           </NavLink>
           <NavLink
             activeClassName="active"
-            to="/top"
+            to="/rank"
             onClick={this.props.handleHideMusicListAndSingerInfo}
           >
             排行榜
@@ -57,7 +57,7 @@ class Header extends Component {
           </NavLink>
           <NavLink
             activeClassName="active"
-            to="/topics"
+            to="/about"
             onClick={this.props.handleHideMusicListAndSingerInfo}
           >
             关于
