@@ -65,7 +65,6 @@ export default (state = defaultState, action) => {
     const newState = deepCopy(state);
     newState.musicList = action.value;
     newState.showMusicList = true;
-    console.log('didid');
     return newState;
   }
   if (action.type === types.HIDE_MUSIC_LIST) {

@@ -8,11 +8,10 @@ import {
   getChangePlayListAction,
   getChangeCurrentIndex,
   playNextMusicAction,
-  getChangeCollectorAction
+  getToggleCollectPlaylist
 } from '../../store/actionCreator';
 import { If } from 'react-if';
 import { formatDate, findIndex } from '../../common/js/utl';
-import $db from '../../data';
 
 import ShowList from '../../base/ShowList';
 
@@ -36,16 +35,7 @@ class MusicList extends Component {
       publishTime: musicList.publishTime ? musicList.publishTime : null
     };
 
-    $db.find({ name: 'collector' }, (err, res) => {
-      const collector = res[0];
-      const index = findIndex(collector.collectList, list);
-      if (index < 0) {
-        collector.collectList.push(list);
-        $db.update({ name: 'collector' }, collector, (err, res) => {
-          this.props.handlehangeCollector(collector);
-        });
-      }
-    });
+    this.props.handleToggleCollectPlaylist(list);
   };
 
   renderListInfo() {
@@ -99,7 +89,7 @@ class MusicList extends Component {
             }
           />
           <i
-            className="iconfont icon-folder"
+            className={['iconfont', 'icon-folder', findIndex(this.props.collectedPlaylist, musicList) < 0 ? '' : 'collected'].join(' ')}
             onClick={this.handleCollectList}
           />
         </div>
@@ -131,7 +121,8 @@ const mapStateToProps = (state) => {
   return {
     musicList: state.musicList,
     showMusicList: state.showMusicList,
-    showSingerInfo: state.showSingerInfo
+    showSingerInfo: state.showSingerInfo,
+    collectedPlaylist: state.collector ? state.collector.collectList : null
   };
 };
 
@@ -142,8 +133,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(getChangeCurrentIndex(-1));
       dispatch(playNextMusicAction());
     },
-    handlehangeCollector(value) {
-      dispatch(getChangeCollectorAction(value));
+    handleToggleCollectPlaylist(list) {
+      dispatch(getToggleCollectPlaylist(list));
     }
   };
 };

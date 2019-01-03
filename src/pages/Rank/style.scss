@@ -27,6 +27,7 @@
     margin-bottom: 20px;
     font-size: $font-size-l;
     cursor: pointer;
+
     &:hover {
       .name {
         color: $color-theme;
@@ -51,10 +52,12 @@
       height: 150px;
       overflow: hidden;
       margin-bottom: 10px;
+      border-radius: 10px;
 
       img {
         width: 150px;
         min-height: 150px;
+        border-radius: 10px;
       }
     }
   }

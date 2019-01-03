@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getChangeCollectorAction } from './store/actionCreator';
 import $db from './data';
@@ -57,11 +57,11 @@ class App extends Component {
           <div className="app-background" />
           {/* exact 路径完全相等的时候才显示路由内的内容 */}
           <Route exact path="/" component={Recommend} />
-          <Route exact path="/search" component={Search} />
+          <Route path="/search" component={Search} />
           <Route path="/collect" component={Collect} />
           <Route path="/rank" component={Rank} />
           <Route path="/about" component={About} />
-          {/* <Route path="/about" component={About} /> */}
+          <Redirect from="*" to="/" />
           <MyTitle />
           {this.props.showLoading ? (
             <div className="app-loading-container">

@@ -14,7 +14,3 @@ export default class Loading extends Component {
     );
   }
 }
-
-// Loding.defaultProps = {
-
-// }

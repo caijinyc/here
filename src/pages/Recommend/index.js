@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getRecommendList, getMusicListDetail } from '../../api';
+import { getRecommendList } from '../../api';
 import { formatPlayCount } from '../../common/js/utl';
 import {
   getChangeCurrentMusicListAction,
   getChangeShowLoadingAction,
   getMusicListDetailAction
 } from '../../store/actionCreator';
+import Loding from '../../base/Loading';
+import message from '../../base/Message';
 
 import './style.scss';
 
@@ -15,18 +17,52 @@ class Recommend extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      recommendList: []
+      recommendList: [],
+      gotRecommend: false,
+      showLoding: true
     };
   }
 
   componentWillMount() {
     // 获取推荐歌单
-    getRecommendList().then(({ data }) => {
-      this.setState(() => ({
-        recommendList: data.playlists
+    this.handleGetRecommendList();
+  }
+
+  handleGetRecommendList = (updateTime = null) => {
+    getRecommendList(updateTime).then(({ data }) => {
+      if (data.playlists && data.playlists.length === 0) {
+        message.info('已经到底啦~');
+        this.setState(() => ({
+          gotRecommend: false,
+          showLoding: false
+        }));
+        return;
+      }
+      this.setState((prevState) => ({
+        recommendList: prevState.recommendList.concat(data.playlists),
+        gotRecommend: false,
+        showLoding: false
       }));
     });
-  }
+  };
+
+  handleUserScroll = () => {
+    const recommendList = this.refs.recommendList;
+    const scrollAtBottom =
+      recommendList.scrollHeight -
+        (recommendList.scrollTop + recommendList.clientHeight) ===
+      0;
+    console.log('scrollAtBottom', scrollAtBottom);
+    if (scrollAtBottom && !this.state.gotRecommend) {
+      this.setState(() => ({
+        gotRecommend: true,
+        showLoding: true
+      }), () => {
+        let index = this.state.recommendList.length - 1;
+        this.handleGetRecommendList(this.state.recommendList[index].updateTime);
+      });
+    }
+  };
 
   // 歌单列表展示
   renderRecommendList = () => {
@@ -61,7 +97,14 @@ class Recommend extends Component {
             : ''
         ].join(' ')}
       >
-        <ul className="music-list">{this.renderRecommendList()}</ul>
+        <ul
+          className="recommend-list"
+          onScroll={this.handleUserScroll}
+          ref="recommendList"
+        >
+          {this.renderRecommendList()}
+          {this.state.showLoding && <Loding />}
+        </ul>
       </div>
     );
   }

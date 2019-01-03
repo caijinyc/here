@@ -28,8 +28,8 @@
   /* 定义滑块
       内阴影+圆角 */
   ::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-    background-color: rgba(255, 255, 255, 0.048);
+    // border-radius: 4px;
+    background-color: rgba(214, 214, 214, 0.397);
   }
 
   .left-nav {
@@ -41,7 +41,7 @@
     padding-top: 5px;
     padding-left: 5px;
     padding-right: 5px;
-    width: 230px;
+    width: 240px;
     background: rgba(255, 255, 255, 0.027);
     border-radius: 5px;
     overflow-y: scroll;
@@ -66,21 +66,29 @@
       position: relative;
       box-sizing: border-box;
       padding: 0 20px 8px 30px;
-      width: 217px;
-      transition: all 0.2s;
+      width: 223px;
 
       text-overflow:ellipsis;//让超出的用...实现
       white-space:nowrap;//禁止换行
       overflow:hidden;//超出的隐藏
-
       cursor: pointer;
 
+      span {
+        transition: all 0.2s;
+      }
+
       &:hover {
-        color: $color-theme;
+        span {
+          color: $color-theme;
+        }
+
+        .icon-del {
+          font-size: 15px;
+        }
       }
       
 
-      i {
+      .icon-yinleliebiao, .icon-will-love {
         position: absolute;
         left: 7px;
         font-size: 20px;
@@ -89,15 +97,21 @@
       .icon-will-love {
         font-size: 15px;
       }
+
+      .icon-del {
+        position: absolute;
+        right: 0;
+        font-size: 0;
+      }
     }
   }
 }
 
 .collect-container {
   position: absolute;
-  left: 280px;
+  left: 285px;
   // transform: translateX(-50%);
-  width: calc(100vw - 30px - 280px);
+  width: calc(100vw - 30px - 290px);
   
   .list-info {
     position: relative;
@@ -111,7 +125,6 @@
       overflow: hidden;
 
       .found-list {
-
         .filter {
           position: absolute;
           width: 150px;
@@ -150,6 +163,7 @@
       line-height: 24px;
       max-height: 72px;
       overflow-y: scroll;
+      margin-bottom: 40px;
     }
 
     .count {

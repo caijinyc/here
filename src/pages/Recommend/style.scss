@@ -9,22 +9,7 @@
   width: 100%;
   list-style-type: none;
 
-  // @media screen and (min-width: 900px) {
-  //   .music-list {
-  //     box-sizing: border-box;
-  //     padding: 0 calc((100% - 900px) / 2);
-  //     margin: 0;
-  //   }
-  // }
-
-  // @media screen and (max-width: 900px) {
-  //   .music-list {
-  //     padding: 0 30px;
-  //     margin: 0 auto;
-  //   }
-  // }
-
-  .music-list {
+  .recommend-list {
     box-sizing: border-box;
     padding: 0 calc((100% - 900px) / 2);
     margin: 0;

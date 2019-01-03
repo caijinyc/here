@@ -33,11 +33,24 @@ class SingerInfo extends Component {
     }
   }
 
+  componentDidUpdate() {
+    const singerInfo = this.refs.singerInfo;
+    if (singerInfo) {
+      // 如果发现内容高度不足以让用户滚动，那么就直接获取专辑内容
+      if (singerInfo.scrollHeight === singerInfo.clientHeight && !this.state.albums) {
+        getSingerAlbums(this.props.singerInfo.artist.id).then((res) => {
+          this.setState(() => ({
+            albums: res.data
+          }));
+        });
+      }
+    }
+  }
+
   handleUserScroll = () => {
     const singerInfo = this.refs.singerInfo;
-    // console.log(e, '-', this.refs.singerInfo.scrollTop, '-', this.refs.singerInfo.clientHeight, '-', this.refs.singerInfo.scrollHeight);
     const scrollAtBottom = singerInfo.scrollHeight - (singerInfo.scrollTop + singerInfo.clientHeight) < 100;
-    if (scrollAtBottom && !this.state.gotSingerAlbums) {
+    if (scrollAtBottom && !this.state.gotSingerAlbums && !this.state.albums) {
       this.setState(() => ({
         gotSingerAlbums: true
       }), () => {

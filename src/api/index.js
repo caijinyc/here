@@ -2,12 +2,13 @@ import axios from 'axios';
 import { HOST } from '../common/js/config';
 
 // 获取推荐歌单
-export function getRecommendList (before = null) {
-  if (before) {
-
+export function getRecommendList (updateTime = null) {
+  let url = '';
+  if (updateTime) {
+    url = HOST + `/top/playlist/highquality?before=${updateTime}&limit=30`;
+  } else {
+    url = HOST + '/top/playlist/highquality?limit=30';
   }
-  // const url = HOST + `/top/playlist/highquality?${before}&limit=30`;
-  const url = HOST + '/top/playlist/highquality?limit=30';
   return axios.get(url);
 }
 

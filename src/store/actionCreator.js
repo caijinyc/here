@@ -27,6 +27,7 @@ export const getChangeCurrentMusicListAction = (value) => ({
 export const getMusicListDetailAction = (id) => {
   return (dispatch) => {
     dispatch(getChangeShowLoadingAction(true));
+    dispatch(getChangeCurrentMusicListAction(null));
     getMusicListDetail(id).then(({ data }) => {
       // 将歌单传入 redux 中的 musicList
       data.playlist.tracks = formatMusicListTracks(data.playlist.tracks);
@@ -328,6 +329,29 @@ export const getAddToLikeListAction = (value) => {
         dispatch(getChangeCollectorAction(collector));
       });
     });
+  };
+};
+
+/**
+ * 收藏 / 取消收藏 歌单
+ */
+export const getToggleCollectPlaylist = (list) => {
+  return (dispatch) => {    
+    $db.find({ name: 'collector' }, (err, res) => {
+    const collector = res[0];
+    const index = findIndex(collector.collectList, list);
+    if (index < 0) {
+      collector.collectList.push(list);
+      dispatch(getChangeCollectorAction(collector));
+      $db.update({ name: 'collector' }, collector, () => {
+        message.info('收藏歌单成功');
+      });
+    } else {
+      collector.collectList.splice(index, 1);
+      dispatch(getChangeCollectorAction(collector));
+      $db.update({ name: 'collector' }, collector);
+    }
+  });
   };
 };
 

@@ -6,7 +6,8 @@ import {
   getChangeCollectorAction,
   getChangePlayListAction,
   getChangeCurrentIndex,
-  playNextMusicAction
+  playNextMusicAction,
+  getToggleCollectPlaylist
 } from '../../store/actionCreator';
 import './style.scss';
 import ShowList from '../../base/ShowList';
@@ -27,7 +28,7 @@ class Collect extends Component {
   }
 
   handleChangeCurrentList = (list, type) => {
-    console.log('list', list);
+    this.refs.pageCollect.scrollTo(0, 0);
     this.setState(() => ({
       currentList: list,
       listType: type
@@ -35,7 +36,6 @@ class Collect extends Component {
   };
 
   renderCollectList = () => {
-    console.log('his.props.collector', this.props.collector);
     const collector = this.props.collector;
     if (!collector) {
       return null;
@@ -50,6 +50,10 @@ class Collect extends Component {
         >
           <i className="iconfont icon-yinleliebiao" />
           <span>{item.name}</span>
+          <i
+            className="iconfont icon-del"
+            onClick={() => this.props.handleToggleCollectPlaylist(item)}
+          />
         </li>
       );
     });
@@ -70,7 +74,7 @@ class Collect extends Component {
             }
           >
             <i className="iconfont icon-will-love" />
-            {item.name}
+            <span>{item.name}</span>
           </li>
         );
       }
@@ -82,7 +86,7 @@ class Collect extends Component {
           }
         >
           <i className="iconfont icon-yinleliebiao" />
-          {item.name}
+          <span>{item.name}</span>
         </li>
       );
     });
@@ -130,7 +134,7 @@ class Collect extends Component {
             </If>
             <div className="count">
               <p className="track-count">
-                歌曲数 <span>{list.tracks.length + 1}</span>
+                歌曲数 <span>{list.tracks.length}</span>
               </p>
               <If condition={typeof list.playCount === 'number'}>
                 <p className="track-count">
@@ -138,7 +142,10 @@ class Collect extends Component {
                 </p>
               </If>
             </div>
-            <button className="play-btn" onClick={() => this.props.changeMusicList(list.tracks)}>
+            <button
+              className="play-btn"
+              onClick={() => this.props.changeMusicList(list.tracks)}
+            >
               <i className="iconfont icon-bofangicon" />
               <p>播放全部</p>
             </button>
@@ -164,6 +171,7 @@ class Collect extends Component {
             ? 'hide-page-collect'
             : ''
         ].join(' ')}
+        ref="pageCollect"
       >
         <div className="left-nav">
           <div className="nav-collect-found-list">
@@ -198,6 +206,9 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(getChangePlayListAction(value));
       dispatch(getChangeCurrentIndex(-1));
       dispatch(playNextMusicAction());
+    },
+    handleToggleCollectPlaylist(list) {
+      dispatch(getToggleCollectPlaylist(list));
     }
   };
 };

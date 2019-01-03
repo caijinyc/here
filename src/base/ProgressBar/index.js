@@ -27,19 +27,26 @@ class ProgressBar extends Component {
     this.setState(() => ({
       controlBarOffestLeft: offset(this.refs.controlBar, 'left')
     }));
+    window.addEventListener('resize', this.handleWindowResize);
   }
+
+  handleWindowResize = () => {
+    // 监听窗口大小变化，实时改变进度条距离游览器左边的距离
+    this.setState(() => ({
+      controlBarOffestLeft: offset(this.refs.controlBar, 'left')
+    }));
+  };
 
   progressMouseDown = () => {
     document.addEventListener('mousemove', this.progressMouseMove, false);
     document.addEventListener('mouseup', this.progressMouseUp, false);
   };
 
-  progressMouseMove = e => {
+  progressMouseMove = (e) => {
     // 获得拖动后的百分比 = 拖动的距离（鼠标距离游览器左边的距离 - 进度条距离左边的距离 = 实际的距离） / 进度条的长度
     let percent =
       (e.clientX - this.state.controlBarOffestLeft) /
       this.refs.controlBar.clientWidth;
-
     // 因为拖动时会超过进度条的范围，所以需要给一个临界值 0 和 1
     if (percent < 0) {
       percent = 0;
@@ -51,7 +58,7 @@ class ProgressBar extends Component {
     this.props.percentChange(percent);
   };
 
-  progressMouseUp = e => {
+  progressMouseUp = (e) => {
     document.removeEventListener('mousemove', this.progressMouseMove, false);
     document.removeEventListener('mouseup', this.progressMouseUp, false);
 
@@ -68,7 +75,7 @@ class ProgressBar extends Component {
     this.props.percentChangeEnd(percent);
   };
 
-  clickToChangePercent = e => {
+  clickToChangePercent = (e) => {
     let percent =
       (e.clientX - this.state.controlBarOffestLeft) /
       this.refs.controlBar.clientWidth;

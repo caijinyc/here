@@ -8,7 +8,6 @@ import {
   getMusicListDetailAction
 } from '../../store/actionCreator';
 import { getHotSearch, getSearchResult } from '../../api/search';
-import { getMusicListDetail } from '../../api/index';
 
 import ShowList from '../../base/ShowList';
 import Loading from '../../base/Loading';
@@ -42,7 +41,6 @@ class Search extends Component {
 
   componentDidMount() {
     getHotSearch().then(({ data: { result: { hots } } }) => {
-      console.log('hots', hots);
       this.setState(() => ({
         hotSearch: hots
       }));
@@ -104,7 +102,6 @@ class Search extends Component {
           result: r
         }));
         this.toggleShowLoading();
-        console.log('r', data);
       }
     ).catch(() => {
       this.toggleShowLoading();
@@ -128,7 +125,6 @@ class Search extends Component {
   handleGetPlaylist = () => {
     this.toggleShowLoading();
     getSearchResult(this.state.searchVal, SEARCH_TYPES.PLAYLIST).then(({ data }) => {
-      console.log('data', data);
         const r = JSON.parse(JSON.stringify(this.state.result));
         r.playlist = data.result.playlists;
         this.setState(() => ({
