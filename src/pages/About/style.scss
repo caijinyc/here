@@ -54,4 +54,28 @@
       }
     }
   }
+
+  .about {
+    p {
+      margin-bottom: 5px;
+    }
+
+    span {
+      color: $color-text-gray;
+      border-bottom: 1px solid;
+      cursor: pointer;
+
+      &:hover {
+        color: $color-theme;
+      }
+    }
+
+    .here {
+      margin-bottom: 15px;
+    }
+
+    .license {
+      margin-top: 20px;
+    }
+  }
 }

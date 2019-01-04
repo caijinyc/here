@@ -6,6 +6,7 @@ import $db from '../../data';
 
 import './style.scss';
 
+const shell = window.require('electron').shell;
 const fs = window.require('fs');
 const { dialog } = window.require('electron').remote;
 
@@ -16,6 +17,11 @@ class Rank extends Component {
       rankList: null
     };
   }
+
+  handleOpenExternalUrl = (url) => {
+    console.log('url', url);
+    shell.openExternal(url);
+  };
 
   handleExportCollector = () => {
     const filters = [
@@ -54,7 +60,6 @@ class Rank extends Component {
         fs.readFile(filename[0], (err, fd) => {
           if (err) {
             if (err.code === 'ENOENT') {
-              console.error('文件不存在');
               return;
             }
             throw err;
@@ -66,9 +71,9 @@ class Rank extends Component {
               return;
             } else {
               $db.update({ name: 'collector' }, collector, () => {
-              this.props.handleChangeCollector(collector);
-              message.info('!Congratulation!   导入成功   !Congratulation!');
-            });
+                this.props.handleChangeCollector(collector);
+                message.info('!Congratulation!   导入成功   !Congratulation!');
+              });
             }
           } catch {
             message.info('!!请导入正确的备份文件!!');
@@ -106,7 +111,36 @@ class Rank extends Component {
     return (
       <li className="about">
         <h1 className="title">关于 Here Music</h1>
-        <p className="description" />
+        <div className="description">
+          <p className="here">
+            Here Music :{' '}
+            <span
+              onClick={() =>
+                this.handleOpenExternalUrl('https://github.com/caijinyc/here')
+              }
+            >
+              https://github.com/caijinyc/here
+            </span>
+          </p>
+          <p>
+            因为软件暂时是个人开发维护，所以难免会有一些没有注意到的问题，请见谅。
+          </p>
+          <p>
+            如果对 Here Music 有任何建议，或者有 Bug 需要反馈的话欢迎在{' '}
+            <span
+              onClick={() =>
+                this.handleOpenExternalUrl(
+                  'https://github.com/caijinyc/here/issues'
+                )
+              }
+            >
+              Issues
+            </span>{' '}
+            中提出。
+          </p>
+          <p>如果您喜欢 Here Music 的话，欢迎 Star 和 Fork 本项目。</p>
+          <p className="license">Version 1.0.0 本软件基于 MIT 协议开源</p>
+        </div>
       </li>
     );
   }
