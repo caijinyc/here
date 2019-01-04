@@ -27,10 +27,10 @@ const defaultState = {
     musicUrl: '',
     imgUrl:
       'http://p2.music.126.net/64JozXeLm7ErtXpwGrwwEw==/109951162811190850.jpg',
-    singer: {
+    singers: [{
       id: 12195169,
       name: 'Atta Girl'
-    },
+    }],
     album: {
       id: null,
       name: 'Everyone Loves You When You Were Still A Kid'
@@ -64,7 +64,9 @@ export default (state = defaultState, action) => {
   if (action.type === types.CHANGE_CURRENT_MUSIC_LIST) {
     const newState = deepCopy(state);
     newState.musicList = action.value;
-    newState.showMusicList = true;
+    if (action.value) {
+      newState.showMusicList = true;
+    }
     return newState;
   }
   if (action.type === types.HIDE_MUSIC_LIST) {

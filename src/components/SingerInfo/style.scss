@@ -97,54 +97,6 @@
     }
   }
 
-  .songs-list {
-    ul {
-      list-style-type: none;
-    }
-
-    .song-list-title {
-      background: $color-background-opacity;
-    }
-
-    li {
-      display: flex;
-      align-items: center;
-      padding: 10px 0;
-      line-height: 18px;
-      font-size: $font-size-x;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.062);
-
-      &:first-child {
-        border: none;
-      }
-
-      span {
-        cursor: pointer;
-
-        &:hover {
-          color: $color-theme;
-        }
-      }
-
-      .index {
-        flex-basis: 40px;
-        padding-left: 5px;
-      }
-
-      .song-name {
-        flex-basis: 380px;
-        box-sizing: border-box;
-        padding-right: 20px;
-      }
-
-      .album-name {
-        flex: 1;
-        box-sizing: border-box;
-        padding-right: 20px;
-      }
-    }
-  }
-
   .albums-list {
     .albums-list-title {
       margin-top: 30px;

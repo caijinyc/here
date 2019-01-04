@@ -15,11 +15,12 @@
   "homepage": ".",
   "dependencies": {
     "antd": "^3.11.2",
-    "axios": "^0.18.0",
     "apicache": "^1.2.1",
+    "axios": "^0.18.0",
     "express": "^4.16.4",
     "lyric-parser": "^1.0.1",
     "nedb": "^1.8.0",
+    "node-sass": "^4.11.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-if": "^3.1.2",
@@ -48,6 +49,10 @@
   },
   "build": {
     "appId": "Here",
+    "files": [
+      "**/*",
+      "!./node_modules"
+    ],
     "mac": {
       "category": "music",
       "target": [

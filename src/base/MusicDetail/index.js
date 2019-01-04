@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Lyric from 'lyric-parser';
 import { If, Then, Else } from 'react-if';
-import { toggleShowMusicDetail, getSingerInfoAction } from '../../store/actionCreator';
+import { toggleShowMusicDetail, getAlbumInfoAction } from '../../store/actionCreator';
+import RenderSingrs from '../RenderSingers';
 
 import './style.scss';
 
@@ -141,11 +142,11 @@ class MusicDetail extends Component {
           <div className="music-right-container">
             <div className="music-info">
               <p className="music-name">{currentMusic.musicName}</p>
-              <p className="singer-name" onClick={() => this.props.handleGetSingerInfo(currentMusic.singer.id)}>
+              <p className="singer-name" onClick={this.props.handletoggleShowMusicDetail}>
                 歌手：
-                {currentMusic.singer.name}
+                <RenderSingrs singers={currentMusic.singers}/>
               </p>
-              <p className="album-name">专辑：{currentMusic.album.name}</p>
+              <p className="album-name" onClick={() => this.props.handleGetAlbumInfo(currentMusic.album.id)}>专辑：{currentMusic.album.name}</p>
             </div>
             <div className="lyric">
               <If condition={!this.state.noLyric}>
@@ -179,10 +180,10 @@ const mapDispatchToProps = (dispatch) => {
     handletoggleShowMusicDetail() {
       dispatch(toggleShowMusicDetail());
     },
-    handleGetSingerInfo(id) {
+    handleGetAlbumInfo(albumId) {
       this.handletoggleShowMusicDetail();
-      dispatch(getSingerInfoAction(id));
-    }
+      dispatch(getAlbumInfoAction(albumId));
+    },
   };
 };
 

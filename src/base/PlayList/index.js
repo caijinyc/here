@@ -11,9 +11,9 @@ import { If, Then, Else } from 'react-if';
 import {
   getChangeCurrentMusic,
   getDeleteMusicAction,
-  emptyPlayList,
-  getSingerInfoAction
+  emptyPlayList
 } from '../../store/actionCreator';
+import RenderSingrs from '../RenderSingers';
 
 import './style.scss';
 
@@ -51,7 +51,7 @@ class PlayList extends Component {
             </span>
           </div>
           <div className="singer-name">
-            <span onClick={() => this.props.handleGetSingerInfo(item.singer.id)}>{item.singer.name}</span>
+            <RenderSingrs singers={item.singers}/>
           </div>
           <i
             className="iconfont icon-del"
@@ -111,9 +111,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     emptyPlayList() {
       dispatch(emptyPlayList());
-    },
-    handleGetSingerInfo(id) {
-      dispatch(getSingerInfoAction(id));
     }
   };
 };

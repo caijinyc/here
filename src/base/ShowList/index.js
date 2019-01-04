@@ -10,11 +10,13 @@ import { connect } from 'react-redux';
 import { If, Then, Else } from 'react-if';
 import {
   getChangeCurrentMusic,
-  getSingerInfoAction,
   getAlbumInfoAction,
   getAddToLikeListAction
 } from '../../store/actionCreator';
 import { findIndex } from '../../common/js/utl';
+
+import RenderSingrs from '../RenderSingers';
+
 import './style.scss';
 
 class ShowList extends Component {
@@ -26,36 +28,45 @@ class ShowList extends Component {
       }
       return (
         <li key={item.id} className="list-li">
-          <div className="count">
-            {count}
-          </div>
+          <div className="count">{count}</div>
           <div className="music-name">
-            <span onClick={() => this.props.handleChangeCurrentMusic(item)}>
+            <span
+              className="highlight"
+              onClick={() => this.props.handleChangeCurrentMusic(item)}
+            >
               {item.musicName}
             </span>
           </div>
           <div className="singer-name">
-            <span
-              onClick={() => this.props.handleGetSingerInfo(item.singer.id)}
-            >
-              {item.singer.name}
-            </span>
+            <RenderSingrs singers={item.singers} />
           </div>
           <div className="album-name">
-            <span onClick={() => this.props.handleGetAlbumInfo(item.album.id)}>
+            <span
+              className="highlight"
+              onClick={() => this.props.handleGetAlbumInfo(item.album.id)}
+            >
               {item.album.name}
             </span>
           </div>
           <div className="control-btn">
             <If condition={findIndex(this.props.likesList, item) < 0}>
               <Then>
-                <span className="like-music" onClick={() => this.props.handleAddToLikeList(item)}>
-                  <i className="iconfont icon-will-love" title="添加到我喜欢的音乐"></i>
+                <span
+                  className="like-music"
+                  onClick={() => this.props.handleAddToLikeList(item)}
+                >
+                  <i
+                    className="iconfont icon-will-love"
+                    title="添加到我喜欢的音乐"
+                  />
                 </span>
               </Then>
               <Else>
-                <span className="dislike-music" onClick={() => this.props.handleAddToLikeList(item)}>
-                  <i className="iconfont icon-love" title="不喜欢这首歌啦~"></i>
+                <span
+                  className="dislike-music"
+                  onClick={() => this.props.handleAddToLikeList(item)}
+                >
+                  <i className="iconfont icon-love" title="不喜欢这首歌啦~" />
                 </span>
               </Else>
             </If>
@@ -91,9 +102,7 @@ class ShowList extends Component {
 }
 
 ShowList.defaultProps = {
-  showTitle: true,
-  showLikeBtn: true,
-  showDislikeBtn: false
+  showTitle: true
 };
 
 const mapStateToProps = (state) => {
@@ -107,9 +116,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     handleChangeCurrentMusic(item) {
       dispatch(getChangeCurrentMusic(item));
-    },
-    handleGetSingerInfo(id) {
-      dispatch(getSingerInfoAction(id));
     },
     handleGetAlbumInfo(albumId) {
       dispatch(getAlbumInfoAction(albumId));

@@ -34,7 +34,7 @@ export const getMusicListDetailAction = (id) => {
       dispatch(getChangeCurrentMusicListAction(data.playlist));
       dispatch(getChangeShowLoadingAction(false));
     }).catch(() => {
-      this.props.handleChangeShowLoadingAction(false);
+      dispatch(getChangeShowLoadingAction(false));
     });
   };
 };
@@ -100,6 +100,8 @@ export const getSingerInfoAction = (singerId) => {
       dispatch(getChangeShowLoadingAction(false));
     }).catch(() => {
       dispatch(getChangeShowLoadingAction(false));
+      message.info('暂时不能查询到此歌手');
+      dispatch(getHideSingerInfoAction());
     });
   };
 };
@@ -229,6 +231,13 @@ export const getChangeCurrentMusic = (value) => {
     dispatch(changeCurrentMusicAction(value));
     dispatch(getCurrentMusicLyric());
     getMusicUrl(value.id).then(({ data: { data } }) => {
+      if (!data[0].url) {
+        message.info('歌曲暂无版权，我帮你换首歌吧');
+        if (index !== list.length - 1) {
+          dispatch(playNextMusicAction());
+        }
+        return;
+      }
       value.musicUrl = data[0].url;
       dispatch(changeCurrentMusicAction(value));
 
@@ -365,14 +374,17 @@ function random(index, length) {
 
 function formatAlbumTracks(list) {
   return list.map((item) => {
+    const singers = item.ar.map((item) => {
+      return {
+        id: item.id,
+        name: item.name
+      };
+    });
     return {
       id: item.id,
       musicName: item.name,
       imgUrl: item.al.picUrl,
-      singer: {
-        id: item.ar[0].id,
-        name: item.ar[0].name
-      },
+      singers,
       album: {
         id: item.al.id,
         name: item.al.name
@@ -383,14 +395,17 @@ function formatAlbumTracks(list) {
 
 function formatMusicListTracks(list) {
   return list.map((item) => {
+    const singers = item.ar.map((item) => {
+      return {
+        id: item.id,
+        name: item.name
+      };
+    });
     return {
       id: item.id,
       musicName: item.name,
       imgUrl: item.al.picUrl,
-      singer: {
-        id: item.ar[0].id,
-        name: item.ar[0].name
-      },
+      singers,
       album: {
         id: item.al.id,
         name: item.al.name

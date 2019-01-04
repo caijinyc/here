@@ -137,7 +137,7 @@ class SingerInfo extends Component {
             <If condition={this.state.albums !== null}>
             <section className="albums-list">
               <h1 className="albums-list-title">专辑
-                <span>{this.state.albums ? this.state.albums.hotAlbums.length + 1 + ' ALBUMS': ''} </span>
+                <span>{this.state.albums ? this.state.albums.hotAlbums.length + ' ALBUMS': ''} </span>
               </h1>
               <ul>
                 {this.renderAlbums()}
@@ -150,6 +150,7 @@ class SingerInfo extends Component {
     );
   }
 }
+
 const mapStateToProps = (state) => {
   return {
     singerInfo: state.singerInfo,
@@ -183,14 +184,17 @@ export default connect(
 
 function formatMusic (list) {
   return list.map((item) => {
+    const singers = item.ar.map((item) => {
+      return {
+        id: item.id,
+        name: item.name
+      };
+    });
     return {
       id: item.id,
       musicName: item.name,
       imgUrl: item.al.picUrl,
-      singer: {
-        id: item.ar[0].id,
-        name: item.ar[0].name
-      },
+      singers,
       album: {
         id: item.al.id,
         name: item.al.name
