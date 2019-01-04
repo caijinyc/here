@@ -5,13 +5,14 @@
  */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+// 使用 withRouter 之后就可以使用 this.props.history.push(value)
+import { withRouter } from 'react-router-dom';
 import { If, Then, Else } from 'react-if';
 import {
   getChangePlayingStatusAction,
   playPrevMusicAction,
   playNextMusicAction,
   getChangePlayModeAction,
-  getSingerInfoAction,
   toggleShowMusicDetail,
   getAddToLikeListAction
 } from '../../store/actionCreator';
@@ -22,6 +23,7 @@ import ProgressBar from '../../base/ProgressBar';
 import PlayTime from '../../base/PlayTime';
 import PlayList from '../../base/PlayList';
 import MusicDetail from '../../base/MusicDetail';
+import RenderSingers from '../../base/RenderSingers';
 
 import './style.scss';
 
@@ -48,6 +50,57 @@ class Player extends Component {
 
   componentDidMount() {
     this.refs.audio.volume = this.state.volume;
+
+    // 快捷键
+    document.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT') {
+        return;
+      }
+      // 阻止原生事件
+      e.preventDefault();
+      if (e.key === ' ') {
+        if (this.props.playing) {
+          this.handleChangePlayingStatus(PLAYING_STATUS.paused);
+        } else {
+          this.handleChangePlayingStatus(PLAYING_STATUS.playing);
+        }
+        return;
+      }
+      if (e.key === 'ArrowUp') {
+        if (this.state.volume === 1) {
+          return;
+        } else {
+          let volume = this.state.volume + 0.05 > 1 ? 1 : this.state.volume + 0.05;
+          this.volumeChange(volume);
+        }
+        return;
+      }
+      if (e.key === 'ArrowDown') {
+        if (this.state.volume === 0) {
+          return;
+        } else {
+          let volume = this.state.volume - 0.05 < 0 ? 0 : this.state.volume - 0.05;
+          this.volumeChange(volume);
+        }
+        return;
+      }
+      if (e.key === 'ArrowRight' && e.metaKey) {
+        this.props.playNextMusic();
+        return;
+      }
+      if (e.key === 'ArrowLeft' && e.metaKey) {
+        this.props.playPrevMusic();
+        return;
+      }
+      if ((e.key === 'L' || e.key === 'l') && e.metaKey) {
+        this.props.handleAddToLikeList(this.props.currentMusic);
+        return;
+      }
+      if ((e.key === 'F' || e.key === 'f') && e.metaKey) {
+        this.props.history.push('/search');
+        return;
+      }
+    });
   }
 
   componentWillReceiveProps({ playing }) {
@@ -225,8 +278,8 @@ class Player extends Component {
             <p className="music-name" onClick={this.handleShowMusicDetial}>
               {currentMusic ? currentMusic.musicName : ''}
             </p>
-            <p className="singer-name" onClick={() => this.props.handleGetSingerInfoAction(currentMusic.singer.id) }>
-              {currentMusic ? currentMusic.singer.name : ''}
+            <p className="singer-name">
+              {currentMusic ? <RenderSingers singers={currentMusic.singers} /> : ''}
             </p>
           </div>
           <div className="progress-bar-container">
@@ -284,7 +337,7 @@ class Player extends Component {
                 }
               />
             </div>
-            <If condition={this.props.likesList && findIndex(this.props.likesList, currentMusic) < 0}>
+            <If condition={Boolean(this.props.likesList && findIndex(this.props.likesList, currentMusic) < 0)}>
               <Then>
                 <div className="like-music" onClick={() => this.props.handleAddToLikeList(currentMusic)}>
                   <i className="iconfont icon-will-love" title="添加到我喜欢的音乐"></i>
@@ -362,19 +415,19 @@ const mapDispatchToProps = (dispatch) => {
     toggleShowMusicDetail() {
       dispatch(toggleShowMusicDetail());
     },
-    handleGetSingerInfoAction(singerId) {
-      dispatch(getSingerInfoAction(singerId));
-    },
     handleAddToLikeList(value) {
       dispatch(getAddToLikeListAction(value));
     }
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Player);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Player)
+);
+
 
 /**
  * 点击歌曲播放逻辑：
