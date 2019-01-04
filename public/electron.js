@@ -22,7 +22,6 @@ ipcMain.on('show', () => {
 });
 
 function createWindow() {
-  // Menu.setApplicationMenu(null);
 
   //创建浏览器窗口,宽高自定义具体大小你开心就好
   mainWindow = new BrowserWindow({
@@ -30,14 +29,10 @@ function createWindow() {
     height: 900,
     minWidth: 980,
     minHeight: 800,
-    // frame: false
     titleBarStyle: 'hiddenInset',
     backgroundColor: '#021524'
   });
 
-  /* 
-   * 加载应用-----  electron-quick-start中默认的加载入口
-  */
   // mainWindow.loadURL(`file://${__dirname}/index.html`);
 
   // 加载应用----适用于 react 项目
@@ -45,6 +40,7 @@ function createWindow() {
 
   // 打开开发者工具，默认不打开
   // mainWindow.webContents.openDevTools();
+
   mainWindow.once('ready-to-show', () => {
     mainWindow.show();
   });
@@ -89,7 +85,6 @@ app.on('activate', (e) => {
 });
 
 app.on('before-quit', (e) => {
-  e.preventDefault();
   apiServer && apiServer.close();
   
   forceQuit = true;

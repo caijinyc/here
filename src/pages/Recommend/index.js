@@ -52,7 +52,6 @@ class Recommend extends Component {
       recommendList.scrollHeight -
         (recommendList.scrollTop + recommendList.clientHeight) ===
       0;
-    console.log('scrollAtBottom', scrollAtBottom);
     if (scrollAtBottom && !this.state.gotRecommend) {
       this.setState(() => ({
         gotRecommend: true,

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
   getHideMusicListAction,
@@ -9,12 +9,19 @@ import {
 import './style.scss';
 
 class Header extends Component {
+  isActive = (pathname) => {
+    if (this.props.location.pathname === pathname) {
+      return 'active';
+    } else {
+      return '';
+    }
+  }
+
   render() {
     return (
       <header>
         <NavLink
           exact
-          activeClassName="active"
           to="/"
           onClick={this.props.handleHideMusicListAndSingerInfo}
         >
@@ -28,35 +35,35 @@ class Header extends Component {
         <nav>
           <NavLink
             exact
-            activeClassName="active"
+          activeClassName={this.isActive('/')}
             to="/"
             onClick={this.props.handleHideMusicListAndSingerInfo}
           >
             推荐
           </NavLink>
           <NavLink
-            activeClassName="active"
+          activeClassName={this.isActive('/rank')}
             to="/rank"
             onClick={this.props.handleHideMusicListAndSingerInfo}
           >
             排行榜
           </NavLink>
           <NavLink
-            activeClassName="active"
+            activeClassName={this.isActive('/search')}
             to="/search"
             onClick={this.props.handleHideMusicListAndSingerInfo}
           >
             搜索
           </NavLink>
           <NavLink
-            activeClassName="active"
+            activeClassName={this.isActive('/collect')}
             to="/collect"
             onClick={this.props.handleHideMusicListAndSingerInfo}
           >
             收藏
           </NavLink>
           <NavLink
-            activeClassName="active"
+            activeClassName={this.isActive('/about')}
             to="/about"
             onClick={this.props.handleHideMusicListAndSingerInfo}
           >
@@ -77,7 +84,9 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(Header);
+export default withRouter(
+  connect(
+    null,
+    mapDispatchToProps
+  )(Header)
+);

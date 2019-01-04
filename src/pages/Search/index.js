@@ -332,6 +332,7 @@ class Search extends Component {
           <div className="search-input-container">
             <i className="iconfont icon-search" />
             <input
+              autoFocus={true}
               value={this.state.searchVal}
               placeholder="搜点什么想听的吧.."
               onChange={(e) => {
@@ -424,14 +425,17 @@ export default connect(
 
 function formatTracks(list) {
   return list.map((item) => {
+    const singers = item.artists.map((item) => {
+      return {
+        id: item.id,
+        name: item.name
+      };
+    });
     return {
       id: item.id,
       musicName: item.name,
       imgUrl: null,
-      singer: {
-        id: item.artists[0].id,
-        name: item.artists[0].name
-      },
+      singers,
       album: {
         id: item.album.id,
         name: item.album.name

@@ -22,9 +22,9 @@
 
   li {
     display: inline-block;
-    margin: 0 calc((100% / 5 - 150px) / 2);
-    width: 150px;
-    margin-bottom: 20px;
+    margin: 0 calc((100% / 5 - 130px) / 2);
+    width: 130px;
+    margin-bottom: 30px;
     font-size: $font-size-l;
     cursor: pointer;
 
@@ -37,7 +37,7 @@
     p {
       float: left;
       margin-bottom: 5px;
-      width: 150px;
+      width: 130px;
       color: $color-text-gray;
     }
 
@@ -45,19 +45,20 @@
       font-size: $font-size-xl;
       color: $color-text;
       transition: all 0.3s;
+      line-height: 20px;
     }
 
     .img-container {
-      width: 150px;
-      height: 150px;
+      width: 130px;
+      height: 130px;
       overflow: hidden;
       margin-bottom: 10px;
-      border-radius: 10px;
+      border-radius: 5px;
 
       img {
-        width: 150px;
-        min-height: 150px;
-        border-radius: 10px;
+        width: 130px;
+        min-height: 130px;
+        border-radius: 5px;
       }
     }
   }

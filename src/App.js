@@ -22,7 +22,15 @@ import MyTitle from './renderer/components/MyTitle';
 import './App.scss';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      redirect: true
+    };
+  }
+
   componentWillMount() {
+    // 初始化收藏夹
     $db.find({ name: 'collector' }, (err, res) => {
       if (res.length === 0) {
         $db.insert(
@@ -46,6 +54,12 @@ class App extends Component {
     });
   }
 
+  componentDidMount() {
+    this.setState(() => ({
+      redirect: false
+    }));
+  }
+
   render() {
     return (
       <Router>
@@ -61,7 +75,7 @@ class App extends Component {
           <Route path="/collect" component={Collect} />
           <Route path="/rank" component={Rank} />
           <Route path="/about" component={About} />
-          <Redirect from="*" to="/" />
+          { this.state.redirect ? <Redirect to="/" /> : null}
           <MyTitle />
           {this.props.showLoading ? (
             <div className="app-loading-container">
