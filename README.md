@@ -33,7 +33,6 @@
 ## 预览
 
 <p align="center">
-
 <img src="./docs/img/推荐列表.png" width="700">
 <img src="./docs/img/搜索.png" width="700">
 <img src="./docs/img/歌手详情.png" width="700">
@@ -85,6 +84,56 @@ Description            | Keys
 ### 参与讨论
 1. [Telegram 讨论群](https://t.me/herechat)
 
+### 开发项目
+
+#### 运行
+
+1. 将项目 clone 下来
+
+```shell
+$ git clone https://github.com/caijinyc/Here.git
+$ cd Here
+
+// 下载子模块
+$ git submodule update --init --recursive
+```
+
+2. 运行项目
+
+```shell
+// 运行 React
+$ yarn start
+
+// 运行 Electron
+$ yarn electron-start
+```
+
+#### 打包
+
+1. 先使用 build 打包 react 得到 build 文件夹
+
+```shell
+$ yarn build
+```
+
+2. 在 build 文件夹中修改 electron.js 文件
+
+```js
+// 使用这一段代码
+mainWindow.loadURL(`file://${__dirname}/index.html`);
+
+// 注释掉这一行代码，这个是开发时候用的
+// mainWindow.loadURL('http://localhost:3000/');
+```
+
+3. 打包成应用
+
+```shell
+$ yarn dist
+```
+
 ## Author
+
 **Here Music** © CaiJin, Released under the [MIT](https://github.com/caijinyc/Here/blob/master/LICENSE) License.
+
 > [Blog](https://caijin.tech/blog) · GitHub [@caijinyc](https://github.com/caijinyc) · Telegram Channel [@KSIG](https://t.me/joinchat/Fcnvjg4kvVjE4WSKvRXPXg)
