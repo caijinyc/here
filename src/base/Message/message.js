@@ -19,6 +19,6 @@ export default class Message extends Component {
 }
 
 Message.defaultProps = {
-  duration: 1000
+  duration: 1500
 };
 

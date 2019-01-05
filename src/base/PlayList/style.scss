@@ -40,7 +40,6 @@
 
   ul {
     margin-top: 23px;
-    // height: 377px;
     height: calc(100vh - 90px - 33px);
     overflow-y: scroll;
     overflow-x: hidden;
@@ -89,9 +88,14 @@
     
     i {
       position: absolute;
+      top: 16px;
       right: 22px;
       color: $color-text-gray;
       cursor: pointer;
+
+      &:hover {
+        color: $color-theme;
+      }
     }
   }
 

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { If, Then, Else } from 'react-if';
 import { formatPlayCount } from '../../common/js/utl';
 import {
-  getChangeCollectorAction,
   getChangePlayListAction,
   getChangeCurrentIndex,
   playNextMusicAction,
@@ -11,6 +10,7 @@ import {
 } from '../../store/actionCreator';
 import './style.scss';
 import ShowList from '../../base/ShowList';
+import Dialog from '../../base/Dialog';
 
 const COLLECT = 0,
   FOUND = 1;
@@ -23,7 +23,9 @@ class Collect extends Component {
         ? this.props.collector.foundList[0]
         : null,
       listType: FOUND,
-      activeList: 0
+      activeList: 0,
+      showDialog: false,
+      willDelList: null
     };
   }
 
@@ -35,6 +37,22 @@ class Collect extends Component {
     }));
   };
 
+  handleDelCollectPlaylist = (list) => {
+    this.setState(() => ({
+      showDialog: true,
+      willDelList: list
+    }));
+  };
+
+  handleClickDialog = (bol) => {
+    if (bol) {
+      this.props.handleToggleCollectPlaylist(this.state.willDelList);
+    }
+    this.setState(() => ({
+      showDialog: false
+    }));
+  };
+
   renderCollectList = () => {
     const collector = this.props.collector;
     if (!collector) {
@@ -42,17 +60,21 @@ class Collect extends Component {
     }
     return collector.collectList.map((item, index) => {
       return (
-        <li
-          key={item.id}
-          onClick={() =>
-            this.handleChangeCurrentList(collector.collectList[index], COLLECT)
-          }
-        >
+        <li key={item.id}>
           <i className="iconfont icon-yinleliebiao" />
-          <span>{item.name}</span>
+          <span
+            onClick={() =>
+              this.handleChangeCurrentList(
+                collector.collectList[index],
+                COLLECT
+              )
+            }
+          >
+            {item.name}
+          </span>
           <i
             className="iconfont icon-del"
-            onClick={() => this.props.handleToggleCollectPlaylist(item)}
+            onClick={() => this.handleDelCollectPlaylist(item)}
           />
         </li>
       );
@@ -184,6 +206,12 @@ class Collect extends Component {
           </div>
         </div>
         <div className="collect-container">{this.renderCurrentList()}</div>
+        <If condition={this.state.showDialog}>
+          <Dialog
+            text="确定要删除此歌单吗？"
+            handleClickBtn={this.handleClickDialog}
+          />
+        </If>
       </div>
     );
   }
@@ -199,9 +227,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handlehangeCollector(value) {
-      dispatch(getChangeCollectorAction(value));
-    },
     changeMusicList(value) {
       dispatch(getChangePlayListAction(value));
       dispatch(getChangeCurrentIndex(-1));

@@ -18,6 +18,34 @@ import ShowList from '../../base/ShowList';
 import './style.scss';
 
 class MusicList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      scrollToTop: false
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.musicList) {
+      return;
+    }
+    // 当 musicList 发生改变的时候，滚动条置于最上层
+    if (nextProps.musicList.id !== this.props.musicList.id) {
+      this.setState(() => ({
+        scrollToTop: true
+      }));
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.state.scrollToTop) {
+      this.refs.musicList.scrollTo(0, 0);
+      this.setState(() => ({
+        scrollToTop: false
+      }));
+    }
+  }
+
   handleCollectList = () => {
     const musicList = this.props.musicList;
 
@@ -106,6 +134,7 @@ class MusicList extends Component {
             ? 'music-list-container'
             : 'hide-music-list-container'
         }
+        ref="musicList"
       >
         {this.renderListInfo()}
         <ShowList
