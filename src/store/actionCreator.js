@@ -27,7 +27,6 @@ export const getChangeCurrentMusicListAction = (value) => ({
 export const getMusicListDetailAction = (id) => {
   return (dispatch) => {
     dispatch(getChangeShowLoadingAction(true));
-    dispatch(getChangeCurrentMusicListAction(null));
     getMusicListDetail(id).then(({ data }) => {
       // 将歌单传入 redux 中的 musicList
       data.playlist.tracks = formatMusicListTracks(data.playlist.tracks);
@@ -38,7 +37,6 @@ export const getMusicListDetailAction = (id) => {
     });
   };
 };
-
 
 /**
  * 控制 Loading 的显示
@@ -61,6 +59,13 @@ export const getHideMusicListAction = () => ({
  */
 export const getHideSingerInfoAction = () => ({
   type: types.HIDE_SINGER_INFO
+});
+
+/**
+ * 隐藏 *歌手详情* *歌曲列表* *歌曲详情*
+ */
+export const getHideAllAction = () => ({
+  type: types.HIDE_ALL
 });
 
 /**

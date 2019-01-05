@@ -26,3 +26,5 @@ export const REFRESH_COLLECTOR = 'REFRESH_COLLECTOR';
 
 export const CHANGE_SHOW_LOADING = 'CHANGE_SHOW_LOADING';
 
+export const HIDE_ALL = 'HIDE_ALL';
+

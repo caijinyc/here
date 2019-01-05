@@ -136,6 +136,13 @@ export default (state = defaultState, action) => {
     newState.showLoading = action.value;
     return newState;
   }
+  if (action.type === types.HIDE_ALL) {
+    const newState = deepCopy(state);
+    newState.showMusicList = false;
+    newState.showSingerInfo = false;
+    newState.showMusicDetail = false;
+    return newState;
+  }
   return state;
 };
 

@@ -14,7 +14,8 @@ import {
   playNextMusicAction,
   getChangePlayModeAction,
   toggleShowMusicDetail,
-  getAddToLikeListAction
+  getAddToLikeListAction,
+  getHideAllAction
 } from '../../store/actionCreator';
 import { PLAY_MODE_TYPES } from '../../common/js/config';
 import { findIndex } from '../../common/js/utl';
@@ -57,8 +58,8 @@ class Player extends Component {
         return;
       }
       // 阻止原生事件
-      e.preventDefault();
       if (e.key === ' ') {
+        e.preventDefault();
         if (this.props.playing) {
           this.handleChangePlayingStatus(PLAYING_STATUS.paused);
         } else {
@@ -67,6 +68,7 @@ class Player extends Component {
         return;
       }
       if (e.key === 'ArrowUp') {
+        e.preventDefault();
         if (this.state.volume === 1) {
           return;
         } else {
@@ -76,6 +78,7 @@ class Player extends Component {
         return;
       }
       if (e.key === 'ArrowDown') {
+        e.preventDefault();
         if (this.state.volume === 0) {
           return;
         } else {
@@ -85,10 +88,12 @@ class Player extends Component {
         return;
       }
       if (e.key === 'ArrowRight' && e.metaKey) {
+        e.preventDefault();
         this.props.playNextMusic();
         return;
       }
       if (e.key === 'ArrowLeft' && e.metaKey) {
+        e.preventDefault();
         this.props.playPrevMusic();
         return;
       }
@@ -97,6 +102,7 @@ class Player extends Component {
         return;
       }
       if ((e.key === 'F' || e.key === 'f') && e.metaKey) {
+        this.props.handleHideAll();
         this.props.history.push('/search');
         return;
       }
@@ -417,6 +423,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     handleAddToLikeList(value) {
       dispatch(getAddToLikeListAction(value));
+    },
+    /**
+     * 隐藏 *歌手详情* *歌曲列表* *歌曲详情*
+     */
+    handleHideAll() {
+      dispatch(getHideAllAction());
     }
   };
 };
