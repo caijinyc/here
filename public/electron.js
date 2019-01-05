@@ -133,13 +133,11 @@ function createWindow() {
     backgroundColor: '#021524'
   });
 
+  // 打包应用的时候使用
   // mainWindow.loadURL(`file://${__dirname}/index.html`);
 
   // 加载应用----适用于 react 项目
   mainWindow.loadURL('http://localhost:3000/');
-
-  // 打开开发者工具，默认不打开
-  // mainWindow.webContents.openDevTools();
 
   mainWindow.once('ready-to-show', () => {
     mainWindow.show();
@@ -149,7 +147,6 @@ function createWindow() {
 
   // 关闭window时触发下列事件.
   mainWindow.on('close', function(e) {
-    console.log('closesss');
     if (forceQuit) {
       app.quit();
     } else {
