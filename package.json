@@ -34,8 +34,10 @@
     "request": "^2.85.0"
   },
   "devDependencies": {
+    "concurrently": "^4.1.0",
     "electron": "^3.0.13",
-    "electron-builder": "^20.38.4"
+    "electron-builder": "^20.38.4",
+    "wait-on": "^3.2.0"
   },
   "main": "./public/electron.js",
   "scripts": {
@@ -44,6 +46,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "electron-start": "electron .",
+    "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
     "pack": "electron-builder --dir",
     "dist": "electron-builder"
   },

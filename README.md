@@ -101,11 +101,8 @@ $ git submodule update --init --recursive
 2. 运行项目
 
 ```shell
-// 运行 React
-$ yarn start
-
 // 运行 Electron
-$ yarn electron-start
+$ yarn electron-dev
 ```
 
 #### 打包
