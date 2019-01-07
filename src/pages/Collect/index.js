@@ -16,7 +16,7 @@ const COLLECT = 0,
   FOUND = 1;
 
 class Collect extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {
       currentList: this.props.collector
@@ -184,7 +184,7 @@ class Collect extends Component {
     );
   };
 
-  render() {
+  render () {
     return (
       <div
         className={[
@@ -227,12 +227,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    changeMusicList(value) {
+    changeMusicList (value) {
       dispatch(getChangePlayListAction(value));
       dispatch(getChangeCurrentIndex(-1));
       dispatch(playNextMusicAction());
     },
-    handleToggleCollectPlaylist(list) {
+    handleToggleCollectPlaylist (list) {
       dispatch(getToggleCollectPlaylist(list));
     }
   };

@@ -76,7 +76,7 @@ class ShowList extends Component {
     });
   };
 
-  render() {
+  render () {
     return (
       <div className="show-list-container">
         <ul>
@@ -114,13 +114,13 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleChangeCurrentMusic(item) {
+    handleChangeCurrentMusic (item) {
       dispatch(getChangeCurrentMusic(item));
     },
-    handleGetAlbumInfo(albumId) {
+    handleGetAlbumInfo (albumId) {
       dispatch(getAlbumInfoAction(albumId));
     },
-    handleAddToLikeList(value) {
+    handleAddToLikeList (value) {
       dispatch(getAddToLikeListAction(value));
     }
   };

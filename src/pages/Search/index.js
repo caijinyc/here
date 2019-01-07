@@ -23,7 +23,7 @@ const SEARCH_TYPES = {
 const KEYBOARY_ENTER_CODE = 13;
 
 class Search extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {
       hotSearch: null,
@@ -39,7 +39,7 @@ class Search extends Component {
     };
   }
 
-  componentDidMount() {
+  componentDidMount () {
     getHotSearch().then(({ data: { result: { hots } } }) => {
       this.setState(() => ({
         hotSearch: hots
@@ -111,12 +111,12 @@ class Search extends Component {
   handleGetSingers = () => {
     this.toggleShowLoading();
     getSearchResult(this.state.searchVal, SEARCH_TYPES.SINGERS).then(({ data }) => {
-        const r = JSON.parse(JSON.stringify(this.state.result));
-        r.singers = data.result.artists;
-        this.setState(() => ({
-          result: r
-        }));
-        this.toggleShowLoading();
+      const r = JSON.parse(JSON.stringify(this.state.result));
+      r.singers = data.result.artists;
+      this.setState(() => ({
+        result: r
+      }));
+      this.toggleShowLoading();
     }).catch(() => {
       this.toggleShowLoading();
     });
@@ -125,12 +125,12 @@ class Search extends Component {
   handleGetPlaylist = () => {
     this.toggleShowLoading();
     getSearchResult(this.state.searchVal, SEARCH_TYPES.PLAYLIST).then(({ data }) => {
-        const r = JSON.parse(JSON.stringify(this.state.result));
-        r.playlist = data.result.playlists;
-        this.setState(() => ({
-          result: r
-        }));
-        this.toggleShowLoading();
+      const r = JSON.parse(JSON.stringify(this.state.result));
+      r.playlist = data.result.playlists;
+      this.setState(() => ({
+        result: r
+      }));
+      this.toggleShowLoading();
     }).catch(() => {
       this.toggleShowLoading();
     });
@@ -142,7 +142,7 @@ class Search extends Component {
     }
   };
 
-  handleGetType() {
+  handleGetType () {
     this.setState(
       () => ({
         result: {
@@ -154,20 +154,20 @@ class Search extends Component {
       }),
       () => {
         switch (this.state.searchType) {
-          case 'songs':
-            this.handleGetSongs();
-            break;
-          case 'albums':
-            this.handleGetAlbums();
-            break;
-          case 'singers':
-            this.handleGetSingers();
-            break;
-          case 'playlist':
-            this.handleGetPlaylist();
-            break;
-          default:
-            break;
+        case 'songs':
+          this.handleGetSongs();
+          break;
+        case 'albums':
+          this.handleGetAlbums();
+          break;
+        case 'singers':
+          this.handleGetSingers();
+          break;
+        case 'playlist':
+          this.handleGetPlaylist();
+          break;
+        default:
+          break;
         }
       }
     );
@@ -215,16 +215,16 @@ class Search extends Component {
 
   renderResult = () => {
     switch (this.state.searchType) {
-      case 'songs':
-        return this.renderResultSongs();
-      case 'albums':
-        return this.renderResultAlbums();
-      case 'singers':
-        return this.renderResultSingers();
-      case 'playlist':
-        return this.renderResultPlayList();
-      default:
-        break;
+    case 'songs':
+      return this.renderResultSongs();
+    case 'albums':
+      return this.renderResultAlbums();
+    case 'singers':
+      return this.renderResultSingers();
+    case 'playlist':
+      return this.renderResultPlayList();
+    default:
+      break;
     }
   };
 
@@ -317,7 +317,7 @@ class Search extends Component {
     }
   }
 
-  render() {
+  render () {
     const { searchType } = this.state;
     return (
       <div
@@ -406,13 +406,13 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleGetSingerInfo(id) {
+    handleGetSingerInfo (id) {
       dispatch(getSingerInfoAction(id));
     },
-    handleGetAlbumInfo(albumId) {
+    handleGetAlbumInfo (albumId) {
       dispatch(getAlbumInfoAction(albumId));
     },
-    handleGetMusicListDetail(id) {
+    handleGetMusicListDetail (id) {
       dispatch(getMusicListDetailAction(id));
     }
   };
@@ -423,7 +423,7 @@ export default connect(
   mapDispatchToProps
 )(Search);
 
-function formatTracks(list) {
+function formatTracks (list) {
   return list.map((item) => {
     const singers = item.artists.map((item) => {
       return {

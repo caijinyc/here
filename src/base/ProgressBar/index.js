@@ -12,7 +12,7 @@ import React, { Component } from 'react';
 import './style.scss';
 
 class ProgressBar extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {
       mouseDown: false,
@@ -23,7 +23,7 @@ class ProgressBar extends Component {
     };
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.setState(() => ({
       controlBarOffestLeft: offset(this.refs.controlBar, 'left')
     }));
@@ -88,7 +88,7 @@ class ProgressBar extends Component {
     this.props.percentChangeEnd(percent);
   };
 
-  render() {
+  render () {
     return (
       <div className="progress-bar" onClick={this.clickToChangePercent}>
         <div className="add-click-scope">
@@ -116,13 +116,13 @@ export default ProgressBar;
  * @param {DOM} obj
  * @param {*} direction
  */
-function offset(obj, direction) {
-  //将top,left首字母大写,并拼接成 offsetTop,offsetLeft
+function offset (obj, direction) {
+  // 将top,left首字母大写,并拼接成 offsetTop,offsetLeft
   const offsetDir =
     'offset' + direction[0].toUpperCase() + direction.substring(1);
 
   let realNum = obj[offsetDir];
-  let positionParent = obj.offsetParent; //获取上一级定位元素对象
+  let positionParent = obj.offsetParent; // 获取上一级定位元素对象
 
   while (positionParent != null) {
     realNum += positionParent[offsetDir];

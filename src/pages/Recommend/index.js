@@ -14,7 +14,7 @@ import message from '../../base/Message';
 import './style.scss';
 
 class Recommend extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {
       recommendList: [],
@@ -23,7 +23,7 @@ class Recommend extends Component {
     };
   }
 
-  componentWillMount() {
+  componentWillMount () {
     // 获取推荐歌单
     this.handleGetRecommendList();
   }
@@ -57,7 +57,7 @@ class Recommend extends Component {
         gotRecommend: true,
         showLoding: true
       }), () => {
-        let index = this.state.recommendList.length - 1;
+        const index = this.state.recommendList.length - 1;
         this.handleGetRecommendList(this.state.recommendList[index].updateTime);
       });
     }
@@ -86,7 +86,7 @@ class Recommend extends Component {
     });
   };
 
-  render() {
+  render () {
     return (
       <div
         className={[
@@ -118,14 +118,14 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleChangeCurrentMusicList(list) {
+    handleChangeCurrentMusicList (list) {
       const action = getChangeCurrentMusicListAction(list);
       dispatch(action);
     },
-    handleChangeShowLoadingAction(value) {
+    handleChangeShowLoadingAction (value) {
       dispatch(getChangeShowLoadingAction(value));
     },
-    handleGetMusicListDetail(id) {
+    handleGetMusicListDetail (id) {
       dispatch(getMusicListDetailAction(id));
     }
   };

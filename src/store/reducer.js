@@ -146,14 +146,14 @@ export default (state = defaultState, action) => {
   return state;
 };
 
-function deepCopy(val) {
+function deepCopy (val) {
   return JSON.parse(JSON.stringify(val));
 }
 
 function getNewCollector () {
   let newCollector = null;
-  $db.find({ name: 'collector' }, function(err, res) {
-      newCollector = res[0];
+  $db.find({ name: 'collector' }, function (err, res) {
+    newCollector = res[0];
   });
   return newCollector;
 }

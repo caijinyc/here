@@ -13,19 +13,19 @@ export const formatDate = (
   let d = '0' + t.getDate();
   d = d.substring(d.length - 2, d.length);
 
-  let res = [];
-  if (opt.y) res.push(y);
-  if (opt.m) res.push(m);
-  if (opt.d) res.push(d);
-  
+  const res = [];
+  if (opt.y) { res.push(y); }
+  if (opt.m) { res.push(m); }
+  if (opt.d) { res.push(d); }
+
   return res.join('-');
 };
 
 // 截流函数
-export function debounce(func, delay) {
+export function debounce (func, delay) {
   let timer;
 
-  return function(...args) {
+  return function (...args) {
     if (timer) {
       clearTimeout(timer);
     }
@@ -35,13 +35,13 @@ export function debounce(func, delay) {
   };
 }
 
-export function findIndex(allList, list) {
+export function findIndex (allList, list) {
   return allList.findIndex((item) => {
     return item.id === list.id;
   });
 }
 
-export function formatPlayCount(count) {
+export function formatPlayCount (count) {
   if (!count) {
     return 0;
   }

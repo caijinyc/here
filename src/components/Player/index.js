@@ -36,7 +36,7 @@ const PLAYING_STATUS = {
 const DEFAULT_VOLUME = 0.35;
 
 class Player extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.playListRef = React.createRef();
     this.state = {
@@ -49,7 +49,7 @@ class Player extends Component {
     };
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.refs.audio.volume = this.state.volume;
 
     // 快捷键
@@ -72,7 +72,7 @@ class Player extends Component {
         if (this.state.volume === 1) {
           return;
         } else {
-          let volume = this.state.volume + 0.05 > 1 ? 1 : this.state.volume + 0.05;
+          const volume = this.state.volume + 0.05 > 1 ? 1 : this.state.volume + 0.05;
           this.volumeChange(volume);
         }
         return;
@@ -82,7 +82,7 @@ class Player extends Component {
         if (this.state.volume === 0) {
           return;
         } else {
-          let volume = this.state.volume - 0.05 < 0 ? 0 : this.state.volume - 0.05;
+          const volume = this.state.volume - 0.05 < 0 ? 0 : this.state.volume - 0.05;
           this.volumeChange(volume);
         }
         return;
@@ -109,7 +109,7 @@ class Player extends Component {
     });
   }
 
-  componentWillReceiveProps({ playing }) {
+  componentWillReceiveProps ({ playing }) {
     if (!playing) {
       this.refs.audio.pause();
     }
@@ -175,7 +175,7 @@ class Player extends Component {
     });
   };
 
-  handleChangePlayingStatus(status) {
+  handleChangePlayingStatus (status) {
     if (this.props.playList.length === 0) {
       return;
     }
@@ -268,7 +268,7 @@ class Player extends Component {
     );
   };
 
-  render() {
+  render () {
     const { currentMusic } = this.props;
 
     return (
@@ -367,10 +367,10 @@ class Player extends Component {
         </div>
         <If condition={this.props.showMusicDetail}>
           <div>
-          <div className="music-detail-background">
-            <img src={currentMusic ? currentMusic.imgUrl : ''} alt="" />
-          </div>
-          <div className="player-background"></div>
+            <div className="music-detail-background">
+              <img src={currentMusic ? currentMusic.imgUrl : ''} alt="" />
+            </div>
+            <div className="player-background"></div>
           </div>
         </If>
         <MusicDetail ref="musicDetail" />
@@ -406,28 +406,28 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    changePlayingStatus(status) {
+    changePlayingStatus (status) {
       dispatch(getChangePlayingStatusAction(status));
     },
-    changePlayMode(value) {
+    changePlayMode (value) {
       dispatch(getChangePlayModeAction(value));
     },
-    playPrevMusic() {
+    playPrevMusic () {
       dispatch(playPrevMusicAction());
     },
-    playNextMusic() {
+    playNextMusic () {
       dispatch(playNextMusicAction());
     },
-    toggleShowMusicDetail() {
+    toggleShowMusicDetail () {
       dispatch(toggleShowMusicDetail());
     },
-    handleAddToLikeList(value) {
+    handleAddToLikeList (value) {
       dispatch(getAddToLikeListAction(value));
     },
     /**
      * 隐藏 *歌手详情* *歌曲列表* *歌曲详情*
      */
-    handleHideAll() {
+    handleHideAll () {
       dispatch(getHideAllAction());
     }
   };

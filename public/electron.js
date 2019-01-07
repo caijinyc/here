@@ -7,7 +7,7 @@ let forceQuit = false;
 let apiServer;
 let mainWindow;
 
-let template = [
+const template = [
   {
     label: '编辑',
     submenu: [
@@ -39,11 +39,11 @@ let template = [
       {
         label: '重载',
         accelerator: 'CmdOrCtrl+R',
-        click: function(item, focusedWindow) {
+        click: function (item, focusedWindow) {
           if (focusedWindow) {
             // 重载之后, 刷新并关闭所有的次要窗体
             if (focusedWindow.id === 1) {
-              BrowserWindow.getAllWindows().forEach(function(win) {
+              BrowserWindow.getAllWindows().forEach(function (win) {
                 if (win.id > 1) {
                   win.close();
                 }
@@ -55,14 +55,14 @@ let template = [
       },
       {
         label: '切换全屏',
-        accelerator: (function() {
+        accelerator: (function () {
           if (process.platform === 'darwin') {
             return 'Ctrl+Command+F';
           } else {
             return 'F11';
           }
         })(),
-        click: function(item, focusedWindow) {
+        click: function (item, focusedWindow) {
           if (focusedWindow) {
             focusedWindow.setFullScreen(!focusedWindow.isFullScreen());
           }
@@ -70,14 +70,14 @@ let template = [
       },
       {
         label: '切换开发者工具',
-        accelerator: (function() {
+        accelerator: (function () {
           if (process.platform === 'darwin') {
             return 'Alt+Command+I';
           } else {
             return 'Ctrl+Shift+I';
           }
         })(),
-        click: function(item, focusedWindow) {
+        click: function (item, focusedWindow) {
           if (focusedWindow) {
             focusedWindow.toggleDevTools();
           }
@@ -122,8 +122,8 @@ ipcMain.on('show', () => {
   mainWindow.focus();
 });
 
-function createWindow() {
-  //创建浏览器窗口,宽高自定义具体大小你开心就好
+function createWindow () {
+  // 创建浏览器窗口,宽高自定义具体大小你开心就好
   mainWindow = new BrowserWindow({
     width: 980,
     height: 900,
@@ -146,7 +146,7 @@ function createWindow() {
   mainWindow.setDocumentEdited(true);
 
   // 关闭window时触发下列事件.
-  mainWindow.on('close', function(e) {
+  mainWindow.on('close', function (e) {
     if (forceQuit) {
       app.quit();
     } else {
@@ -173,7 +173,7 @@ app.on('ready', () => {
   });
 });
 
-app.on('window-all-closed', function() {
+app.on('window-all-closed', function () {
   // macOS中除非用户按下 `Cmd + Q` 显式退出,否则应用与菜单栏始终处于活动状态.
   if (process.platform !== 'darwin') {
     app.quit();

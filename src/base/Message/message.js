@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './style.scss';
 
 export default class Message extends Component {
-  componentDidMount() {
+  componentDidMount () {
     const { duration } = this.props;
     setTimeout(() => {
       this.props.removeMessage();

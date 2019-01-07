@@ -10,7 +10,7 @@ class MyTitle extends Component {
     return (
       <div className="my-title">
         <div className="title-btn-container">
-         {/* <TitleBtn type="close" />
+          {/* <TitleBtn type="close" />
          <TitleBtn type="min" />
          <TitleBtn type="max" /> */}
         </div>

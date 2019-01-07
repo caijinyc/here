@@ -28,7 +28,7 @@ class RenderSingers extends Component {
     });
   };
 
-  render() {
+  render () {
     return (
       <Fragment>
         {Array.isArray(this.props.singers) ? this.renderSingers() : ''}
@@ -39,7 +39,7 @@ class RenderSingers extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleGetSingerInfo(id) {
+    handleGetSingerInfo (id) {
       dispatch(getSingerInfoAction(id));
     }
   };

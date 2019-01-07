@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDom from 'react-dom';
 import Container from './container';
 
-let div = document.createElement('div');
+const div = document.createElement('div');
 document.body.appendChild(div);
 div.setAttribute('class', 'message-container');
 

@@ -23,7 +23,7 @@ class TitleBtn extends Component {
     ipc.send(this.props.type);
   }
 
-  render() {
+  render () {
     return <div className="title-btn" style={STYLE[this.props.type]} onClick={this.handleBtnClick}></div>;
   }
 }

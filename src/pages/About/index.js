@@ -11,7 +11,7 @@ const fs = window.require('fs');
 const { dialog } = window.require('electron').remote;
 
 class Rank extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {
       rankList: null
@@ -19,7 +19,6 @@ class Rank extends Component {
   }
 
   handleOpenExternalUrl = (url) => {
-    console.log('url', url);
     shell.openExternal(url);
   };
 
@@ -43,7 +42,7 @@ class Rank extends Component {
         // http://nodejs.cn/api/fs.html#fs_fs_writefile_file_data_options_callback
         fs.writeFile(filename, JSON.stringify(this.props.collector), (err) => {
           message.info('!Congratulation!   备份成功   !Congratulation!');
-          if (err) throw err;
+          if (err) { throw err; }
         });
       }
     );
@@ -56,7 +55,7 @@ class Rank extends Component {
         properties: ['openFile']
       },
       (filename) => {
-        if (!filename || filename.length === 0) return;
+        if (!filename || filename.length === 0) { return; }
         fs.readFile(filename[0], (err, fd) => {
           if (err) {
             if (err.code === 'ENOENT') {
@@ -83,7 +82,7 @@ class Rank extends Component {
     );
   };
 
-  renderExportCollector() {
+  renderExportCollector () {
     return (
       <li className="export-collector">
         <h1 className="title">导出我的收藏</h1>
@@ -95,7 +94,7 @@ class Rank extends Component {
     );
   }
 
-  renderImportCollector() {
+  renderImportCollector () {
     return (
       <li className="import-collector">
         <h1 className="title">导入我的收藏夹</h1>
@@ -107,7 +106,7 @@ class Rank extends Component {
     );
   }
 
-  renderAbout() {
+  renderAbout () {
     return (
       <li className="about">
         <h1 className="title">关于 Here Music</h1>
@@ -145,7 +144,7 @@ class Rank extends Component {
     );
   }
 
-  render() {
+  render () {
     return (
       <div className="page-about">
         <ul className="page-about-container">
@@ -168,7 +167,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleChangeCollector(value) {
+    handleChangeCollector (value) {
       dispatch(getChangeCollectorAction(value));
     }
   };

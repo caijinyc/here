@@ -16,7 +16,7 @@ import ShowList from '../../base/ShowList';
 import './style.scss';
 
 class SingerInfo extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {
       gotSingerAlbums: false,
@@ -24,7 +24,7 @@ class SingerInfo extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps (nextProps) {
     if (!nextProps.singerInfo) {
       this.setState(() => ({
         gotSingerAlbums: false,
@@ -33,7 +33,7 @@ class SingerInfo extends Component {
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate () {
     const singerInfo = this.refs.singerInfo;
     if (singerInfo) {
       // 如果发现内容高度不足以让用户滚动，那么就直接获取专辑内容
@@ -68,21 +68,21 @@ class SingerInfo extends Component {
     if (!albums) {
       return null;
     }
-    
+
     return albums.hotAlbums.map((item) => {
       return (
-      <li key={item.id}>
-        <div className="album-img-container" onClick={() => this.props.handleGetAlbumInfo(item.id)}>
-          <img src={item.picUrl} alt="专辑图像"/>
-        </div>
-        <p className="time">{formatDate(item.publishTime)}</p>
-        <p className="name">{item.name}</p>
-      </li>
+        <li key={item.id}>
+          <div className="album-img-container" onClick={() => this.props.handleGetAlbumInfo(item.id)}>
+            <img src={item.picUrl} alt="专辑图像"/>
+          </div>
+          <p className="time">{formatDate(item.publishTime)}</p>
+          <p className="name">{item.name}</p>
+        </li>
       );
     });
   }
 
-  render() {
+  render () {
     if (this.props.singerInfo === null) {
       return null;
     }
@@ -135,14 +135,14 @@ class SingerInfo extends Component {
               <ShowList list={tracks}/>
             </section>
             <If condition={this.state.albums !== null}>
-            <section className="albums-list">
-              <h1 className="albums-list-title">专辑
-                <span>{this.state.albums ? this.state.albums.hotAlbums.length + ' ALBUMS': ''} </span>
-              </h1>
-              <ul>
-                {this.renderAlbums()}
-              </ul>
-            </section>
+              <section className="albums-list">
+                <h1 className="albums-list-title">专辑
+                  <span>{this.state.albums ? this.state.albums.hotAlbums.length + ' ALBUMS' : ''} </span>
+                </h1>
+                <ul>
+                  {this.renderAlbums()}
+                </ul>
+              </section>
             </If>
           </article>
         </div>
@@ -160,18 +160,18 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleChangeCurrentMusic(item) {
+    handleChangeCurrentMusic (item) {
       dispatch(getChangeCurrentMusic(item));
     },
-    changeMusicList(value) {
+    changeMusicList (value) {
       dispatch(getChangePlayListAction(value));
       dispatch(getChangeCurrentIndex(-1));
       dispatch(playNextMusicAction());
     },
-    hideSingerInfo() {
+    hideSingerInfo () {
       dispatch(getHideSingerInfoAction(false));
     },
-    handleGetAlbumInfo(albumId) {
+    handleGetAlbumInfo (albumId) {
       dispatch(getAlbumInfoAction(albumId));
     }
   };

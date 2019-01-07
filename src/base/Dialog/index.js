@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './style.scss';
 
 export default class Dialog extends Component {
-  render() {
+  render () {
     return (
       <div className="base-dialog">
         <div className="container">

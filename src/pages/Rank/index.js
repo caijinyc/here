@@ -9,14 +9,14 @@ import { getMusicListDetailAction } from '../../store/actionCreator';
 import './style.scss';
 
 class Rank extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {
       rankList: null
     };
   }
 
-  componentDidMount() {
+  componentDidMount () {
     getAllRank().then((res) => {
       this.setState(() => ({
         rankList: res.data.list
@@ -51,7 +51,7 @@ class Rank extends Component {
     }
   };
 
-  render() {
+  render () {
     return (
       <div
         className={[
@@ -76,9 +76,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleGetMusicListDetail(id) {
-    dispatch(getMusicListDetailAction(id));
-  }};
+    handleGetMusicListDetail (id) {
+      dispatch(getMusicListDetailAction(id));
+    }};
 };
 
 export default connect(

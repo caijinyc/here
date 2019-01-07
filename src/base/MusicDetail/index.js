@@ -8,7 +8,7 @@ import RenderSingrs from '../RenderSingers';
 import './style.scss';
 
 class MusicDetail extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {
       lyric: null,
@@ -18,7 +18,7 @@ class MusicDetail extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps (nextProps) {
     // 如果下一个 props 没有 currentMusic 就直接返回
     if (!nextProps.currentMusicLyric) {
       return;
@@ -36,7 +36,7 @@ class MusicDetail extends Component {
     }
 
     // 当上一个props 的歌词和 这个 props 的歌词一样时，直接返回
-    let r =
+    const r =
       JSON.stringify(nextProps.currentMusicLyric) ===
       JSON.stringify(this.props.currentMusicLyric);
     if (r) {
@@ -123,7 +123,7 @@ class MusicDetail extends Component {
     }
   };
 
-  render() {
+  render () {
     const { currentMusic, showMusicDetail } = this.props;
     return (
       <div className={showMusicDetail ? 'music-detail' : 'hide-music-detail'}>
@@ -177,10 +177,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handletoggleShowMusicDetail() {
+    handletoggleShowMusicDetail () {
       dispatch(toggleShowMusicDetail());
     },
-    handleGetAlbumInfo(albumId) {
+    handleGetAlbumInfo (albumId) {
       this.handletoggleShowMusicDetail();
       dispatch(getAlbumInfoAction(albumId));
     },

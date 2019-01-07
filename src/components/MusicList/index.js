@@ -18,14 +18,14 @@ import ShowList from '../../base/ShowList';
 import './style.scss';
 
 class MusicList extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {
       scrollToTop: false
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps (nextProps) {
     if (!this.props.musicList) {
       return;
     }
@@ -37,7 +37,7 @@ class MusicList extends Component {
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate () {
     if (this.state.scrollToTop) {
       this.refs.musicList.scrollTo(0, 0);
       this.setState(() => ({
@@ -66,7 +66,7 @@ class MusicList extends Component {
     this.props.handleToggleCollectPlaylist(list);
   };
 
-  renderListInfo() {
+  renderListInfo () {
     const musicList = this.props.musicList;
     if (!musicList) {
       return null;
@@ -125,7 +125,7 @@ class MusicList extends Component {
     );
   }
 
-  render() {
+  render () {
     const musicList = this.props.musicList;
     return (
       <div
@@ -157,12 +157,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    changeMusicList(value) {
+    changeMusicList (value) {
       dispatch(getChangePlayListAction(value));
       dispatch(getChangeCurrentIndex(-1));
       dispatch(playNextMusicAction());
     },
-    handleToggleCollectPlaylist(list) {
+    handleToggleCollectPlaylist (list) {
       dispatch(getToggleCollectPlaylist(list));
     }
   };

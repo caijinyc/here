@@ -18,7 +18,7 @@ import RenderSingrs from '../RenderSingers';
 import './style.scss';
 
 class PlayList extends Component {
-  getAlert() {
+  getAlert () {
     alert('getAlert from Child');
   }
 
@@ -62,7 +62,7 @@ class PlayList extends Component {
     });
   };
 
-  render() {
+  render () {
     const length = this.props.playList.length;
     return (
       <div
@@ -101,15 +101,15 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleChangeCurrentMusic(item) {
+    handleChangeCurrentMusic (item) {
       const action = getChangeCurrentMusic(item);
       dispatch(action);
     },
-    handleDeleteMusic(item) {
+    handleDeleteMusic (item) {
       const action = getDeleteMusicAction(item);
       dispatch(action);
     },
-    emptyPlayList() {
+    emptyPlayList () {
       dispatch(emptyPlayList());
     }
   };

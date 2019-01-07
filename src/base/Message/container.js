@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import Message from './message';
 
 export default class Container extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
 
     this.state = {
@@ -17,13 +17,13 @@ export default class Container extends Component {
   };
 
   removeMessage = () => {
-    
+
     this.setState(() => ({
       message: null
     }));
   };
 
-  render() {
+  render () {
     return (
       <Fragment>
         {this.state.message ? (

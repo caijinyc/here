@@ -17,7 +17,7 @@ class Header extends Component {
     }
   }
 
-  render() {
+  render () {
     return (
       <header>
         <NavLink
@@ -35,14 +35,14 @@ class Header extends Component {
         <nav>
           <NavLink
             exact
-          activeClassName={this.isActive('/')}
+            activeClassName={this.isActive('/')}
             to="/"
             onClick={this.props.handleHideMusicListAndSingerInfo}
           >
             推荐
           </NavLink>
           <NavLink
-          activeClassName={this.isActive('/rank')}
+            activeClassName={this.isActive('/rank')}
             to="/rank"
             onClick={this.props.handleHideMusicListAndSingerInfo}
           >
@@ -77,7 +77,7 @@ class Header extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleHideMusicListAndSingerInfo() {
+    handleHideMusicListAndSingerInfo () {
       dispatch(getHideMusicListAction());
       dispatch(getHideSingerInfoAction());
     }

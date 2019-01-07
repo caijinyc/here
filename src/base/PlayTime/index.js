@@ -8,7 +8,7 @@ import React, { Component } from 'react';
 import './style.scss';
 
 class PlayTime extends Component {
-  format(interval = 0) {
+  format (interval = 0) {
     if (isNaN(interval)) {
       interval = 0;
     }
@@ -23,7 +23,7 @@ class PlayTime extends Component {
     return minute + ':' + second;
   }
 
-  render() {
+  render () {
     return (
       <div className="play-time">
         <span className="current-time">

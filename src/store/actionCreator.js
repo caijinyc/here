@@ -22,7 +22,7 @@ export const getChangeCurrentMusicListAction = (value) => ({
 
 /**
  * 获取歌单详情，并显示歌单
- * @param {number} id 
+ * @param {number} id
  */
 export const getMusicListDetailAction = (id) => {
   return (dispatch) => {
@@ -40,7 +40,7 @@ export const getMusicListDetailAction = (id) => {
 
 /**
  * 控制 Loading 的显示
- * @param {Boolean} value 
+ * @param {Boolean} value
  */
 export const getChangeShowLoadingAction = (value) => ({
   type: types.CHANGE_SHOW_LOADING,
@@ -190,7 +190,7 @@ export const changeCurrentMusicLyric = (value) => ({
   value
 });
 
-function getCurrentMusicLyric() {
+function getCurrentMusicLyric () {
   return (dispatch, getState) => {
     const state = JSON.parse(JSON.stringify(getState()));
     const currentMusic = state.currentMusic;
@@ -215,7 +215,7 @@ function getCurrentMusicLyric() {
 export const getChangeCurrentMusic = (value) => {
   return (dispatch, getState) => {
     const state = getState();
-    let list = state.playList;
+    const list = state.playList;
     // 从歌曲列表中寻找当前歌曲的 index
     const index = findIndex(list, value);
     // 当点击的歌曲是正在播放的歌曲，直接返回
@@ -260,8 +260,9 @@ export const getChangeCurrentMusic = (value) => {
 export const playPrevMusicAction = () => {
   return (dispatch, getState) => {
     const state = getState();
-    let { playList, currentIndex } = state;
-    let length = playList.length;
+    let { currentIndex } = state;
+    const { playList } = state;
+    const length = playList.length;
     if (length === 0 || length === 1) {
       return;
     }
@@ -281,8 +282,9 @@ export const playPrevMusicAction = () => {
 export const playNextMusicAction = () => {
   return (dispatch, getState) => {
     const state = getState();
-    let { playList, currentIndex } = state;
-    let length = playList.length;
+    let { currentIndex } = state;
+    const { playList } = state;
+    const length = playList.length;
     if (length === 0 || length === 1) {
       return;
     }
@@ -301,7 +303,8 @@ export const playNextMusicAction = () => {
 export const getDeleteMusicAction = (item) => {
   return (dispatch, getState) => {
     const state = getState();
-    let { playList, currentIndex } = JSON.parse(JSON.stringify(state));
+    let { currentIndex } = JSON.parse(JSON.stringify(state));
+    const { playList } = JSON.parse(JSON.stringify(state));
     const index = findIndex(playList, item);
     playList.splice(index, 1);
     if (index < currentIndex) {
@@ -316,7 +319,7 @@ export const getDeleteMusicAction = (item) => {
     // 当 playList 已经没有的时候，删除掉当前音乐的 url
     // 音乐就会暂停播放
     if (playList.length === 0) {
-      let { currentMusic } = JSON.parse(JSON.stringify(state));
+      const { currentMusic } = JSON.parse(JSON.stringify(state));
       currentMusic.musicUrl = '';
       dispatch(changeCurrentMusicAction(currentMusic));
     }
@@ -332,7 +335,7 @@ export const getAddToLikeListAction = (value) => {
     let collector = null;
     $db.find({name: 'collector'}, (err, res) => {
       collector = res[0];
-      let index = findIndex(collector.foundList[0].tracks, value);
+      const index = findIndex(collector.foundList[0].tracks, value);
       if (index < 0) {
         collector.foundList[0].tracks.unshift(value);
         message.info('已经加入到喜欢的歌曲中');
@@ -350,34 +353,34 @@ export const getAddToLikeListAction = (value) => {
  * 收藏 / 取消收藏 歌单
  */
 export const getToggleCollectPlaylist = (list) => {
-  return (dispatch) => {    
+  return (dispatch) => {
     $db.find({ name: 'collector' }, (err, res) => {
-    const collector = res[0];
-    const index = findIndex(collector.collectList, list);
-    if (index < 0) {
-      collector.collectList.push(list);
-      dispatch(getChangeCollectorAction(collector));
-      $db.update({ name: 'collector' }, collector, () => {
-        message.info('收藏歌单成功');
-      });
-    } else {
-      collector.collectList.splice(index, 1);
-      dispatch(getChangeCollectorAction(collector));
-      $db.update({ name: 'collector' }, collector);
-    }
-  });
+      const collector = res[0];
+      const index = findIndex(collector.collectList, list);
+      if (index < 0) {
+        collector.collectList.push(list);
+        dispatch(getChangeCollectorAction(collector));
+        $db.update({ name: 'collector' }, collector, () => {
+          message.info('收藏歌单成功');
+        });
+      } else {
+        collector.collectList.splice(index, 1);
+        dispatch(getChangeCollectorAction(collector));
+        $db.update({ name: 'collector' }, collector);
+      }
+    });
   };
 };
 
-function random(index, length) {
-  let res = Math.floor(Math.random() * length);
+function random (index, length) {
+  const res = Math.floor(Math.random() * length);
   if (res === index) {
     return random(index, length);
   }
   return res;
 }
 
-function formatAlbumTracks(list) {
+function formatAlbumTracks (list) {
   return list.map((item) => {
     const singers = item.ar.map((item) => {
       return {
@@ -398,7 +401,7 @@ function formatAlbumTracks(list) {
   });
 }
 
-function formatMusicListTracks(list) {
+function formatMusicListTracks (list) {
   return list.map((item) => {
     const singers = item.ar.map((item) => {
       return {

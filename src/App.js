@@ -22,14 +22,14 @@ import MyTitle from './renderer/components/MyTitle';
 import './App.scss';
 
 class App extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {
       redirect: true
     };
   }
 
-  componentWillMount() {
+  componentWillMount () {
     // 初始化收藏夹
     $db.find({ name: 'collector' }, (err, res) => {
       if (res.length === 0) {
@@ -54,13 +54,13 @@ class App extends Component {
     });
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.setState(() => ({
       redirect: false
     }));
   }
 
-  render() {
+  render () {
     return (
       <Router>
         <div className="App">
@@ -96,7 +96,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handlehangeCollector(value) {
+    handlehangeCollector (value) {
       dispatch(getChangeCollectorAction(value));
     }
   };
