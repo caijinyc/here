@@ -3,6 +3,8 @@ import $db from '../data';
 
 import { PLAY_MODE_TYPES } from '../common/js/config';
 
+const DEFAULT_VOLUME = 0.35;
+
 // 给一个初始的 state
 const defaultState = {
   // 当前展示的歌单列表
@@ -55,7 +57,10 @@ const defaultState = {
   collector: null,
 
   // 显示全局的 Loding
-  showLoading: false
+  showLoading: false,
+
+  // 音量
+  volume: DEFAULT_VOLUME
 };
 
 // state 里面存放了所有的数据
@@ -88,11 +93,13 @@ export default (state = defaultState, action) => {
   if (action.type === types.CHANGE_PLAY_LIST) {
     const newState = deepCopy(state);
     newState.playList = action.value;
+    cacheLastUseInfo({ playList: action.value });
     return newState;
   }
   if (action.type === types.CHANGE_CURRENT_INDEX) {
     const newState = deepCopy(state);
     newState.currentIndex = action.index;
+    cacheLastUseInfo({ currentIndex: action.index, playList: newState.playList });
     return newState;
   }
   if (action.type === types.CHANGE_PLAY_MODE) {
@@ -143,6 +150,12 @@ export default (state = defaultState, action) => {
     newState.showMusicDetail = false;
     return newState;
   }
+  if (action.type === types.CHANGE_VOLUME) {
+    const newState = deepCopy(state);
+    newState.volume = action.value;
+    cacheLastUseInfo({ volume: action.value });
+    return newState;
+  }
   return state;
 };
 
@@ -156,4 +169,26 @@ function getNewCollector () {
     newCollector = res[0];
   });
   return newCollector;
+}
+
+function cacheLastUseInfo (obj = {}) {
+  let cache = null, needUpdate = false;
+  $db.find({ name: 'cache' }, (err, res) => {
+    cache = res[0];
+    if (obj.volume !== undefined) {
+      cache.cacheValue.volume = obj.volume;
+      needUpdate = true;
+    }
+    if (obj.playList && JSON.stringify(obj.playList) !== JSON.stringify(cache.cacheValue.playList)) {
+      cache.cacheValue.playList = obj.playList;
+      needUpdate = true;
+    }
+    if (obj.currentIndex !== undefined && obj.currentIndex !== cache.cacheValue.currentIndex) {
+      cache.cacheValue.currentIndex = obj.currentIndex;
+      needUpdate = true;
+    }
+    if (needUpdate) {
+      $db.update({ name: 'cache' }, cache);
+    }
+  });
 }

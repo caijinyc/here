@@ -28,3 +28,5 @@ export const CHANGE_SHOW_LOADING = 'CHANGE_SHOW_LOADING';
 
 export const HIDE_ALL = 'HIDE_ALL';
 
+export const CHANGE_VOLUME = 'CHANGE_VOLUME';
+

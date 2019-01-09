@@ -15,7 +15,8 @@ import {
   getChangePlayModeAction,
   toggleShowMusicDetail,
   getAddToLikeListAction,
-  getHideAllAction
+  getHideAllAction,
+  getChangeVolumeAction
 } from '../../store/actionCreator';
 import { PLAY_MODE_TYPES } from '../../common/js/config';
 import { findIndex } from '../../common/js/utl';
@@ -33,24 +34,21 @@ const PLAYING_STATUS = {
   playing: true,
   paused: false
 };
-const DEFAULT_VOLUME = 0.35;
 
 class Player extends Component {
   constructor (props) {
     super(props);
-    this.playListRef = React.createRef();
     this.state = {
       duration: DEFAULT_TIME,
       currentTime: DEFAULT_TIME,
       move: false,
       percent: 0,
-      volume: DEFAULT_VOLUME,
       showPlayList: false
     };
   }
 
   componentDidMount () {
-    this.refs.audio.volume = this.state.volume;
+    this.refs.audio.volume = this.props.volume;
 
     // 快捷键
     document.addEventListener('keydown', (e) => {
@@ -69,20 +67,20 @@ class Player extends Component {
       }
       if (e.key === 'ArrowUp') {
         e.preventDefault();
-        if (this.state.volume === 1) {
+        if (this.props.volume === 1) {
           return;
         } else {
-          const volume = this.state.volume + 0.05 > 1 ? 1 : this.state.volume + 0.05;
+          const volume = this.props.volume + 0.05 > 1 ? 1 : this.props.volume + 0.05;
           this.volumeChange(volume);
         }
         return;
       }
       if (e.key === 'ArrowDown') {
         e.preventDefault();
-        if (this.state.volume === 0) {
+        if (this.props.volume === 0) {
           return;
         } else {
-          const volume = this.state.volume - 0.05 < 0 ? 0 : this.state.volume - 0.05;
+          const volume = this.props.volume - 0.05 < 0 ? 0 : this.props.volume - 0.05;
           this.volumeChange(volume);
         }
         return;
@@ -168,11 +166,7 @@ class Player extends Component {
   // 音量控制
   volumeChange = (percent) => {
     this.refs.audio.volume = percent;
-    this.setState(() => {
-      return {
-        volume: percent
-      };
-    });
+    this.props.handleChangeVolume(percent);
   };
 
   handleChangePlayingStatus (status) {
@@ -359,7 +353,7 @@ class Player extends Component {
           <div className="audio-volume">
             <i className="iconfont icon-volume-up" />
             <ProgressBar
-              percent={this.state.volume}
+              percent={this.props.volume}
               percentChange={this.volumeChange}
               percentChangeEnd={this.volumeChange}
             />
@@ -398,6 +392,7 @@ const mapStateToProps = (state) => {
     playList: state.playList,
     currentMusic: state.currentMusic,
     playing: state.playing,
+    volume: state.volume,
     playMode: state.playMode,
     showMusicDetail: state.showMusicDetail,
     likesList: state.collector ? state.collector.foundList[0].tracks : null
@@ -429,6 +424,9 @@ const mapDispatchToProps = (dispatch) => {
      */
     handleHideAll () {
       dispatch(getHideAllAction());
+    },
+    handleChangeVolume (value) {
+      dispatch(getChangeVolumeAction(value));
     }
   };
 };

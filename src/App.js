@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getChangeCollectorAction } from './store/actionCreator';
+import {
+  getChangeCollectorAction,
+  getLoadCacheAction
+} from './store/actionCreator';
 import $db from './data';
 
 import Recommend from './pages/Recommend';
@@ -45,11 +48,28 @@ class App extends Component {
             collectList: []
           },
           (err, res) => {
-            this.props.handlehangeCollector(res[0]);
+            this.props.handleChangeCollector(res[0]);
           }
         );
       } else {
-        this.props.handlehangeCollector(res[0]);
+        this.props.handleChangeCollector(res[0]);
+      }
+    });
+    // 初始化使用信息
+    $db.find({ name: 'cache'}, (err, res) => {
+      if (res.length === 0) {
+        $db.insert(
+          {
+            name: 'cache',
+            cacheValue: {
+              playList: [],
+              currentIndex: -1,
+              volume: 0.35
+            }
+          }
+        );
+      } else {
+        this.props.handleLoadCache(res[0].cacheValue);
       }
     });
   }
@@ -96,8 +116,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handlehangeCollector (value) {
+    handleChangeCollector (value) {
       dispatch(getChangeCollectorAction(value));
+    },
+    handleLoadCache (value) {
+      dispatch(getLoadCacheAction(value));
     }
   };
 };

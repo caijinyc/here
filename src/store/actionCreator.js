@@ -169,6 +169,14 @@ export const getChangeCurrentIndex = (index) => ({
 });
 
 /**
+ * 改变音量
+ */
+export const getChangeVolumeAction = (value) => ({
+  type: types.CHANGE_VOLUME,
+  value
+});
+
+/**
  * 改变音乐播放状态
  * @param {Boolean} status
  */
@@ -212,14 +220,14 @@ function getCurrentMusicLyric () {
  * 3. 获取 url 之后在 action 中直接调用 actionCreator 中的 changeCurrentMusicAction
  *    来对 redux 中的 currentMusic 进行修改
  */
-export const getChangeCurrentMusic = (value) => {
+export const getChangeCurrentMusic = (value, loadCacheMusic = false) => {
   return (dispatch, getState) => {
     const state = getState();
     const list = state.playList;
     // 从歌曲列表中寻找当前歌曲的 index
     const index = findIndex(list, value);
     // 当点击的歌曲是正在播放的歌曲，直接返回
-    if (index === state.currentIndex) {
+    if (index === state.currentIndex && !loadCacheMusic) {
       return;
     }
     if (index >= 0) {
@@ -245,6 +253,12 @@ export const getChangeCurrentMusic = (value) => {
       }
       value.musicUrl = data[0].url;
       dispatch(changeCurrentMusicAction(value));
+
+      // 因为是打开程序的时候加载上次关闭的时候播放的歌，但是不能播放，所以需要暂停
+      if (loadCacheMusic) {
+        const STOP = false;
+        dispatch(getChangePlayingStatusAction(STOP));
+      }
 
       // 搜索的歌曲会没有图片，所以去歌曲详情弄一张图片回来
       if (!value.imgUrl) {
@@ -369,6 +383,21 @@ export const getToggleCollectPlaylist = (list) => {
         $db.update({ name: 'collector' }, collector);
       }
     });
+  };
+};
+
+/**
+ * 加载缓存信息
+ */
+export const getLoadCacheAction = (cache) => {
+  return (dispatch) => {
+    dispatch(getChangePlayListAction(cache.playList));
+    dispatch(getChangeVolumeAction(cache.volume));
+    dispatch(getChangeCurrentIndex(cache.currentIndex));
+    if (cache.currentIndex !== -1 && cache.playList.length !== 0) {
+      console.log('safsdafsdfasfd');
+      dispatch(getChangeCurrentMusic(cache.playList[cache.currentIndex], true));
+    }
   };
 };
 
