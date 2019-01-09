@@ -395,7 +395,6 @@ export const getLoadCacheAction = (cache) => {
     dispatch(getChangeVolumeAction(cache.volume));
     dispatch(getChangeCurrentIndex(cache.currentIndex));
     if (cache.currentIndex !== -1 && cache.playList.length !== 0) {
-      console.log('safsdafsdfasfd');
       dispatch(getChangeCurrentMusic(cache.playList[cache.currentIndex], true));
     }
   };
