@@ -43,6 +43,8 @@
 
 ## 快捷键
 
+### 内置快捷键
+
 Description            | Keys
 -----------------------| -----------------------
 暂停 / 播放              | <kbd>Space</kbd>
@@ -52,6 +54,16 @@ Description            | Keys
 下一曲                 | <kbd>Cmd</kbd> + <kbd>Right</kbd>
 喜欢歌曲                 | <kbd>Cmd</kbd> + <kbd>L</kbd>
 搜索                 | <kbd>Cmd</kbd> + <kbd>F</kbd>
+
+### 全局快捷键
+
+Description            | Keys
+-----------------------| -----------------------
+暂停 / 播放              | <kbd>Cmd / Ctrl</kbd> + <kbd>Option / Alt</kbd> +  <kbd>S</kbd>
+音量加                 | <kbd>Cmd / Ctrl</kbd> + <kbd>Option / Alt</kbd> + <kbd>Up</kbd>
+音量减                 | <kbd>Cmd / Ctrl</kbd> + <kbd>Option / Alt</kbd> +  <kbd>Down</kbd>
+上一曲                 | <kbd>Cmd / Ctrl</kbd> + <kbd>Option / Alt</kbd> + <kbd>Left</kbd>
+下一曲                 | <kbd>Cmd / Ctrl</kbd> + <kbd>Option / Alt</kbd> + <kbd>Right</kbd>
 
 ## 支持功能
 
@@ -72,7 +84,7 @@ Description            | Keys
 - [x] 进度条展示
 - [x] 进度跳转
 - [x] 音量控制
-- [ ] 全局快捷键
+- [x] 全局快捷键
 - [ ] 喜欢歌曲分类
 
 ## 参与 HERE Music 的开发

@@ -1,8 +1,16 @@
 // 引入electron并创建一个Browserwindow
-const { app, BrowserWindow, ipcMain, Menu, Tray } = require('electron');
+const { app, BrowserWindow, ipcMain, Menu, Tray, globalShortcut } = require('electron');
 const path = require('path');
 const api = require('../NeteaseCloudMusicApi/app');
 const config = require('../config');
+
+const GLOBAL_SHORTCUT = {
+  'CommandOrControl+Alt+Right': 'nextMusic',
+  'CommandOrControl+Alt+Left': 'prevMusic',
+  'CommandOrControl+Alt+Up': 'volumeUp',
+  'CommandOrControl+Alt+Down': 'volumeDown',
+  'CommandOrControl+Alt+S': 'changePlayingStatus'
+};
 
 let forceQuit = false;
 let apiServer;
@@ -169,6 +177,13 @@ function createWindow () {
 
   tray.on('click', () => {
     mainWindow.show();
+  });
+
+
+  Object.keys(GLOBAL_SHORTCUT).forEach((key) => {
+    globalShortcut.register(key, () => {
+      mainWindow.webContents.send('store-data', GLOBAL_SHORTCUT[key]);
+    });
   });
 
 }

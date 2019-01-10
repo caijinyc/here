@@ -29,11 +29,15 @@ import RenderSingers from '../../base/RenderSingers';
 
 import './style.scss';
 
+const { ipcRenderer } = window.require('electron');
+
 const DEFAULT_TIME = 0;
 const PLAYING_STATUS = {
   playing: true,
   paused: false
 };
+const VOLUME_UP = 'VOLUME_UP';
+const VOLUME_DOWN = 'VOLUME_DOWN';
 
 class Player extends Component {
   constructor (props) {
@@ -50,61 +54,101 @@ class Player extends Component {
   componentDidMount () {
     this.refs.audio.volume = this.props.volume;
 
-    // 快捷键
-    document.addEventListener('keydown', (e) => {
-      if (e.target.tagName === 'INPUT') {
-        return;
-      }
-      // 阻止原生事件
-      if (e.key === ' ') {
-        e.preventDefault();
-        if (this.props.playing) {
-          this.handleChangePlayingStatus(PLAYING_STATUS.paused);
-        } else {
-          this.handleChangePlayingStatus(PLAYING_STATUS.playing);
-        }
-        return;
-      }
-      if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        if (this.props.volume === 1) {
-          return;
-        } else {
-          const volume = this.props.volume + 0.05 > 1 ? 1 : this.props.volume + 0.05;
-          this.volumeChange(volume);
-        }
-        return;
-      }
-      if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        if (this.props.volume === 0) {
-          return;
-        } else {
-          const volume = this.props.volume - 0.05 < 0 ? 0 : this.props.volume - 0.05;
-          this.volumeChange(volume);
-        }
-        return;
-      }
-      if (e.key === 'ArrowRight' && e.metaKey) {
-        e.preventDefault();
-        this.props.playNextMusic();
-        return;
-      }
-      if (e.key === 'ArrowLeft' && e.metaKey) {
-        e.preventDefault();
-        this.props.playPrevMusic();
-        return;
-      }
-      if ((e.key === 'L' || e.key === 'l') && e.metaKey) {
-        this.props.handleAddToLikeList(this.props.currentMusic);
-        return;
-      }
-      if ((e.key === 'F' || e.key === 'f') && e.metaKey) {
-        this.props.handleHideAll();
-        this.props.history.push('/search');
-        return;
-      }
+    // 全局快捷键按键
+    ipcRenderer.on('store-data', (event, store) => {
+      this.handleGlobalShortcut(store);
     });
+
+    // 快捷键
+    document.addEventListener('keydown', this.handleShortcut);
+  }
+
+  handleGlobalShortcut = (e) => {
+    if (e === 'volumeUp') {
+      this.handleChangeVolume(VOLUME_UP);
+      return;
+    }
+    if (e === 'volumeDown') {
+      this.handleChangeVolume(VOLUME_DOWN);
+      return;
+    }
+    if (e === 'nextMusic') {
+      this.props.playNextMusic();
+      return;
+    }
+    if (e === 'prevMusic') {
+      this.props.playPrevMusic();
+      return;
+    }
+    if (e === 'changePlayingStatus') {
+      if (this.props.playing) {
+        this.handleChangePlayingStatus(PLAYING_STATUS.paused);
+      } else {
+        this.handleChangePlayingStatus(PLAYING_STATUS.playing);
+      }
+    }
+  }
+
+  handleShortcut = (e) => {
+    if (e.target.tagName === 'INPUT') {
+      return;
+    }
+    if (e.key === ' ') {
+      e.preventDefault();
+      if (this.props.playing) {
+        this.handleChangePlayingStatus(PLAYING_STATUS.paused);
+      } else {
+        this.handleChangePlayingStatus(PLAYING_STATUS.playing);
+      }
+      return;
+    }
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      this.handleChangeVolume(VOLUME_UP);
+      return;
+    }
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      this.handleChangeVolume(VOLUME_DOWN);
+      return;
+    }
+    if (e.key === 'ArrowRight' && e.metaKey) {
+      e.preventDefault();
+      this.props.playNextMusic();
+      return;
+    }
+    if (e.key === 'ArrowLeft' && e.metaKey) {
+      e.preventDefault();
+      this.props.playPrevMusic();
+      return;
+    }
+    if ((e.key === 'L' || e.key === 'l') && e.metaKey) {
+      this.props.handleAddToLikeList(this.props.currentMusic);
+      return;
+    }
+    if ((e.key === 'F' || e.key === 'f') && e.metaKey) {
+      this.props.handleHideAll();
+      this.props.history.push('/search');
+      return;
+    }
+  }
+
+  handleChangeVolume = (type) => {
+    if (type === VOLUME_UP) {
+      if (this.props.volume === 1) {
+        return;
+      } else {
+        const volume = this.props.volume + 0.05 > 1 ? 1 : this.props.volume + 0.05;
+        this.volumeChange(volume);
+      }
+    } else {
+      if (this.props.volume === 0) {
+        return;
+      } else {
+        const volume = this.props.volume - 0.05 < 0 ? 0 : this.props.volume - 0.05;
+        this.volumeChange(volume);
+      }
+    }
   }
 
   componentWillReceiveProps ({ playing }) {
