@@ -1,11 +1,13 @@
 // 引入electron并创建一个Browserwindow
-const { app, BrowserWindow, ipcMain, Menu } = require('electron');
+const { app, BrowserWindow, ipcMain, Menu, Tray } = require('electron');
+const path = require('path')
 const api = require('../NeteaseCloudMusicApi/app');
 const config = require('../config');
 
 let forceQuit = false;
 let apiServer;
 let mainWindow;
+let tray = null;
 
 const template = [
   {
@@ -122,7 +124,7 @@ ipcMain.on('show', () => {
   mainWindow.focus();
 });
 
-function createWindow () {
+function createWindow() {
   // 创建浏览器窗口,宽高自定义具体大小你开心就好
   mainWindow = new BrowserWindow({
     width: 980,
@@ -134,9 +136,9 @@ function createWindow () {
   });
 
   // 开发环境使用 http 协议 生产环境使用 file 协议
-  if(process.argv[2] === 'dev') {
+  if (process.argv[2] === 'dev') {
     mainWindow.loadURL('http://localhost:3000/');
-  }else{
+  } else {
     mainWindow.loadURL(`file://${__dirname}/index.html`);
   }
 
@@ -160,6 +162,15 @@ function createWindow () {
       mainWindow.hide();
     }
   });
+
+  // 托盘
+  tray = new Tray(path.join(__dirname, '../assets/tray.png'));
+  tray.setToolTip('显示窗口');
+
+  tray.on('click', () => {
+    mainWindow.show();
+  });
+
 }
 
 // 当 Electron 完成初始化并准备创建浏览器窗口时调用此方法
