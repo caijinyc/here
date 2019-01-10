@@ -133,11 +133,12 @@ function createWindow () {
     backgroundColor: '#021524'
   });
 
-  // 打包应用的时候使用
-  // mainWindow.loadURL(`file://${__dirname}/index.html`);
-
-  // 加载应用----适用于 react 项目
-  mainWindow.loadURL('http://localhost:3000/');
+  // 开发环境使用 http 协议 生产环境使用 file 协议
+  if(process.argv[2] === 'dev') {
+    mainWindow.loadURL('http://localhost:3000/');
+  }else{
+    mainWindow.loadURL(`file://${__dirname}/index.html`);
+  }
 
   mainWindow.once('ready-to-show', () => {
     mainWindow.show();
