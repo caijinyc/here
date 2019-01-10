@@ -113,17 +113,7 @@ $ yarn electron-dev
 $ yarn build
 ```
 
-2. 在 build 文件夹中修改 electron.js 文件
-
-```js
-// 使用这一段代码
-mainWindow.loadURL(`file://${__dirname}/index.html`);
-
-// 注释掉这一行代码，这个是开发时候用的
-// mainWindow.loadURL('http://localhost:3000/');
-```
-
-3. 打包成应用
+2. 打包成应用
 
 ```shell
 $ yarn dist
