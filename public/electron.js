@@ -1,6 +1,6 @@
 // 引入electron并创建一个Browserwindow
 const { app, BrowserWindow, ipcMain, Menu, Tray } = require('electron');
-const path = require('path')
+const path = require('path');
 const api = require('../NeteaseCloudMusicApi/app');
 const config = require('../config');
 
