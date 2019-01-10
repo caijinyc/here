@@ -4,11 +4,13 @@ import React, { Component } from 'react';
 
 import './style.scss';
 
+const { remote } = window.require('electron');
+const currentWindow = remote.getCurrentWindow();
 
 class MyTitle extends Component {
   render () {
     return (
-      <div className="my-title">
+      <div className="my-title" onDoubleClick={() => currentWindow.minimize()}>
         <div className="title-btn-container">
           {/* <TitleBtn type="close" />
          <TitleBtn type="min" />
