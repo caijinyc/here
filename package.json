@@ -45,7 +45,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "electron-start": "electron .",
+    "electron-start": "electron . dev",
     "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron . dev\"",
     "pack": "electron-builder --dir",
     "dist": "electron-builder"
