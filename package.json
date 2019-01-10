@@ -53,8 +53,12 @@
   "build": {
     "appId": "Here",
     "files": [
-      "**/*",
-      "!./node_modules"
+      "package.json",
+      "node_modules/**/*",
+      "build/**/*",
+      "config",
+      "assets",
+      "NeteaseCloudMusicApi"
     ],
     "mac": {
       "category": "music",

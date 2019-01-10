@@ -172,7 +172,7 @@ function createWindow () {
   });
 
   // 托盘
-  tray = new Tray(path.join(__dirname, '../assets/tray.png'));
+  tray = new Tray(path.join(__dirname, '../assets/tray@4x.png'));
   tray.setToolTip('显示窗口');
 
   tray.on('click', () => {
