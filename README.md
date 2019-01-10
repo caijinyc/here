@@ -81,6 +81,8 @@ Description            | Keys
 
 个人的能力总是有限的，所以欢迎大家一起参与 HERE Music 的开发
 
+**[参与贡献](./docs/CONTRIBUTING.md)**
+
 ### 参与讨论
 1. [Telegram 讨论群](https://t.me/herechat)
 
