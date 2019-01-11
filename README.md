@@ -25,7 +25,7 @@
 ## 安装
 **Mac**
 
-[Download](https://github.com/caijinyc/Here/releases/download/v0.1.0/Here-0.1.0.dmg) the .dmg file.
+[Download](https://github.com/caijinyc/Here/releases/download/v0.1.1/Here-0.1.1.dmg) the .dmg file.
 
 因为之后一段时候需要复习春招，所以暂时只打包了 Mac 版本，其他平台之后会支持的，请给我点时间 😣。
 

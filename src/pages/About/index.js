@@ -138,7 +138,7 @@ class Rank extends Component {
             中提出。
           </p>
           <p>如果您喜欢 Here Music 的话，欢迎 Star 和 Fork 本项目。</p>
-          <p className="license">Version 1.0.0 本软件基于 MIT 协议开源</p>
+          <p className="license">Version 0.1.1 本软件基于 MIT 协议开源</p>
         </div>
       </li>
     );
