@@ -117,7 +117,7 @@ class Collect extends Component {
   renderFoundListImg = (tracks) => {
     for (let i = 0; i < tracks.length; i++) {
       if (tracks[i].imgUrl) {
-        return <img src={tracks[i].imgUrl} alt="歌单图片" />;
+        return <img src={tracks[i].imgUrl + '?param=153x153'} alt="歌单图片" />;
       }
     }
   };
@@ -133,7 +133,7 @@ class Collect extends Component {
           <div className="list-img">
             <If condition={this.state.listType === COLLECT}>
               <Then>
-                <img src={list.coverImgUrl} alt="歌单图片" />
+                <img src={list.coverImgUrl + '?param=153x153'} alt="歌单图片" />
               </Then>
               <Else>
                 <div className="found-list">

@@ -33,7 +33,7 @@ class Rank extends Component {
         return (
           <li key={item.id} onClick={() => this.props.handleGetMusicListDetail(item.id)}>
             <div className="img-container">
-              <img src={item.coverImgUrl} alt="" />
+              <img src={item.coverImgUrl + '?param=130x130'} alt="" />
             </div>
             <p className="name">{item.name}</p>
             <p className="update-frequency">{item.updateFrequency}</p>

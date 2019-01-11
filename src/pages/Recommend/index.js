@@ -73,7 +73,7 @@ class Recommend extends Component {
             onClick={() => this.props.handleGetMusicListDetail(item.id)}
           >
             <i className="iconfont icon-play" />
-            <img className="list-img" src={item.coverImgUrl} alt="" />
+            <img className="list-img" src={item.coverImgUrl + '?param=153x153'} alt="" />
             <div className="played-counts">
               <i className="iconfont icon-erji" />
               <span>{formatPlayCount(item.playCount)}</span>

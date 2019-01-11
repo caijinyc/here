@@ -136,7 +136,7 @@ class MusicDetail extends Component {
         <div className="detail-container">
           <div className="left-contanier">
             <div className="img">
-              <img src={currentMusic.imgUrl} alt="" />
+              <img src={currentMusic.imgUrl + '?param=250x250'} alt="" />
             </div>
           </div>
           <div className="music-right-container">

@@ -314,7 +314,7 @@ class Player extends Component {
         <div className="player-left-container">
           {this.renderPlayerControl()}
           <div className="music-img" onClick={this.handleShowMusicDetial}>
-            <img src={currentMusic ? currentMusic.imgUrl : ''} alt="" />
+            <img src={currentMusic ? currentMusic.imgUrl + '?param=64x64' : ''} alt="" />
           </div>
         </div>
         <div className="player-middle-container">
@@ -406,7 +406,7 @@ class Player extends Component {
         <If condition={this.props.showMusicDetail}>
           <div>
             <div className="music-detail-background">
-              <img src={currentMusic ? currentMusic.imgUrl : ''} alt="" />
+              <img src={currentMusic ? currentMusic.imgUrl + 'param=250x250' : ''} alt="" />
             </div>
             <div className="player-background"></div>
           </div>

@@ -81,7 +81,7 @@ class MusicList extends Component {
     return (
       <div className="list-info">
         <div className="list-img">
-          <img src={musicList.coverImgUrl} alt="" />
+          <img src={musicList.coverImgUrl + '?param=200x200'} alt="" />
         </div>
         <p className="name">{musicList.name}</p>
         <If condition={musicList.type === '专辑'}>
