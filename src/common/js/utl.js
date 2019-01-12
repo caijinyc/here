@@ -51,3 +51,7 @@ export function formatPlayCount (count) {
     return Math.floor(count / 10000) + '万';
   }
 }
+
+export function imageRatio (width = 0, height = width) {
+  return `?param=${window.devicePixelRatio * width}x${window.devicePixelRatio * height}`;
+}

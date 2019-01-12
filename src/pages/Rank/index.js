@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { getAllRank } from '../../api';
-import { formatDate } from '../../common/js/utl';
+import { formatDate, imageRatio } from '../../common/js/utl';
 
 import { getMusicListDetailAction } from '../../store/actionCreator';
 
@@ -33,7 +33,7 @@ class Rank extends Component {
         return (
           <li key={item.id} onClick={() => this.props.handleGetMusicListDetail(item.id)}>
             <div className="img-container">
-              <img src={item.coverImgUrl + '?param=130x130'} alt="" />
+              <img src={item.coverImgUrl + imageRatio(130)} alt="" />
             </div>
             <p className="name">{item.name}</p>
             <p className="update-frequency">{item.updateFrequency}</p>

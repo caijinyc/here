@@ -10,7 +10,7 @@ import {
   getAlbumInfoAction
 } from '../../store/actionCreator';
 import { getSingerAlbums } from '../../api';
-import { formatDate } from '../../common/js/utl';
+import { formatDate, imageRatio } from '../../common/js/utl';
 import ShowList from '../../base/ShowList';
 
 import './style.scss';
@@ -73,7 +73,7 @@ class SingerInfo extends Component {
       return (
         <li key={item.id}>
           <div className="album-img-container" onClick={() => this.props.handleGetAlbumInfo(item.id)}>
-            <img src={item.picUrl + 'param=100x100'} alt="专辑图像"/>
+            <img src={item.picUrl + imageRatio(100)} alt="专辑图像"/>
           </div>
           <p className="time">{formatDate(item.publishTime)}</p>
           <p className="name">{item.name}</p>
@@ -104,7 +104,7 @@ class SingerInfo extends Component {
         <div className="singer-info-container">
           <div className="singer-introduction">
             <div className="singer-img">
-              <img src={artist.img1v1Url + 'param=150x150'} alt="" />
+              <img src={artist.img1v1Url + imageRatio(150)} alt="" />
             </div>
             <div className="singer-describe">
               <h1 className="name">{artist.name}</h1>

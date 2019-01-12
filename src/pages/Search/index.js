@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { formatDate } from '../../common/js/utl';
+import { formatDate, imageRatio } from '../../common/js/utl';
 import { connect } from 'react-redux';
 import { If } from 'react-if';
 import {
@@ -249,7 +249,7 @@ class Search extends Component {
                   className="album-img"
                   onClick={() => this.props.handleGetAlbumInfo(item.id)}
                 >
-                  <img src={item.picUrl + '?param=60x60'} alt="专辑图片" />
+                  <img src={item.picUrl + imageRatio(60)} alt="专辑图片" />
                 </div>
                 <p
                   className="album-name"
@@ -284,7 +284,7 @@ class Search extends Component {
             return (
               <li key={item.id} onClick={() => this.props.handleGetSingerInfo(item.id)}>
                 <div className="img-container">
-                  <img src={item.img1v1Url + '?param=100x100'} alt=""/>
+                  <img src={item.img1v1Url + imageRatio(100)} alt=""/>
                 </div>
                 <p className="name">{item.name}</p>
               </li>
@@ -305,7 +305,7 @@ class Search extends Component {
             return (
               <li key={item.id} onClick={() => this.props.handleGetMusicListDetail(item.id)}>
                 <div className="img-container">
-                  <img src={item.coverImgUrl + '?param=130x130'} alt=""/>
+                  <img src={item.coverImgUrl + imageRatio(130)} alt=""/>
                 </div>
                 <p className="count">TRACKS: {item.trackCount}</p>
                 <p className="name">{item.name}</p>
