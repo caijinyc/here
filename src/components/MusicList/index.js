@@ -11,7 +11,7 @@ import {
   getToggleCollectPlaylist
 } from '../../store/actionCreator';
 import { If } from 'react-if';
-import { formatDate, findIndex } from '../../common/js/utl';
+import { formatDate, findIndex, imageRatio } from '../../common/js/utl';
 
 import ShowList from '../../base/ShowList';
 
@@ -81,7 +81,7 @@ class MusicList extends Component {
     return (
       <div className="list-info">
         <div className="list-img">
-          <img src={musicList.coverImgUrl + '?param=200x200'} alt="" />
+          <img src={musicList.coverImgUrl + imageRatio(200)} alt="" />
         </div>
         <p className="name">{musicList.name}</p>
         <If condition={musicList.type === '专辑'}>

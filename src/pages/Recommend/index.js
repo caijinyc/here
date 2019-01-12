@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getRecommendList } from '../../api';
-import { formatPlayCount } from '../../common/js/utl';
+import { formatPlayCount, imageRatio } from '../../common/js/utl';
 import {
   getChangeCurrentMusicListAction,
   getChangeShowLoadingAction,
@@ -73,7 +73,7 @@ class Recommend extends Component {
             onClick={() => this.props.handleGetMusicListDetail(item.id)}
           >
             <i className="iconfont icon-play" />
-            <img className="list-img" src={item.coverImgUrl + '?param=153x153'} alt="" />
+            <img className="list-img" src={item.coverImgUrl + imageRatio(153)} alt="" />
             <div className="played-counts">
               <i className="iconfont icon-erji" />
               <span>{formatPlayCount(item.playCount)}</span>

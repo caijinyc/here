@@ -19,7 +19,7 @@ import {
   getChangeVolumeAction
 } from '../../store/actionCreator';
 import { PLAY_MODE_TYPES } from '../../common/js/config';
-import { findIndex } from '../../common/js/utl';
+import { findIndex, imageRatio } from '../../common/js/utl';
 
 import ProgressBar from '../../base/ProgressBar';
 import PlayTime from '../../base/PlayTime';
@@ -314,7 +314,7 @@ class Player extends Component {
         <div className="player-left-container">
           {this.renderPlayerControl()}
           <div className="music-img" onClick={this.handleShowMusicDetial}>
-            <img src={currentMusic ? currentMusic.imgUrl + '?param=64x64' : ''} alt="" />
+            <img src={currentMusic ? currentMusic.imgUrl + imageRatio(64) : ''} alt="" />
           </div>
         </div>
         <div className="player-middle-container">
@@ -406,7 +406,7 @@ class Player extends Component {
         <If condition={this.props.showMusicDetail}>
           <div>
             <div className="music-detail-background">
-              <img src={currentMusic ? currentMusic.imgUrl + 'param=250x250' : ''} alt="" />
+              <img src={currentMusic ? currentMusic.imgUrl + imageRatio(250) : ''} alt="" />
             </div>
             <div className="player-background"></div>
           </div>

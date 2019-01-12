@@ -4,6 +4,7 @@ import Lyric from 'lyric-parser';
 import { If, Then, Else } from 'react-if';
 import { toggleShowMusicDetail, getAlbumInfoAction } from '../../store/actionCreator';
 import RenderSingrs from '../RenderSingers';
+import { imageRatio } from '../../common/js/utl';
 
 import './style.scss';
 
@@ -136,7 +137,7 @@ class MusicDetail extends Component {
         <div className="detail-container">
           <div className="left-contanier">
             <div className="img">
-              <img src={currentMusic.imgUrl + '?param=250x250'} alt="" />
+              <img src={currentMusic.imgUrl + imageRatio(250)} alt="" />
             </div>
           </div>
           <div className="music-right-container">
