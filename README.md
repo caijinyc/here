@@ -3,10 +3,12 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/caijinyc/Here/releases"><img src="https://img.shields.io/github/release/caijinyc/Here.svg?style=flat-square" alt="Current Release"></a>
+  <a href="https://github.com/caijinyc/Here/releases"> <img src="https://img.shields.io/github/release/caijinyc/Here.svg?style=flat-square" alt="Current Release"></a>
   <a href="https://github.com/caijinyc/Here"><img src="https://img.shields.io/github/license/caijinyc/Here.svg?style=flat-square" alt="License"></a>
   <a href="https://github.com/caijinyc/Here"><img src="https://img.shields.io/david/caijinyc/Here.svg?style=flat-square" alt="DevDependencies Status"></a>
   <a href="https://t.me/herechat"><img src="https://img.shields.io/badge/chat-Telegram-brightgreen.svg?style=flat-square" alt="telegram"></a>
+  <a href="#backers" alt="sponsors on Open Collective"><img src="https://opencollective.com/Here/backers/badge.svg" /></a> 
+  <a href="#sponsors" alt="Sponsors on Open Collective"><img src="https://opencollective.com/Here/sponsors/badge.svg" /></a>
 </p>
 
 > 基于 Electron, React, Redux, Nedb 打造的一款简洁好用的桌面音乐播放器 👏
@@ -138,3 +140,32 @@ $ yarn dist
 **Here Music** © CaiJin, Released under the [MIT](https://github.com/caijinyc/Here/blob/master/LICENSE) License.
 
 > [Blog](https://caijin.tech/blog) · GitHub [@caijinyc](https://github.com/caijinyc) · Telegram Channel [@KSIG](https://t.me/joinchat/Fcnvjg4kvVjE4WSKvRXPXg)
+## Contributors
+
+This project exists thanks to all the people who contribute. 
+<a href="https://github.com/caijinyc/Here/graphs/contributors"><img src="https://opencollective.com/Here/contributors.svg?width=890&button=false" /></a>
+
+
+## Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/Here#backer)]
+
+<a href="https://opencollective.com/Here#backers" target="_blank"><img src="https://opencollective.com/Here/backers.svg?width=890"></a>
+
+
+## Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/Here#sponsor)]
+
+<a href="https://opencollective.com/Here/sponsor/0/website" target="_blank"><img src="https://opencollective.com/Here/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/Here/sponsor/1/website" target="_blank"><img src="https://opencollective.com/Here/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/Here/sponsor/2/website" target="_blank"><img src="https://opencollective.com/Here/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/Here/sponsor/3/website" target="_blank"><img src="https://opencollective.com/Here/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/Here/sponsor/4/website" target="_blank"><img src="https://opencollective.com/Here/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/Here/sponsor/5/website" target="_blank"><img src="https://opencollective.com/Here/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/Here/sponsor/6/website" target="_blank"><img src="https://opencollective.com/Here/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/Here/sponsor/7/website" target="_blank"><img src="https://opencollective.com/Here/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/Here/sponsor/8/website" target="_blank"><img src="https://opencollective.com/Here/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/Here/sponsor/9/website" target="_blank"><img src="https://opencollective.com/Here/sponsor/9/avatar.svg"></a>
+
+
