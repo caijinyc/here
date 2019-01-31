@@ -107,9 +107,13 @@ Description            | Keys
 ```shell
 $ git clone https://github.com/caijinyc/Here.git
 $ cd Here
+$ yarn
 
 // 下载子模块
 $ git submodule update --init --recursive
+$ cd NeteaseCloudMusicApi
+$ yarn
+$ cd ..
 ```
 
 2. 运行项目
