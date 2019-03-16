@@ -96,7 +96,7 @@ Description            | Keys
 **[参与贡献](./docs/CONTRIBUTING.md)**
 
 ### 参与讨论
-1. [Telegram 讨论群](https://t.me/herechat)
+1. [Telegram 讨论群](https://t.me/HereMusicChat)
 
 ### 开发项目
 
@@ -141,4 +141,4 @@ $ yarn dist
 
 **Here Music** © CaiJin, Released under the [MIT](https://github.com/caijinyc/Here/blob/master/LICENSE) License.
 
-> [Blog](https://caijin.tech/blog) · GitHub [@caijinyc](https://github.com/caijinyc) · Telegram Channel [@KSIG](https://t.me/HereMusicChat)
+> [Blog](https://caijin.tech/blog) · GitHub [@caijinyc](https://github.com/caijinyc) · Telegram Channel [@KSIG](https://t.me/joinchat/FcnvjhQ610tZW73tbU8VUA)
