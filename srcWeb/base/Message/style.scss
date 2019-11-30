@@ -1,0 +1,16 @@
+.hint-message {
+  position: fixed;
+  top: 45%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 15px 20px;
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.822);
+  z-index: 999;
+  transition: all 1s;
+  pointer-events: none;
+}
+
+.message-container {
+  transition: all 1s;
+}

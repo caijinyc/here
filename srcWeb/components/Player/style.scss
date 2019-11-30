@@ -1,0 +1,199 @@
+@import '../../common/scss/variable.scss';
+
+.player-container {
+  display: flex;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: $player-height;
+  // background-image: linear-gradient(-20deg, #2b5876 0%, #4e4376 100%);
+  z-index: 2;
+
+  // flex 布局 三等分
+  .player-left-container {
+    flex-basis: 225px;
+  }
+
+  .player-middle-container {
+    flex-grow: 1;
+  }
+
+  .player-right-container {
+    flex-basis: 250px;
+  }
+}
+
+.player-left-container {
+  .music-img {
+    position: absolute;
+    top: 0;
+    left: 130px;
+    margin: 8px 10px;
+    display: inline-block;
+    width: 64px;
+    height: 64px;
+    border-radius: 5%;
+    overflow: hidden;
+    cursor: pointer;
+
+    img {
+      width: 64px;
+      min-height: 64px;
+      border-radius: 5%;
+    }
+  }
+
+  .player-control-container {
+    .play-control-btn {
+      padding-left: 20px;
+      display: flex;
+      align-items: center;
+      // width: 110px;
+      height: $player-height;
+      color: $color-text;
+    }
+
+    .prev-music,
+    .play,
+    .next-music {
+      display: inline-block;
+      cursor: pointer;
+
+      i {
+        color: $color-text;
+        font-size: 28px;
+      }
+    }
+
+    .play {
+      padding: 0 10px;
+    }
+  }
+}
+
+.player-middle-container {
+
+  .progress-bar-container {
+    margin-top: 47px;
+    width: 100%;
+  }
+
+  .music-info {
+    position: absolute;
+    top: 15px;
+
+    p {
+      text-overflow:ellipsis;//让超出的用...实现
+      white-space:nowrap;//禁止换行
+      overflow:hidden;//超出的隐藏
+    }
+
+    .music-name {
+      position: relative;
+      top: 1px;
+      display: inline-block;
+      margin-right: 15px;
+      font-size: $font-size-x;
+      color: $color-text;
+      cursor: pointer;
+      max-width: 350px;
+    }
+
+    .singer-name {
+      display: inline-block;
+      font-size: $font-size-l;
+      color: $color-text-gray;
+      cursor: pointer;
+      max-width: 350px;
+    }
+  }
+}
+
+.player-right-container {
+  position: relative;
+
+  .right-control-btn {
+    position: absolute;
+    top: 7px;
+    right: 35px;
+    padding: 3px;
+    color: $color-text-gray;
+
+    i {
+      cursor: pointer;
+
+      &:hover {
+        color: $color-text;
+      }
+    }
+
+    .like-music, .dislike-music {
+      position: absolute;
+      right: 50px;
+      top: 3px;
+    }
+
+    .dislike-music {
+      i {
+        color: $color-theme;
+      }
+    }
+    
+
+    .change-play-mode {
+      position: absolute;
+      top: 3px;
+      right: 25px;
+
+      .hide {
+        display: none;
+      }
+    }
+  }
+
+  .play-time-container {
+    position: absolute;
+    left: 20px;
+    top: 45px;  
+  }
+
+  .audio-volume {
+    position: absolute;
+    top: 47px;
+    left: 150px;
+    width: 60px;
+
+    i {
+      position: absolute;
+      top: -3px;
+      left: -23px;
+      color: $color-text-gray;
+    }
+  }
+}
+
+.player-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: $player-height;
+  background: rgba(0, 0, 0, 0.856);
+  z-index: -1;
+}
+
+.music-detail-background {
+  position: fixed;
+  left: -20vw;
+  top: -20vw;
+  width: 150vw;
+  height: 150vh;
+  background: $color-background;
+  z-index: -10;
+
+  img {
+    filter: blur(50px);
+    width: 150vw;
+  }
+}

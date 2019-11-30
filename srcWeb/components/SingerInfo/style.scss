@@ -1,0 +1,153 @@
+@import '../../common/scss/variable.scss';
+
+.hide-singer-info {
+  display: none;
+}
+
+.hide-singer-info-btn {
+  position: fixed;
+  top: 100px;
+  right: 80px;
+  color: $color-text;
+  cursor: pointer;
+  z-index: 2;
+
+  &:hover {
+    color: $color-theme;
+  }
+}
+
+.singer-info {
+  position: fixed;
+  top: $header-height;
+  bottom: $player-height;
+  width: 100%;
+  overflow-y: scroll;
+
+  .singer-info-container {
+    position: absolute;
+    left: 50%;
+    width: 800px;
+    transform: translateX(-50%);
+  }
+}
+
+.singer-introduction {
+  display: flex;
+  margin-bottom: 30px;
+  height: 150px;
+  color: $color-text;
+  
+  .singer-img {
+    flex-basis: 150px;
+
+    img {
+      width: 150px;
+      min-height: 150px;
+      border-radius: 50%;
+    }
+  }
+  
+  .singer-describe {
+    flex: 1;
+    padding-left: 25px;
+
+    .name {
+      margin-bottom: 8px;
+    }
+    
+    .other-name {
+      margin-bottom: 15px;
+      font-size: $font-size-l;
+      color: $color-text-gray;
+    }
+
+    .brief-desc {
+      font-size: $font-size-l;
+      line-height: 24px;
+      max-height: 72px;
+      overflow-y: scroll;
+    }
+  }
+}
+
+.singer-music {
+  color: $color-text;
+
+  .songs-list-title {
+    position: relative;
+    font-weight: normal;
+    font-size: $font-size-xxl;
+    margin-bottom: 15px;
+
+    .btn {
+      position: absolute;
+      top: 3px;
+      right: 0;
+      font-size: $font-size-l;
+      cursor: pointer;
+
+      &:hover {
+        color: $color-theme;
+      }
+
+      i {
+        font-size: $font-size-l;
+      }
+    }
+  }
+
+  .albums-list {
+    .albums-list-title {
+      margin-top: 30px;
+      margin-bottom: 35px;
+      font-weight: normal;
+      font-size: $font-size-xxl;
+
+      span {
+        display: inline-block;
+        padding-left: 20px;
+        color: $color-text-gray;
+      }
+    }
+
+    ul {
+      width: 860px;
+      transform: translateX(-30px);
+    }
+
+    li {
+      position: relative;
+      display: inline-block;
+      width: 100px;
+      margin: 0 36px 15px 36px;
+      font-size: $font-size-m;
+
+      .album-img-container {
+        width: 100px;
+        height: 100px;
+        cursor: pointer;
+
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      .name {
+        float: left;
+        width: 100px;
+        line-height: 16px;
+      }
+
+      .time {
+        float: left;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        width: 100px;
+        color: $color-text-gray;
+      }
+
+    }
+  }
+}

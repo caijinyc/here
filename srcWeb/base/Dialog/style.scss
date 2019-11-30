@@ -1,0 +1,41 @@
+@import '../../common/scss/variable.scss';
+
+.base-dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background: rgba(255, 255, 255, 0);
+
+  .container {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    padding: 30px 50px;
+    text-align: center;
+    font-size: $font-size-xl;
+    background: $color-dark-opacity;
+    border-radius: 10px;
+
+    p {
+      padding-bottom: 15px;
+    }
+
+    button {
+      padding: 5px 10px 5px 10px;
+      background: none;
+      border: none;
+      color: $color-text;
+      font-size: $font-size-x;
+      cursor: pointer;
+      transition: all 0.3s;
+      outline: none;
+
+      &:hover {
+        color: $color-theme;
+      }
+    }
+  }
+}

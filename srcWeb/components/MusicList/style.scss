@@ -1,0 +1,132 @@
+@import '../../common/scss/variable.scss';
+
+.hide-music-list-container {
+  display: none;
+}
+
+.music-list-container {
+  position: fixed;
+  top: $header-height;
+  bottom: $player-height;
+  left: 0;
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 25px;
+  color: $color-text;
+  overflow-y: scroll;
+  z-index: 1;
+
+  .list-info {
+    position: fixed;
+    top: $header-height;
+    width: 200px;
+    height: 200px;
+    background: #fff;
+
+    .list-img {
+      width: 200px;
+      height: 200px;
+      overflow: hidden;
+      
+      img {
+        width: 200px;
+        min-height: 200px;
+      }
+    }
+
+    .control {
+      padding-top: 5px;
+      
+      i {
+        position: relative;
+        display: inline-block;
+        font-size: 20px;
+        color: $color-text-gray;
+        cursor: pointer;
+
+        &:hover {
+          color: $color-text;
+        }
+
+        &:hover:after {
+          position: absolute;
+          top: 25px;
+          font-size: $font-size-m;
+        }
+      }
+
+      .icon-play1 {
+        padding-right: 8px;
+
+        &:hover:after {
+          content: "播放";
+          left: 0;
+        }
+      }
+
+      .icon-addbox {
+        padding-right: 10px;
+
+        &:hover:after {
+          content: "添加到播放列表";
+          left: -30px;
+          width: 100px;
+        }
+      }
+
+      .icon-folder {
+        &:hover:after {
+          content: "添加到我的歌单";
+          left: -30px;
+          width: 100px;
+        }
+      }
+
+      .collected {
+        color: $color-theme;
+      }
+    }
+
+    .name {
+      margin-top: 10px;
+      margin-bottom: 12px;
+      line-height: 24px;
+      font-size: $font-size-xxl;
+      font-weight: bold;
+    }
+
+    .album-info {
+      margin-bottom: 12px;
+      color: $color-text-gray;
+
+      .artist {
+        margin-bottom: 5px;
+        font-size: $font-size-xl;
+      }
+      
+      .company {
+        font-size: $font-size-l;
+      }
+  
+      .publish-time {
+        margin-bottom: 5px;
+        font-size: $font-size-l;
+      }
+    }
+
+    .description {
+      position: relative;
+      font-size: $font-size-m;
+      line-height: 22px;
+      width: 100%;
+    }
+
+  }
+
+  .show-list-container {
+    position: absolute;
+    left: 240px;
+    right: 20px;
+  }
+}

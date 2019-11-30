@@ -1,0 +1,10 @@
+@import '../../common/scss/variable.scss';
+
+.play-time {
+  color: $color-text-gray;
+  font-size: $font-size-l;
+
+  span {
+    padding: 0 2px;
+  }
+}

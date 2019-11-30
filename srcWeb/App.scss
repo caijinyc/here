@@ -1,0 +1,70 @@
+@import './common/scss//iconfont.scss';
+@import './common/scss/normalize.scss';
+@import './common/scss/variable.scss';
+
+html {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  min-width: 900px;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", STHeiti, "Microsoft YaHei", "Microsoft JhengHei", "Source Han Sans SC", "Noto Sans CJK SC", "Source Han Sans CN", "Noto Sans SC", "Source Han Sans TC", "Noto Sans CJK TC", "WenQuanYi Micro Hei", SimSun, sans-serif;
+}
+
+body {
+  min-width: 900px;
+  color: $color-text;
+
+  .app-background {
+    position: fixed;
+    top: -20%;
+    left: -20%;
+    width: 130%;
+    height: 130%;
+    background-image: linear-gradient(to right, #080e13 0%, #021524 100%);
+    // filter: blur(20px);
+    z-index: -1;
+  }
+
+  // 定义滚动条背景色
+  // ::-webkit-scrollbar-track-piece {
+  //   // background-color: $color-background;
+  // }
+
+  /* 定义滚动条高宽及背景
+      高宽分别对应横竖滚动条的尺寸 */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  /* 定义滑块
+      内阴影+圆角 */
+  ::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(37, 37, 37, 0.753);
+  }
+}
+
+.play-list-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: calc(100vh - 80px);
+  transition: all 0.3s;
+  transform: translate3d(0, 0, 0);
+  z-index: 99;
+}
+
+.hide-play-list {
+  right: -300px;
+}
+
+.app-loading-container {
+  position: fixed;
+  top: 45%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 100px;
+  background: rgba(0, 0, 0, 0.822);
+  border-radius: 10px;
+}

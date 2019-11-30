@@ -1,0 +1,108 @@
+@import '../../common/scss/variable.scss';
+
+.show-list-container {
+  color: $color-text;
+  // background: $color-background;
+  
+  ul {
+    list-style-type: none;
+
+    .title {
+      background: $color-background-opacity;
+      border: none;
+
+      span {
+        color: $color-text;
+      }
+    }
+
+    li {
+      padding: 13px 0;
+      display: flex;
+      align-items: center;
+      font-size: $font-size-x;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.062);
+
+      &:last-child {
+        border: none;
+      }
+    }
+
+    .list-li {
+      .highlight {
+        cursor: pointer;
+        transition: all 0.3s;
+        
+        &:hover {
+          color: $color-theme;
+        }
+      }
+    }
+
+    .count {
+      display: inline-block;
+      box-sizing: border-box;
+      width: 8%;
+      padding-left: 5px;
+    }
+
+    .music-name,
+    .singer-name,
+    .album-name {
+      display: inline-block;
+      padding-left: 20px;
+      line-height: 18px;
+      // box-sizing: border-box;
+      
+      text-overflow:ellipsis;//让超出的用...实现
+      white-space:nowrap;//禁止换行
+      overflow:hidden;//超出的隐藏
+    }
+
+    .music-name {
+      width: 32%;
+    }
+
+    .singer-name {
+      width: 28%;
+      color: $color-text-gray;
+    }
+
+    .album-name {
+      width: 32%;
+      padding-right: 10px;
+      color: $color-text-gray;
+    }
+
+    .control-btn {
+      position: absolute;
+      left: 38px;
+      
+      i {
+        position: relative;
+        font-size: 20px;
+        cursor: pointer;
+
+        &:hover {
+          color: $color-theme;
+        }
+      }
+
+      .dislike-music {
+        color: $color-theme;
+
+        &:hover {
+          i {
+            color: $color-text-gray;
+          }
+        }
+      }
+    }
+
+    .list-li:hover {
+      i {
+        font-size: 20px;
+      }
+    }
+  }
+}

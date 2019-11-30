@@ -1,0 +1,81 @@
+@import '../../common/scss/variable.scss';
+
+// .hide-page-about {
+//   display: none;
+// }
+
+.page-about {
+  position: fixed;
+  top: 125px;
+  left: 0;
+  bottom: 80px;
+  width: 100%;
+  z-index: 0;
+  overflow-y: scroll;
+}
+
+.page-about-container {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  list-style-type: none;
+
+  li {
+    margin-bottom: 35px;
+
+    .title {
+      font-size: $font-size-title;
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+      // border-bottom: 1px solid ;
+    }
+
+    .description {
+      margin-bottom: 20px;
+      color: $color-text-gray;
+      font-size: $font-size-x;
+    }
+
+    button {
+      padding: 7px 10px;
+      background: $color-background-opacity;
+      color: $color-text;
+      font-size: $font-size-x;
+      // border: 1px solid $color-text-gray;
+      border: none;
+      border-radius: 5px;
+      outline: none;
+      cursor: pointer;
+      transition: all 0.3s;
+
+      &:hover {
+        background: $color-theme;
+      }
+    }
+  }
+
+  .about {
+    p {
+      margin-bottom: 5px;
+    }
+
+    span {
+      color: $color-text-gray;
+      border-bottom: 1px solid;
+      cursor: pointer;
+
+      &:hover {
+        color: $color-theme;
+      }
+    }
+
+    .here {
+      margin-bottom: 15px;
+    }
+
+    .license {
+      margin-top: 20px;
+    }
+  }
+}

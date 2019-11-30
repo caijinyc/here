@@ -1,0 +1,127 @@
+@import '../../common/scss/variable.scss';
+
+.hide-music-detail {
+  display: none;
+}
+
+.music-detail {
+  position: fixed;
+  top: 0;
+  bottom: $player-height;
+  left: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.856);
+  z-index: 1;
+
+  .hide-music-detail-btn {
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    color: $color-text-gray;
+    outline: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+      color: $color-text;
+    }
+  }
+
+  .detail-container {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    display: flex;
+    width: 70%;
+    max-width: 750px;
+    transform: translateX(-47%);
+  }
+
+  .left-contanier {
+    display: inline-block;
+
+    .img {
+      width: 250px;
+      height: 250px;
+      overflow: hidden;
+      border: 10px solid rgba(255, 255, 255, 0.123);
+
+      img {
+        width: 250px;
+        min-height: 250px;
+        background: $color-text;
+      }
+    }
+  }
+
+  .music-right-container {
+    position: absolute;
+    right: 0;
+    top: -50px;
+    display: inline-block;
+    width: 320px;
+    color: $color-text;
+
+    .music-info {
+      margin-bottom: 20px;
+
+      .music-name {
+        margin: 0;
+        padding-bottom: 10px;
+        font-weight: none;
+        font-size: $font-size-xxxl;
+      }
+
+      .singer-name, .album-name {
+        display: inline-block;
+        font-size: $font-size-x;
+        color: $color-text-gray;
+        cursor: pointer;
+
+        text-overflow: ellipsis; //让超出的用...实现
+        white-space: nowrap; //禁止换行
+        overflow: hidden; //超出的隐藏
+
+        &:hover {
+          color: $color-theme;
+        }
+      }
+  
+      .singer-name {
+        display: inline-block;
+        margin-right: 10px;
+        max-width: 150px;
+      }
+  
+      .album-name {
+        max-width: 150px;
+      }
+    }
+  }
+}
+
+.lyric {
+  width: 310px;
+  overflow: hidden;
+}
+
+.lyric-container {
+  width: 320px;
+  height: 300px;
+  overflow-y: scroll;
+  list-style-type: none;
+  color: $color-text-gray;
+  font-size: $font-size-x;
+
+  li {
+    transition: all 1s;
+    line-height: 18px;
+    margin-bottom: 10px;
+  }
+
+  .highlight {
+    color: $color-text;
+    font-size: $font-size-xl;
+  }
+}
