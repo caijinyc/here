@@ -20,7 +20,7 @@ class Rank extends Component {
 
   handleOpenExternalUrl = (url) => {
     // shell.openExternal(url);
-      window.open(url, '_blank');
+    window.open(url, '_blank');
   };
 
   // handleExportCollector = () => {
@@ -149,8 +149,8 @@ class Rank extends Component {
     return (
       <div className="page-about">
         <ul className="page-about-container">
-          {/*{this.renderExportCollector()}*/}
-          {/*{this.renderImportCollector()}*/}
+          {/* {this.renderExportCollector()}*/}
+          {/* {this.renderImportCollector()}*/}
           {this.renderAbout()}
         </ul>
       </div>
