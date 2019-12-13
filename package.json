@@ -89,8 +89,9 @@
   "main": "./public/electron.js",
   "scripts": {
     "start": "cross-env APP_TYPE=electron node scripts/start.js",
-    "start:web": "cross-env APP_TYPE=web node scripts/start.js",
     "build": "node scripts/build.js",
+    "start:web": "cross-env APP_TYPE=web node scripts/start.js",
+    "build:web": "cross-env APP_TYPE=electron node scripts/build.js",
     "test": "node scripts/test.js",
     "electron-start": "cross-env NODE_ENV=development electron .",
     "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && cross-env NODE_ENV=development electron . \"",
