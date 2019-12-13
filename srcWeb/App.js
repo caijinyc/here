@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { HashRouter as Router, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
   getChangeCollectorAction,
@@ -11,7 +11,7 @@ import Recommend from './pages/Recommend';
 import Search from './pages/Search';
 import Collect from './pages/Collect';
 import Rank from './pages/Rank';
-// import About from './pages/About';
+import About from './pages/About';
 
 import Header from './components/Header';
 import Player from './components/Player';
@@ -94,7 +94,7 @@ class App extends Component {
           <Route path="/search" component={Search} />
           <Route path="/collect" component={Collect} />
           <Route path="/rank" component={Rank} />
-          {/*<Route path="/about" component={About} />*/}
+          <Route path="/about" component={About} />
           { this.state.redirect ? <Redirect to="/" /> : null}
           <MyTitle />
           {this.props.showLoading ? (
