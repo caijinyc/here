@@ -2,7 +2,7 @@
 const { app, BrowserWindow, ipcMain, Menu, Tray, globalShortcut } = require('electron');
 const path = require('path');
 const api = require('../NeteaseCloudMusicApi/app');
-const config = require('../config');
+const config = require('../projectConfig');
 
 const GLOBAL_SHORTCUT = {
   'CommandOrControl+Alt+Right': 'nextMusic',
