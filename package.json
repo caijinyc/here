@@ -18,7 +18,7 @@
     "@svgr/webpack": "2.4.1",
     "antd": "^3.11.2",
     "apicache": "^1.2.1",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "9.0.0",
     "babel-jest": "23.6.0",
